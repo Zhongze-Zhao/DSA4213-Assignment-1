@@ -1,0 +1,18 @@
+{
+  "vocab_size": 28913,
+  "train": {
+    "tokens": 2075677,
+    "unk_rate": 0.0263,
+    "eos_count": 23767
+  },
+  "validation": {
+    "tokens": 216347,
+    "unk_rate": 0.0542,
+    "eos_count": 2461
+  },
+  "test": {
+    "tokens": 244102,
+    "unk_rate": 0.0623,
+    "eos_count": 2891
+  }
+}

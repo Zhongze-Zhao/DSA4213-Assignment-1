@@ -1,0 +1,10 @@
+# Shared preprocessing for Parts I and II (all LMs use the same vocabulary)
+dataset: Salesforce/wikitext
+config: wikitext-2-v1      # official tokenized version, rare words already mapped to <unk>
+lowercase: true            # match uncased GloVe 6B and shrink vocab
+min_freq: 1                # keep every train token (v1 already applied a frequency cutoff)
+add_eos: true              # append <eos> to every non-empty line
+skip_empty_lines: true
+cache_dir: data/hf_cache
+processed_dir: data/processed
+seed: 42
