@@ -1,0 +1,27 @@
+{
+  "data_config": "configs/data.yaml",
+  "seed": 1,
+  "seq_len": 128,
+  "batch_size": 32,
+  "epochs": 20,
+  "optimizer": "adamw",
+  "lr": 0.001,
+  "weight_decay": 0.01,
+  "warmup_steps": 300,
+  "min_lr_ratio": 0.1,
+  "grad_clip": 1.0,
+  "eval_batch_size": 32,
+  "name": "lstm_w2v_seed1",
+  "embedding": {
+    "path": "data/emb/w2v_300.pt",
+    "freeze": true
+  },
+  "model": {
+    "type": "lstm",
+    "emb_dim": 300,
+    "hidden_dim": 512,
+    "num_layers": 2,
+    "dropout": 0.3,
+    "freeze_emb": true
+  }
+}

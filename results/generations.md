@@ -17,6 +17,8 @@ Settings: {'length': 40, 'top_k': 40, 'temperature': 0.8, 'samples_per_prompt': 
 - **lstm_w2v (top-k)**: 2007 . in a game against the time , the game were used as a player 's game with a team . one , with the player 's basketball games in 2002 , the game was the first game for
 - **lstm_glove (greedy)**: the united states . <eos> = = = = = = = = = = = = = = = = = = = <eos> the first game was the first game in the game , and the first time
 - **lstm_glove (top-k)**: april 2003 , which was watched on september 7 , 2013 , in 2004 , and a nielsen , titled 3 @.@ 12 @.@ 8 million viewers . <eos> = = personnel = = <eos> = = = = 2014
+- **lstm_smallinit (greedy)**: the united states . <eos> = = = = = = = = = = = = = = = = = = = = <eos> = = = = = = = = = = = = = =
+- **lstm_smallinit (top-k)**: april 2012 and later won three awards from the billboard hot 100 in a single of the billboard 200 , where it " always received a number of the top ten times " . the song was written by a
 
 ## Prompt 2: "during the second world war ,"
 
@@ -32,6 +34,8 @@ Settings: {'length': 40, 'top_k': 40, 'temperature': 0.8, 'samples_per_prompt': 
 - **lstm_w2v (top-k)**: the storm quickly weakened northeast across the united states over the west coast , and the storm eventually moved across the atlantic ocean . in january , tropical storm christine in september on the yucatán , the depression , moved
 - **lstm_glove (greedy)**: the first @-@ year @-@ old @-@ old @-@ class @-@ class @-@ class battleships , and the 3rd battalion , the 1st battalion , and the 3rd battalion , the 1st battalion , and the 4th battalion , the
 - **lstm_glove (top-k)**: the largest had been estimated and was considered a high @-@ time @-@ known @-@ scale @-@ time @-@ long area . the first prototype in the mid @-@ 1970s region in the world , the first two weeks ,
+- **lstm_smallinit (greedy)**: the first time of the war . <eos> = = = = = = = = = = = = = = = = = = = = <eos> the first of the war , the first of the war
+- **lstm_smallinit (top-k)**: the royal fleet was stationed by the first time : <eos> the ship had been sent to the south in mexico , and the following month , on the north west , a strong force of the fleet and had
 
 ## Prompt 3: "the album received positive reviews from"
 
@@ -47,6 +51,8 @@ Settings: {'length': 40, 'top_k': 40, 'temperature': 0.8, 'samples_per_prompt': 
 - **lstm_w2v (top-k)**: critics . this episode was written by the new television series of 2013 . <eos> in 2004 , dylan 's first film was also awarded for the album by the new york times in january 2008 , directed by michael
 - **lstm_glove (greedy)**: critics . <eos> = = = = = = = = = = = = = = = = = <eos> the album was released on the billboard hot 100 chart , and peaked on the billboard hot 100 chart
 - **lstm_glove (top-k)**: critics . on november 25 , 2014 , the grammy was released digitally in the first part of the album , the album peaked . <eos> = = music = = <eos> = = charts = = <eos> = =
+- **lstm_smallinit (greedy)**: critics . <eos> = = = = = = = = = = = = = = = = = = = = = = = = <eos> = = = = = = = = = = = =
+- **lstm_smallinit (top-k)**: the game for a series of guitar hero and in the united kingdom , and said , " we 're not like a song on the screen . it 's really to get an image . " carey 's debut
 
 ## Prompt 4: "the river flows through"
 
@@ -62,6 +68,8 @@ Settings: {'length': 40, 'top_k': 40, 'temperature': 0.8, 'samples_per_prompt': 
 - **lstm_w2v (top-k)**: the city , but the missouri flows through the river , a new city of the river river , and the river basin is a low @-@ arid sediments . the dam is estimated to be the most important source
 - **lstm_glove (greedy)**: the missouri river . the missouri river was the first of the most important of the most important of the missouri river . the missouri river was the first of the most important of the most important of the missouri
 - **lstm_glove (top-k)**: the gulf , which was the only important source of the southern river . the island of the north of the mississippi mountains was the site of the main city of the missouri river . the river 's population of
+- **lstm_smallinit (greedy)**: the river . the missouri river is a small range of the missouri river , which is a large amount of the missouri river . the missouri river is a large amount of the river . the missouri river is
+- **lstm_smallinit (top-k)**: the east side of the missouri river , and the lower mountains of the missouri river is now , and the main economy is the eastern side of its own @-@ water . <eos> = = = = = =
 
 ## Prompt 5: "he was born in"
 
@@ -77,3 +85,5 @@ Settings: {'length': 40, 'top_k': 40, 'temperature': 0.8, 'samples_per_prompt': 
 - **lstm_w2v (top-k)**: england , which became a barrister teacher . <eos> = = = the new kingdom = = = = <eos> the roseberys , the royal baron and the son of the hawaiian kingdom of northumberland , the duchy of king
 - **lstm_glove (greedy)**: the united states . <eos> = = = = = = = = = = = = = = = = = = = <eos> the first season of the season , the first time , was the first time
 - **lstm_glove (top-k)**: late 1212 , after the end of the time of the season , but after the first time later , he was assigned to the 2nd army . <eos> = = = british troops forces = = = <eos> =
+- **lstm_smallinit (greedy)**: the united states , and the first time of the season was the first time in the first time . <eos> = = = = = = = = = = = = = = = = = = =
+- **lstm_smallinit (top-k)**: early september 1945 and was a small and commercial officer of the soviet union of the united states marine corps . the royal navy was completed in the united states and south carolina in north africa . by the next

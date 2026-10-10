@@ -1,12 +1,12 @@
-\begin{tabularx}{\linewidth}{lXXX}
+\begin{tabularx}{\linewidth}{lXXXX}
 \toprule
-Word & LSTM (random, learned) & Skip-gram (own) & GloVe 6B \\
+Word & LSTM, $\mathcal{N}(0,1)$ init & LSTM, $\mathcal{N}(0,0.1^2)$ init & Skip-gram (own) & GloVe 6B \\
 \midrule
-\textit{king} & posse, designer, bishop, schoolmaster & veera, æthelred, leinster, ballala & queen, prince, monarch, kingdom \\
-\textit{war} & mart, [non-Latin] kalachuris, 1850 & outbreak, civil, liberties, airbase & wars, conflict, battle, civil \\
-\textit{football} & ace, universal, joker, jallon & athletic, f.c., premier, varsity & soccer, basketball, league, baseball \\
-\textit{france} & outreach, blazers, chivo, cups & italy, germany, sweden, russia & french, paris, belgium, spain \\
-\textit{album} & crush, roxas, predict, carey & slayer, albums, yankovic, furtado & albums, song, ep, band \\
-\textit{good} & eaten, 1972, radial, outstandingly & sublime, shocking, exciting, naive & better, really, always, you \\
+\textit{king} & posse, designer, bishop, schoolmaster & queen, bishop, governor, emperor & veera, æthelred, leinster, ballala & queen, prince, monarch, kingdom \\
+\textit{war} & mart, [non-Latin] kalachuris, 1850 & fastra, ahk, years, year & outbreak, civil, liberties, airbase & wars, conflict, battle, civil \\
+\textit{football} & ace, universal, joker, jallon & rugby, premier, hockey, basketball & athletic, f.c., premier, varsity & soccer, basketball, league, baseball \\
+\textit{france} & outreach, blazers, chivo, cups & parishes, supporter, galleys, steffy & italy, germany, sweden, russia & french, paris, belgium, spain \\
+\textit{album} & crush, roxas, predict, carey & episode, series, game, band & slayer, albums, yankovic, furtado & albums, song, ep, band \\
+\textit{good} & eaten, 1972, radial, outstandingly & my, everyday, homosexual, personal & sublime, shocking, exciting, naive & better, really, always, you \\
 \bottomrule
 \end{tabularx}

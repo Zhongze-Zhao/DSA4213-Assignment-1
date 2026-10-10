@@ -43,14 +43,21 @@ Caches go to `data/` (git-ignored).
 ## Reproducing everything
 
 ```bash
-scripts/run_all.sh            # ≈1.5 h on the GPU above; or run the parts separately:
+scripts/run_all.sh            # ≈3 h on the GPU above; or run the parts separately:
 python -m src.data            # corpus statistics -> results/data_stats.json
 python -m src.models          # causality unit check for RNN/LSTM/Transformer
 scripts/run_part1.sh          # KN n-gram + 3 neural LMs
 scripts/run_part2.sh          # Skip-gram + GloVe tables, 2 frozen-embedding LSTMs
-scripts/run_part3.sh          # generations, AG News downstream, tables & figures
-scripts/run_seeds.sh          # optional: seeds 1, 2 for the three Part II LSTMs
+scripts/run_part3.sh          # generations, AG News downstream, error analysis, benchmark, tables & figures
+scripts/run_seeds.sh          # seeds 1, 2 for the three Part II LSTMs
+python -m src.train_lm --config configs/lm_lstm_smallinit.yaml   # supplementary Part II run
+cd report && pdflatex report.tex && pdflatex report.tex            # build the PDF report
 ```
+
+**WSL2 note.** On Windows the NVIDIA driver can silently back CUDA allocations with shared system RAM; a
+3.5 GB logits tensor once froze the whole WSL VM. All scripts therefore cap PyTorch at 70% of VRAM
+(`utils.limit_gpu_memory`) and feature extraction never materialises vocabulary logits (`model.encode`).
+Setting *NVIDIA Control Panel → CUDA – Sysmem Fallback Policy → Prefer No Sysmem Fallback* also helps.
 
 Smoke test (≈1 min): `python -m src.train_lm --config configs/lm_lstm.yaml --quick` and
 `python -m src.ngram --quick` (outputs go to `results/quick/`).
@@ -68,6 +75,8 @@ deterministic, so GPU reruns can differ in the last decimals.
 | `lm_base.yaml` | shared neural training procedure: context 128, batch 32, 20 epochs, AdamW lr 1e-3, wd 0.01, 300 warm-up steps + cosine to 10%, grad-clip 1.0, best-validation checkpoint |
 | `lm_rnn.yaml`, `lm_lstm.yaml`, `lm_transformer.yaml` | Part I architectures (all 300-d random trainable embeddings, dropout 0.3) |
 | `lm_lstm_w2v.yaml`, `lm_lstm_glove.yaml` | Part II frozen-embedding LSTMs (identical to `lm_lstm.yaml` otherwise) |
+| `lm_lstm_smallinit.yaml` | supplementary: trainable random embeddings initialised N(0, 0.1²) instead of N(0, 1) |
+| `benchmark.yaml` | round-robin cost benchmark (5 rounds × 60 steps) |
 | `embeddings.yaml` | Skip-gram (dim 300, window 5, neg 5, 10 epochs) and GloVe settings |
 | `generate.yaml` | 5 prompts, 40 tokens, greedy and top-k 40 / T 0.8, `<unk>`/`<pad>` banned |
 | `downstream.yaml` | AG News 20k stratified train subset / 7.6k test, poolings, LR C grid |
@@ -83,18 +92,23 @@ deterministic, so GPU reruns can differ in the last decimals.
 | `embeddings.py` | Skip-gram training (timed), GloVe alignment, coverage, neighbours |
 | `generate.py` | matched decoding for all LMs, repetition metrics, generation latency |
 | `downstream.py` | frozen feature extraction (last / mean / input-embedding mean), logistic regression, error analysis |
+| `error_analysis.py` | McNemar tests, confusions, per-class / length / OOV accuracy, example errors |
+| `benchmark.py` | interleaved training/inference throughput benchmark |
 | `summarize.py` | builds `results/tables.md` and `results/figures/*.png` from saved results |
+| `latex_tables.py` | builds `report/generated/*.tex` (all report tables and inline numbers) and embedding-drift stats |
 
 ## Outputs (`results/`)
 
 `data_stats.json`, `lm/<model>/{metrics.json,history.csv,config.json}`, `embeddings.json`,
-`generations.{json,md}`, `downstream/{summary.json,results.csv,test_predictions.csv}`,
-`tables.md`, `figures/`.
+`generations.{json,md}`, `downstream/{summary.json,results.csv,test_predictions.csv,error_stats.json,errors.md}`,
+`benchmark.json`, `embedding_drift.json`, `tables.md`, `figures/`.
 
 ## Timing procedure
 
 Training time = wall-clock of the training passes only (validation excluded), with
-`torch.cuda.synchronize()` around each epoch. Inference workload (identical for all models) = scoring the
+`torch.cuda.synchronize()` around each epoch. Because runs were sequential on a laptop GPU that throttles
+when hot, the cost comparison in the report uses `src/benchmark.py`: all models timed round-robin
+(alternating order, 5 rounds × 60 batches of 32×128 tokens, median). Inference workload (identical for all models) = scoring the
 full test set in 128-token windows with batch size 32; median of 3 timed passes after a warm-up.
 Generation latency = greedy decoding of 40 tokens for 5 prompts at batch size 1, recomputing the full
 context each step (no state/KV caching for any model). The n-gram model runs on 1 CPU thread.

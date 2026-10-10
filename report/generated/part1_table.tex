@@ -3,9 +3,9 @@
 Model & Test & Val & Params & Non-emb & Train s & Train & Infer & Gen & Rep-3 & Dist-2 \\
  & PPL & PPL & (M) & (M) & (s/epoch) & k tok/s & k tok/s & ms/tok & greedy & top-$k$ \\
 \midrule
-KN 4-gram & 216.5 & 229.3 & 5.8$^\dagger$ & -- & 7 (CPU) & -- & 450 (CPU) & 1.4 & 0.55 & 0.93 \\
+KN 4-gram & 216.5 & 229.3 & 5.8$^\dagger$ & -- & 7 (CPU) & -- & 450 (CPU) & 1.2 & 0.55 & 0.93 \\
 RNN & 153.4 & 165.6 & 24.4 & 0.94 & 423 (21/ep) & 105 & 274 & 1.9 & 0.34 & 0.92 \\
-LSTM & 135.0 & 143.9 & 27.3 & 3.77 & 487 (23/ep) & 101 & 273 & 1.8 & 0.43 & 0.92 \\
-Transformer & 131.0 & 140.4 & 21.8 & 4.37 & 584 (29/ep) & 126 & 484 & 2.3 & 0.41 & 0.90 \\
+LSTM & 135.0 & 143.9 & 27.3 & 3.77 & 487 (23/ep) & 101 & 273 & 1.7 & 0.43 & 0.92 \\
+Transformer & 131.0 & 140.4 & 21.8 & 4.37 & 584 (29/ep) & 126 & 484 & 1.4 & 0.41 & 0.90 \\
 \bottomrule
 \end{tabular}

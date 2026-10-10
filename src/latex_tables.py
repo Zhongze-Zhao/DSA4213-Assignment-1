@@ -129,12 +129,14 @@ def main():
     vocab, _ = load_corpus()
     words = ["king", "war", "football", "france", "album", "good"]
     W_rand = torch.load(ROOT / "checkpoints/lstm.pt", map_location="cpu")["state_dict"]["emb.weight"]
-    nb = {"LSTM (random, learned)": neighbours(W_rand, vocab, words, k=4),
+    W_small = torch.load(ROOT / "checkpoints/lstm_smallinit.pt", map_location="cpu")["state_dict"]["emb.weight"]
+    nb = {"LSTM, $\\mathcal{N}(0,1)$ init": neighbours(W_rand, vocab, words, k=4),
+          "LSTM, $\\mathcal{N}(0,0.1^2)$ init": neighbours(W_small, vocab, words, k=4),
           "Skip-gram (own)": emb["neighbours"]["word2vec"], "GloVe 6B": emb["neighbours"]["glove"]}
     rows = [f"\\textit{{{w}}} & " + " & ".join(esc(", ".join(nb[k][w][:4])) for k in nb) + " \\\\"
             for w in words]
     (OUT / "neighbours_table.tex").write_text(
-        "\\begin{tabularx}{\\linewidth}{lXXX}\n\\toprule\nWord & " + " & ".join(nb) + " \\\\\n\\midrule\n"
+        "\\begin{tabularx}{\\linewidth}{lXXXX}\n\\toprule\nWord & " + " & ".join(nb) + " \\\\\n\\midrule\n"
         + "\n".join(rows) + "\n\\bottomrule\n\\end{tabularx}\n")
 
     # ---------------- embedding drift: cos(initial, final) of trainable tables ----------------

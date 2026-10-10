@@ -12,7 +12,7 @@
 \newcommand{\hyp}{\textbf{Possible explanation.}~}
 
 \title{\vspace{-1.2cm}DSA4213 Assignment 1: Does Better Next-Token Prediction Give Better Representations?}
-\author{Zhao Richard \quad (code: \texttt{README.md} in the submitted repository)}
+\author{\textcolor{red}{[Your name, student ID]} \quad (code and \texttt{README.md}: submitted repository)}
 \date{\vspace{-0.6cm}}
 
 \begin{document}
@@ -68,9 +68,9 @@ validation--training gap.}
 \end{figure}
 
 \textbf{Prediction quality.} \obs All three neural LMs beat the KN 4-gram by a large margin (test PPL 216.5
-$\to$ 131--153). Transformer (131.0) $\approx$ LSTM (135.0) $<$ RNN (153.4). The Transformer--LSTM gap
-(3\%) is of the same order as the seed-to-seed variation I measured for the LSTM (std \sdlstm{} PPL, Part~II),
-so I treat these two as roughly tied; the RNN gap is far larger. \hyp The n-gram can only use 3 tokens of
+$\to$ 131--153). Transformer (131.0) $<$ LSTM (135.0) $<$ RNN (153.4). The Transformer--LSTM gap (4 PPL) is
+about $6\times$ the seed-to-seed std I measured for the LSTM (\sdlstm{} PPL over 3 seeds, Part~II), so it is
+probably real but small; the RNN gap is far larger. \hyp The n-gram can only use 3 tokens of
 context and backs off on the many unseen 4-grams, whereas the neural models share statistical strength through
 embeddings and use up to 127 tokens. The RNN has only 0.94M non-embedding parameters (vs.\ 3.8M/4.4M) and a
 recurrence without gating, so it plausibly cannot retain information over long spans.
@@ -139,7 +139,19 @@ seeds 42, 1, 2. \emph{Ep.\ to best+.05}: first epoch whose val loss is within 0.
 \label{fig:p2}
 \end{figure}
 
-\textbf{Results.} \obs (Table~\ref{tab:p2}, Fig.~\ref{fig:p2}) \textbf{PART2-RESULTS-PLACEHOLDER}
+\textbf{Results.} \obs (Table~\ref{tab:p2}, Fig.~\ref{fig:p2}) \emph{Prediction quality:} over three seeds
+the frozen own Skip-gram table gives the lowest test PPL (130.2 $\pm$ \sdlstmwtwov), GloVe is in between
+(132.7 $\pm$ \sdlstmglove) and the random trainable table is worst (135.0 $\pm$ \sdlstm). The Skip-gram
+advantage (4.8 PPL) is well beyond seed noise; GloVe vs.\ random (2.3) is about two standard deviations, so
+modest. \emph{Convergence:} the trainable model learns fastest at first (val PPL 412 after epoch 1 vs.\
+$\approx$560 for the frozen tables), but the frozen models catch up by epoch $\approx$6 and all three come within
+0.05 nats of their best at epoch 10--11. \emph{Stability:} within-epoch loss variation and gradient norms are
+practically identical (step-loss std 0.122--0.127, max grad norm $\approx$1.8), with no spikes in any run.
+\emph{Overfitting:} the generalisation gap is smallest with GloVe (0.33 nats vs.\ 0.40 own and 0.45 random),
+but GloVe also has the highest training loss: fixed general-purpose vectors regularise the LM but limit how
+closely it fits WikiText. \emph{Text:} samples are of similar quality; the GloVe model often produces chains of
+\texttt{@-@}-joined words (Table~\ref{tab:gen}), possibly because the hyphen's GloVe vector (my alias for
+\texttt{@-@}) carries no WikiText-specific meaning.
 
 \textbf{Why does ``trainable'' not win? Embedding drift.} \obs Measuring the cosine between each word's initial
 and final vector shows that the default-initialised trainable embeddings barely move: mean cosine \driftlstm{}
@@ -149,7 +161,12 @@ outreach, blazers, \ldots; Appendix Table~\ref{tab:nn}), whereas Skip-gram and G
 neighbours. \hyp With $\mathcal N(0,1)$ initialisation, vectors have norm $\approx$17, so AdamW updates of size
 $\approx10^{-3}$ over 10k steps (and only when a word occurs) leave them near their random start; the
 ``trainable'' setting therefore behaves like a \emph{frozen random} table, and the LSTM's input weights do the
-adaptation. \textbf{SUPPL-PLACEHOLDER}
+adaptation. \emph{Supplementary test of this explanation:} re-initialising the trainable table with
+$\mathcal N(0,0.1^2)$ (everything else equal) makes the embeddings move (cosine \driftlstmsmall; \drifttoplstmsmall{}
+for frequent words) and gives partly semantic neighbours (\emph{king} $\to$ queen, bishop, emperor;
+\emph{football} $\to$ rugby, hockey). Yet its test PPL is \emph{worse} (140.3) and its generalisation gap the
+largest (0.51): on 2M tokens, a genuinely trainable 8.7M-parameter table overfits, whereas a frozen table acts
+as a regulariser. Its features are, however, better downstream (Part~III).
 
 \textbf{Interpretation.} Two factors are confounded in the public-embedding setting: trainability (both
 pretrained settings are frozen) and extra data (GloVe saw $\sim$3,000$\times$ more text, including newswire).
@@ -184,7 +201,9 @@ an accuracy near 0.8 is $\approx$0.005; exact McNemar tests are in \texttt{resul
 for every LM (e.g.\ LSTM 0.701 vs.\ 0.638, $p<10^{-28}$). (2) Among the Part~I models (same random
 embeddings), the Transformer is clearly best (0.767 vs.\ 0.701 for the LSTM, McNemar $p<10^{-37}$), while the
 LSTM and RNN are indistinguishable ($p$=\mcLstmRnnP) despite a 18-point PPL difference.
-(3) The frozen pretrained-embedding LSTMs give by far the best features (GloVe 0.846, Skip-gram 0.803).
+(3) The frozen pretrained-embedding LSTMs give by far the best features (GloVe 0.846, Skip-gram 0.803); the
+supplementary small-init LSTM, whose embeddings actually trained, beats the default LSTM (0.731 vs.\ 0.701,
+$p<10^{-7}$) despite a worse PPL.
 (4) Surprisingly, the context-free \emph{emb} average matches or beats the contextual \emph{mean} for every
 model (Transformer 0.770 vs.\ 0.767, $p$=\mcTrEmbP; GloVe-LSTM 0.878 vs.\ 0.846). \hyp Topic is largely a
 bag-of-words property; next-token training makes the top layer encode what is needed to predict the
@@ -192,11 +211,12 @@ bag-of-words property; next-token training makes the top layer encode what is ne
 dominated by the final tokens (often punctuation). The pretrained vectors already place topical words close
 together; GloVe additionally saw Gigaword newswire, AG News's own domain.
 
-\textbf{Does PPL rank agree with downstream rank?} \obs Only weakly. Across the five LMs the Spearman correlation
-between test PPL and accuracy is $\rho$=\rhoMean{} for mean pooling ($p$=\rhoMeanP, $n$=5) and \rhoLast{} for
+\textbf{Does PPL rank agree with downstream rank?} \obs Only weakly. Across the six LMs the Spearman correlation
+between test PPL and accuracy is $\rho$=\rhoMean{} for mean pooling ($p$=\rhoMeanP, $n$=6) and \rhoLast{} for
 last-state pooling. The best LM by PPL is the Skip-gram LSTM, but the best downstream is the GloVe LSTM with a
-\emph{worse} PPL; the LSTM beats the RNN by 18 PPL points but not downstream. The downstream ranking follows the
-quality of the \emph{input embeddings} (GloVe $>$ Skip-gram $>$ barely-trained random) far more than PPL.
+\emph{worse} PPL; the LSTM beats the RNN by 18 PPL points but not downstream; and changing only the embedding initialisation
+moves PPL and accuracy in \emph{opposite} directions. The downstream ranking follows the quality of the
+\emph{input embeddings} (GloVe $>$ Skip-gram $>$ trained small-init $>$ barely-trained default) far more than PPL.
 
 \textbf{Error analysis.} The dominant confusion for all models is Business$\leftrightarrow$Sci/Tech
 (\bizSci{} of the GloVe-LSTM's \gloveErrors{} errors), e.g.\ \emph{``Dell exits low-end China consumer PC market''} (gold
@@ -212,14 +232,16 @@ remaining context. Per-class recall is lowest for Business for every model.
 \section{Connecting the parts, limitations, and lessons}
 \textbf{Answer to the question.} Within one embedding setting, a better LM (Transformer vs.\ RNN/LSTM) did
 produce better features, but PPL is a poor predictor overall: the three LSTMs of Part~II differ by $\le$5 PPL
-yet span 14 accuracy points, because what matters for topic classification is lexical semantics stored in the
-input embeddings, which next-token training on 2M tokens barely shaped (Part~II drift analysis).
+yet span 14 accuracy points, and the small-init LSTM is worse in PPL but better downstream. What matters for topic
+classification is lexical semantics stored in the input embeddings, which next-token training on 2M tokens barely
+shaped with default initialisation (Part~II drift analysis), while the extra data behind GloVe---irrelevant for
+WikiText PPL---pays off on news classification.
 
 \textbf{Limitations.} (1) One corpus of 2M tokens and a fixed 20-epoch budget; the Transformer was still
 improving, so its PPL is likely under-estimated. (2) The default $\mathcal N(0,1)$ embedding initialisation made
 ``trainable'' embeddings nearly static; this affects every Part~I model equally but changes the meaning of the
-trainable-vs-frozen comparison (addressed by the supplementary run). (3) Only three seeds and only for the
-Part~II LSTMs; Transformer vs.\ LSTM PPL is within seed noise. (4) Timing on a laptop GPU is affected by
+trainable-vs-frozen comparison (probed by the supplementary run). (3) Only three seeds and only for the
+Part~II LSTMs (other models and all Part~III results are single runs; the supplementary run used one seed). (4) Timing on a laptop GPU is affected by
 thermal throttling; the round-robin benchmark mitigates but does not remove this. (5) Part~III uses a linear
 probe on frozen features; fine-tuning could change the ranking. (6) GloVe's newswire data overlaps AG News's
 domain, so its downstream advantage mixes data quantity and domain match.
@@ -239,8 +261,8 @@ analysis myself.
 \begin{table}[h]
 \centering\footnotesize
 \input{generated/neighbours_table.tex}
-\caption{Cosine nearest neighbours in the three 300-d input-embedding tables (LSTM column: Part~I LSTM after
-training).}
+\caption{Cosine nearest neighbours in four 300-d input-embedding tables (LSTM columns: tables after LM training
+with default and small initialisation).}
 \label{tab:nn}
 \end{table}
 

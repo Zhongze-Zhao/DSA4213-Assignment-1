@@ -95,7 +95,7 @@
           "repeated_trigram_rate": 0.024210526315789474
         }
       },
-      "ms_per_token_greedy": 1.4248627950019
+      "ms_per_token_greedy": 1.158712155001922
     },
     "rnn": {
       "greedy": [
@@ -179,7 +179,7 @@
           "repeated_trigram_rate": 0.02684210526315789
         }
       },
-      "ms_per_token_greedy": 1.900364369998897
+      "ms_per_token_greedy": 1.8518085850018906
     },
     "lstm": {
       "greedy": [
@@ -263,7 +263,7 @@
           "repeated_trigram_rate": 0.0268421052631579
         }
       },
-      "ms_per_token_greedy": 1.783473660002528
+      "ms_per_token_greedy": 1.7233086400028697
     },
     "transformer": {
       "greedy": [
@@ -347,7 +347,7 @@
           "repeated_trigram_rate": 0.03210526315789474
         }
       },
-      "ms_per_token_greedy": 2.34330659999614
+      "ms_per_token_greedy": 1.3884603299993614
     },
     "lstm_w2v": {
       "greedy": [
@@ -431,7 +431,7 @@
           "repeated_trigram_rate": 0.03631578947368421
         }
       },
-      "ms_per_token_greedy": 2.5018342149996897
+      "ms_per_token_greedy": 1.6863670749989979
     },
     "lstm_glove": {
       "greedy": [
@@ -515,7 +515,91 @@
           "repeated_trigram_rate": 0.032105263157894734
         }
       },
-      "ms_per_token_greedy": 2.012556059999042
+      "ms_per_token_greedy": 1.8207476250017862
+    },
+    "lstm_smallinit": {
+      "greedy": [
+        "the united states . <eos> = = = = = = = = = = = = = = = = = = = = <eos> = = = = = = = = = = = = = =",
+        "the first time of the war . <eos> = = = = = = = = = = = = = = = = = = = = <eos> the first of the war , the first of the war",
+        "critics . <eos> = = = = = = = = = = = = = = = = = = = = = = = = <eos> = = = = = = = = = = = =",
+        "the river . the missouri river is a small range of the missouri river , which is a large amount of the missouri river . the missouri river is a large amount of the river . the missouri river is",
+        "the united states , and the first time of the season was the first time in the first time . <eos> = = = = = = = = = = = = = = = = = = ="
+      ],
+      "sample": [
+        [
+          "april 2012 and later won three awards from the billboard hot 100 in a single of the billboard 200 , where it \" always received a number of the top ten times \" . the song was written by a",
+          "a special level in australia and was the most successful player of the world , a record for the first time in the 2012 season . the first game was released in 2004 , and the second highest season at",
+          "august 2013 , and the first batch of the year , but it was announced that the game was intended for a new set , a week of the 2006 \u2013 99 season . <eos> in 2012 , the united",
+          "september 2008 . the album was released in the united states for the second week of 2012 , when the episode was selected for the first time of the season and played by the band 's first studio album on",
+          "the 2009 \u2013 07 season . on 1 may 1993 , the song began to be the next series for \" game 's \" monster @-@ day \" list of viewers . <eos> the episode was a success of the",
+          "april 1966 . <eos> = = = casting = = = <eos> the video 's video album was featured in the song for their release with the series and the song \" white \" to become the fifth episode of",
+          "2010 and the new zealand club began in the top @-@ league series . <eos> the city 's first ever @-@ term was the worst game of the season , which was the second fastest of the year with an",
+          "the united states , the highest @-@ grossing season of the season of the 2008 us run in july 2003 . <eos> = = background = = <eos> = = = = = = = = = = = <eos>",
+          "2003 . <eos> = = background = = <eos> = = = background = = = <eos> in the 19th century the national register is governed by the cathedral 's main museum . <eos> = = = international = =",
+          "2002 . <eos> = = = reception = = = <eos> the episode was released on 25 february 2012 . the final release of the 2010 tour gave the single track of the american music awards of the year ."
+        ],
+        [
+          "the royal fleet was stationed by the first time : <eos> the ship had been sent to the south in mexico , and the following month , on the north west , a strong force of the fleet and had",
+          "when the end of the civil union had been found in favour of the war . despite the initial party , the court of the national state 's population had been destroyed . the company was not available for the",
+          "the new york state of the south wales army ( fig \u2013 14 ) was completed . the first battle was designated and was in charge of the royal navy in north america . <eos> = = = = east",
+          "after the first two years , when madero took place at the time , he was named as a large candidate , as for the second world war , but the company was promoted to the new york knicks .",
+          "the new york union in england . <eos> = = = notable retirement = = = <eos> = = = = the united states = = = = <eos> the english army 's former name was founded in 1947 ,",
+          "the ministry of the two sisters have been granted by the state national dollar . in april 2015 , the royal navy started to cross the following year in april 1909 , and was the first most productive world heritage",
+          "it is a major member of the american government . <eos> on june 29 , 2011 , the federal government of a new building was also called new jersey . the song begins in the 19th century , and the",
+          "the new zealand division and the city became a permanent centre and the largest group of the royal empire . <eos> = = background = = <eos> in the 1950s on november 11 , 1915 , the british army marched",
+          "he was appointed under the royal navy in the west . the ship was the most important to the british navy in order to become a large portion of the new zealand mounted rifles brigade . the convoy was forced",
+          "it was a member of the city 's first ever of the 19th century . he also served as an important settlement of the county council in the capital of the country . <eos> = = = = british mandate"
+        ],
+        [
+          "the game for a series of guitar hero and in the united kingdom , and said , \" we 're not like a song on the screen . it 's really to get an image . \" carey 's debut",
+          "critics and a new york book , as well as the first and episode of the \" first @-@ day video \" , but the songs ' hero was the song 's chorus . it also won the first two",
+          "critics , where it was a single of the show 's musical performance . it 's the first game was the first single to do the \" best @-@ selling christmas film \" episode which are the first episode in",
+          "critics in the album . <eos> = = reception = = <eos> the game received mixed reviews from a series of pop music and a single in its lyrics . the song was released to appear for the series .",
+          "critics , and the book 's game was \" a good \" , that the film was the \" most good moment of the song in the world . \" the video debuted on top of the billboard songs chart",
+          "critics , and the \" firecracker \" album that the film 's first solo album was not produced by the movie industry episode of the game in the song . the game 's title was recorded in the united states",
+          "critics , which he was also a film that was also released in the united states to the original album ; he was one of all time with the song for a game ; this was later in the episode",
+          "critics of dylan 's series and drama of the game . in the episode , carey 's final career , the film , described the music of the poem , and \" it ] really a lot of the real",
+          "the album and the series ' series , but included guitar hero iii ( 1996 ) , and the series of all four volumes of the \" all @-@ oh \" episodes . <eos> = = = = release of",
+          "critics , who was released at number three , and was not a week after it was the first single , and the first episode to be set in the uk . she found that the song \" the main"
+        ],
+        [
+          "the east side of the missouri river , and the lower mountains of the missouri river is now , and the main economy is the eastern side of its own @-@ water . <eos> = = = = = =",
+          "the north coast of the river , and by that time , the new zealand spacecraft ( south anglian ; the mouth ) began to establish the population of the upper missouri river , and the main population was also",
+          "the south wall . they would be damaged by the main time , and the outer envelope of the city was still closed . this remnant area had been moved to an attempt to be in the area in southern",
+          "the city of a nearby central region of the missouri . <eos> = = major history = = <eos> the first and first world designation is the largest largest area , including the largest somali national forest . <eos> =",
+          "the west side of the island . the river is a species of its size , but as the main source of the original phase of the river were built during the 19th century , and it may be a",
+          "the river between the river and has a short @-@ time pattern for their own species . <eos> in 1900 , the south facade is the first of the oldest important species of the city that is a mixture of",
+          "the river . the main level was used by the state 's northwest tunnel , and the most abundant population was used to be constructed , but the number of homes were built in the region . another major design",
+          "the river and the east of port . a new roof of the area was used as the north african area by the south wales of the south . it is a member of the national register . the first",
+          "the southern and northern southern area of the missouri river . the highway passes from the mississippi river near the bay of the river and the missouri river valley . the first two @-@ year ( michigan ) state railroad",
+          "lock haven to an extensive population of the city . <eos> the cathedral 's population is situated near jupiter in 1889 . the river has moved to the city of the city ; the united states , the western part"
+        ],
+        [
+          "early september 1945 and was a small and commercial officer of the soviet union of the united states marine corps . the royal navy was completed in the united states and south carolina in north africa . by the next",
+          "march , but he was able to go off a new league . he moved to the conference , and was later his first game debut , and was released in april 2014 . in 2004 , the film was",
+          "january 2005 . <eos> = = = early life = = = <eos> after a series of a young family that were not successful , \" the trouble i was one of three times . \" <eos> = = reception",
+          "the early 1900s , but he was diagnosed with a school . in the middle , they were unable to have been a small fanbase and made his decision to continue to attend in the same year in order .",
+          "the early 20th century , and for the first five years after his mother 's reign . he was also a political secretary of the army 's family to the national register of india to the national register of england",
+          "august 1942 , with his debut in the first time of the new york times , as he was a number of a total of the season . it was announced a few months later , and the game had",
+          "the 1920s , making the next time in the series . it was an interest but was not to be \" banished like \" , who died in the us . he moved away up at the time of the",
+          "november 2015 , the first two years later on his first session . he was named for the first time of the 2009 \u2013 99 season , and at this time , torres scored the first division , the top",
+          "november 1916 . <eos> = = = background = = = <eos> during his reign , the group was the first two @-@ year . at the next year he attended the state @-@ hungary was to be his son",
+          "august . the following day , nixon attempted to play the knuckleball and he was not able to secure the two @-@ hour @-@ team selection . the giants was a \" perfect \" and a \" strong girl \""
+        ]
+      ],
+      "metrics": {
+        "greedy": {
+          "distinct1": 0.22999999999999998,
+          "distinct2": 0.3128205128205129,
+          "repeated_trigram_rate": 0.6210526315789473
+        },
+        "sample": {
+          "distinct1": 0.7,
+          "distinct2": 0.9241025641025642,
+          "repeated_trigram_rate": 0.026842105263157893
+        }
+      },
+      "ms_per_token_greedy": 1.8511395999985325
     }
   }
 }

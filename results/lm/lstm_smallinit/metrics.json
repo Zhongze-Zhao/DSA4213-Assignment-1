@@ -1,0 +1,29 @@
+{
+  "name": "lstm_smallinit",
+  "best_epoch": 20,
+  "val_loss": 5.006899827128766,
+  "val_ppl": 149.44072518151157,
+  "test_loss": 4.943769177512587,
+  "test_ppl": 140.29806252708323,
+  "test_targets": 244101,
+  "params": {
+    "total": 27274589,
+    "trainable": 27274589,
+    "input_embedding": 8673900,
+    "output_layer": 14832369,
+    "non_embedding": 3768320
+  },
+  "train_time_s": 427.0084820620009,
+  "sec_per_epoch": 21.350424103100046,
+  "epochs": 20,
+  "train_tokens_per_s": 97219.42711660774,
+  "inference_test_s": 1.1304306109996105,
+  "inference_tokens_per_s": 215936.29686314653,
+  "peak_gpu_mem_MB": 2252.83349609375,
+  "hardware": {
+    "torch": "2.11.0+cu128",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+    "cpu_threads": 24
+  }
+}
