@@ -35,6 +35,14 @@ def get_device() -> torch.device:
     return torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
+def limit_gpu_memory(fraction: float = 0.7) -> None:
+    """Under WSL2 the Windows driver can silently spill CUDA allocations into shared system RAM,
+    which froze the whole VM once. Capping PyTorch's share of VRAM makes it raise a normal
+    CUDA OOM error instead."""
+    if torch.cuda.is_available():
+        torch.cuda.set_per_process_memory_fraction(fraction)
+
+
 def hardware_info() -> dict:
     info = {"torch": torch.__version__, "device": str(get_device())}
     if torch.cuda.is_available():

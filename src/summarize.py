@@ -17,9 +17,10 @@ from src.utils import ROOT
 R = ROOT / "results"
 FIG = R / "figures"
 NEURAL = ["rnn", "lstm", "transformer"]
-PART2 = {"lstm": "random (trainable)", "lstm_w2v": "own Skip-gram (frozen)",
+PART2 = {"lstm": "random N(0,1) (trainable)", "lstm_smallinit": "random N(0,0.1²) (trainable)",
+         "lstm_w2v": "own Skip-gram (frozen)",
          "lstm_glove": "GloVe 6B (frozen)"}
-COLORS = {"rnn": "#1b9e77", "lstm": "#d95f02", "transformer": "#7570b3",
+COLORS = {"rnn": "#1b9e77", "lstm": "#d95f02", "transformer": "#7570b3", "lstm_smallinit": "#e6ab02",
           "lstm_w2v": "#e7298a", "lstm_glove": "#66a61e"}
 
 
@@ -104,7 +105,7 @@ def main():
     # ---------- Part II ----------
     emb = json.load(open(R / "embeddings.json"))
     rows = []
-    for n, lab in PART2.items():
+    for n, lab in [(n, l) for n, l in PART2.items() if (R / f"lm/{n}/metrics.json").exists()]:
         m, h = load(n), hist(n)
         target = h.val_loss.min() + 0.05
         ep_close = int(h[h.val_loss <= target].epoch.min())
@@ -137,7 +138,8 @@ def main():
                                        "std": f"{np.std(v, ddof=1):.1f}",
                                        "values": ", ".join(f"{x:.1f}" for x in v)}
                                       for k, v in srows.items()]))]
-    loss_figure(list(PART2), PART2, FIG / "part2_loss.png", "Part II")
+    loss_figure([n for n in PART2 if (R / f"lm/{n}/history.csv").exists()], PART2,
+                FIG / "part2_loss.png", "Part II")
 
     # ---------- Part III ----------
     ds = json.load(open(R / "downstream/summary.json"))
@@ -146,7 +148,8 @@ def main():
     f1 = df.pivot(index="model", columns="pooling", values="test_macro_f1")
     ppl = df.groupby("model").lm_test_ppl.first()
     rows = []
-    for mname in ["rnn", "lstm", "transformer", "lstm_w2v", "lstm_glove"]:
+    for mname in [m for m in ["rnn", "lstm", "transformer", "lstm_smallinit", "lstm_w2v", "lstm_glove"]
+                  if m in ppl.index]:
         r = {"LM": mname, "LM test PPL": f"{ppl[mname]:.1f}"}
         for pool in ["last", "mean", "emb"]:
             r[f"{pool} acc / F1"] = f"{tab.loc[mname, pool]:.3f} / {f1.loc[mname, pool]:.3f}"

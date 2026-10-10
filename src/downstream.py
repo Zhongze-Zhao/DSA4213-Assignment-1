@@ -23,7 +23,7 @@ from sklearn.preprocessing import StandardScaler
 
 from src.data import load_corpus, wiki_tokenize
 from src.generate import load_neural
-from src.utils import ROOT, get_device, load_config, save_json, set_seed
+from src.utils import ROOT, get_device, limit_gpu_memory, load_config, save_json, set_seed
 
 LABELS = ["World", "Sports", "Business", "Sci/Tech"]
 
@@ -49,8 +49,8 @@ def oov_stats(token_lists, vocab):
             "mean_length": len(toks) / len(token_lists)}
 
 
-@torch.no_grad()
-def extract(model, id_lists, max_len, pad_id, device, bs=256):
+@torch.inference_mode()
+def extract(model, id_lists, max_len, pad_id, device, bs=64):
     """Return dict pooling -> (N, H) features for one frozen model."""
     feats = {"last": [], "mean": [], "emb": []}
     for i in range(0, len(id_lists), bs):
@@ -59,7 +59,7 @@ def extract(model, id_lists, max_len, pad_id, device, bs=256):
         x = torch.full((len(chunk), max(lens).item()), pad_id, device=device)
         for j, c in enumerate(chunk):
             x[j, : len(c)] = torch.tensor(c, device=device)  # right padding
-        _, h = model(x, return_hidden=True)
+        h = model.encode(x)  # no (B, T, |V|) logits: features only
         mask = (x != pad_id).unsqueeze(-1).float()
         feats["last"].append(h[torch.arange(len(chunk), device=device), lens - 1])
         feats["mean"].append((h * mask).sum(1) / mask.sum(1))
@@ -94,6 +94,7 @@ def main():
     cfg = load_config(args.config)
     set_seed(cfg["seed"])
     device = get_device()
+    limit_gpu_memory()
     vocab, _ = load_corpus(cfg["data_config"])
 
     tr, te = load_agnews(cfg)

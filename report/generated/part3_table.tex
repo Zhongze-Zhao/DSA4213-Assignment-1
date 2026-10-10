@@ -1,0 +1,12 @@
+\begin{tabular}{lrccc}
+\toprule
+Frozen LM & LM test PPL & Last state & Mean of states & Mean of input emb. \\
+ & & acc / macro-F1 & acc / macro-F1 & acc / macro-F1 \\
+\midrule
+RNN & 153.4 & 0.617 / 0.616 & 0.705 / 0.705 & 0.755 / 0.754 \\
+LSTM & 135.0 & 0.638 / 0.635 & 0.701 / 0.700 & 0.733 / 0.733 \\
+Transformer & 131.0 & 0.719 / 0.718 & 0.767 / 0.766 & 0.770 / 0.769 \\
+LSTM + Skip-gram (frozen) & 130.4 & 0.776 / 0.776 & 0.803 / 0.803 & 0.824 / 0.823 \\
+LSTM + GloVe (frozen) & 133.9 & 0.790 / 0.790 & 0.846 / 0.846 & 0.878 / 0.878 \\
+\bottomrule
+\end{tabular}

@@ -11,10 +11,13 @@ import torch
 import torch.nn as nn
 
 
-def make_embedding(vocab_size, emb_dim, pad_id, weights=None, freeze=False):
-    emb = nn.Embedding(vocab_size, emb_dim, padding_idx=pad_id)
+def make_embedding(vocab_size, emb_dim, pad_id, weights=None, freeze=False, init_std=None):
+    emb = nn.Embedding(vocab_size, emb_dim, padding_idx=pad_id)  # default init: N(0, 1)
     if weights is not None:  # Part II: pretrained table (word2vec / GloVe)
         emb.weight.data.copy_(weights)
+    elif init_std is not None:  # supplementary run: small-scale random init
+        nn.init.normal_(emb.weight, 0.0, init_std)
+        emb.weight.data[pad_id] = 0.0
     emb.weight.requires_grad = not freeze  # freeze=True keeps the ENTIRE table fixed
     return emb
 
@@ -23,9 +26,9 @@ class RecurrentLM(nn.Module):
     """Embedding -> multi-layer RNN or LSTM -> linear softmax layer."""
 
     def __init__(self, vocab_size, emb_dim, hidden_dim, num_layers, dropout, cell, pad_id,
-                 emb_weights=None, freeze_emb=False, **_):
+                 emb_weights=None, freeze_emb=False, emb_init_std=None, **_):
         super().__init__()
-        self.emb = make_embedding(vocab_size, emb_dim, pad_id, emb_weights, freeze_emb)
+        self.emb = make_embedding(vocab_size, emb_dim, pad_id, emb_weights, freeze_emb, emb_init_std)
         rnn_cls = {"rnn": nn.RNN, "lstm": nn.LSTM}[cell]
         self.rnn = rnn_cls(emb_dim, hidden_dim, num_layers, batch_first=True,
                            dropout=dropout if num_layers > 1 else 0.0)
@@ -33,8 +36,13 @@ class RecurrentLM(nn.Module):
         self.out = nn.Linear(hidden_dim, vocab_size)
         self.hidden_dim = hidden_dim
 
-    def forward(self, x, return_hidden=False):
+    def encode(self, x):
+        """Top-layer hidden states (B, T, H) without the vocabulary projection."""
         h, _ = self.rnn(self.drop(self.emb(x)))  # unidirectional => causal by construction
+        return h
+
+    def forward(self, x, return_hidden=False):
+        h = self.encode(x)
         logits = self.out(self.drop(h))
         return (logits, h) if return_hidden else logits
 
@@ -43,9 +51,9 @@ class TransformerLM(nn.Module):
     """Decoder-only Transformer (pre-LN) with learned positions and a causal attention mask."""
 
     def __init__(self, vocab_size, emb_dim, num_heads, num_layers, ff_dim, dropout, max_len,
-                 pad_id, emb_weights=None, freeze_emb=False, **_):
+                 pad_id, emb_weights=None, freeze_emb=False, emb_init_std=None, **_):
         super().__init__()
-        self.emb = make_embedding(vocab_size, emb_dim, pad_id, emb_weights, freeze_emb)
+        self.emb = make_embedding(vocab_size, emb_dim, pad_id, emb_weights, freeze_emb, emb_init_std)
         self.pos = nn.Embedding(max_len, emb_dim)
         layer = nn.TransformerEncoderLayer(emb_dim, num_heads, ff_dim, dropout, activation="gelu",
                                            batch_first=True, norm_first=True)
@@ -56,14 +64,18 @@ class TransformerLM(nn.Module):
         self.max_len = max_len
         self.hidden_dim = emb_dim
 
-    def forward(self, x, return_hidden=False):
+    def encode(self, x):
+        """Top-layer hidden states (B, T, H) without the vocabulary projection."""
         T = x.size(1)
         pos = torch.arange(T, device=x.device)
         # Upper-triangular -inf mask: position t can only attend to positions <= t.
         # Sequences are right-padded, so real tokens never attend to padding.
         mask = nn.Transformer.generate_square_subsequent_mask(T, device=x.device)
         h = self.drop(self.emb(x) + self.pos(pos))
-        h = self.norm(self.blocks(h, mask=mask, is_causal=True))
+        return self.norm(self.blocks(h, mask=mask, is_causal=True))
+
+    def forward(self, x, return_hidden=False):
+        h = self.encode(x)
         logits = self.out(self.drop(h))
         return (logits, h) if return_hidden else logits
 

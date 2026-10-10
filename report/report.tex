@@ -1,0 +1,263 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,booktabs,tabularx,graphicx,amsmath,amssymb,xcolor,caption,subcaption}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+\captionsetup{font=small,labelfont=bf,skip=3pt}
+\setlength{\parskip}{3pt}\setlength{\parindent}{0pt}
+\input{generated/numbers.tex}
+\newcommand{\obs}{\textbf{Observation.}~}
+\newcommand{\hyp}{\textbf{Possible explanation.}~}
+
+\title{\vspace{-1.2cm}DSA4213 Assignment 1: Does Better Next-Token Prediction Give Better Representations?}
+\author{Zhao Richard \quad (code: \texttt{README.md} in the submitted repository)}
+\date{\vspace{-0.6cm}}
+
+\begin{document}
+\maketitle
+
+\section{Question and setup}
+\textbf{Comparison question.} \emph{Does a language model (LM) that predicts the next token better also
+provide better features for a downstream task?} Part~I ranks four LM families by perplexity (PPL);
+Part~II changes only the LSTM's input embeddings; Part~III freezes every LM and asks whether its PPL rank
+predicts its rank on AG~News topic classification.
+
+\textbf{Corpus and preprocessing.} WikiText-2 (\texttt{wikitext-2-v1}, official splits; 2.08M / 216k / 244k
+tokens). The v1 release is already tokenised with rare words mapped to \texttt{<unk>}; I lowercase
+(to match uncased GloVe), drop empty lines and append \texttt{<eos>} to every line. The vocabulary is all
+training types plus \texttt{<pad>}, \texttt{<unk>}, \texttt{<eos>} (28,913 types, built from train only and
+shared by every model). Lowercasing creates no new validation/test OOVs; \texttt{<unk>} is 6.2\% of test
+tokens and is scored like any other token.
+
+\textbf{Common evaluation.} Each split is cut into non-overlapping 128-token windows; every test token except
+the first is a target exactly once (244,101 targets) and is predicted only from the preceding tokens
+\emph{inside its window} (state reset per window, also for the n-gram). The last window is right-padded and
+padded targets are excluded from the loss. Model selection uses validation loss only; the test set is used once.
+
+\textbf{Models.} (i) \emph{KN $n$-gram}: my own interpolated Kneser--Ney (one discount per order,
+$D_k=n_1/(n_1+2n_2)$, continuation counts for lower orders, uniform base); $n=4$ chosen on validation
+(val PPL 274.8/235.8/229.3 for $n=2/3/4$). (ii) \emph{RNN} and (iii) \emph{LSTM}: 300-d embeddings,
+2 layers of 512 units, linear softmax. (iv) \emph{Transformer}: decoder-only, pre-LN, 4 layers, 6 heads,
+$d=300$, FFN 1200, learned positions, upper-triangular causal mask (a unit test confirms that editing tokens
+$\ge t$ leaves all logits $<t$ unchanged for all three neural models). All neural models use 300-d
+randomly initialised trainable embeddings (PyTorch default $\mathcal N(0,1)$), dropout 0.3, and an
+\emph{identical} procedure: context 128, batch 32, 20 epochs ($\approx$10.1k steps, 41.5M target tokens),
+AdamW (lr $10^{-3}$, wd 0.01), 300 warm-up steps then cosine decay, gradient clipping 1.0, best-validation
+checkpoint. Hardware: one RTX~5070~Ti Laptop GPU (12\,GB) under WSL2, PyTorch 2.11; seed 42.
+
+\section{Part I: four language-model families}
+\begin{table}[h]
+\centering\small\setlength{\tabcolsep}{3.6pt}
+\input{generated/part1_table.tex}
+\caption{Part I. \emph{Train s}: wall-clock of the training passes (median s/epoch). \emph{Train/Infer k tok/s}:
+controlled benchmark (all models timed round-robin, 5 rounds, median; batch 32$\times$128). \emph{Gen}: greedy
+generation latency at batch 1 without caching. \emph{Rep-3}: share of repeated trigrams in 40-token greedy
+continuations; \emph{Dist-2}: distinct bigrams in top-$k$ samples (5 prompts $\times$10).
+$^\dagger$stored $n$-gram count entries, not trainable parameters.}
+\label{tab:p1}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.84\linewidth]{../results/figures/part1_loss.png}
+\caption{Part I training (dashed, measured with dropout) and validation (solid) cross-entropy, and the
+validation--training gap.}
+\label{fig:p1}
+\end{figure}
+
+\textbf{Prediction quality.} \obs All three neural LMs beat the KN 4-gram by a large margin (test PPL 216.5
+$\to$ 131--153). Transformer (131.0) $\approx$ LSTM (135.0) $<$ RNN (153.4). The Transformer--LSTM gap
+(3\%) is of the same order as the seed-to-seed variation I measured for the LSTM (std \sdlstm{} PPL, Part~II),
+so I treat these two as roughly tied; the RNN gap is far larger. \hyp The n-gram can only use 3 tokens of
+context and backs off on the many unseen 4-grams, whereas the neural models share statistical strength through
+embeddings and use up to 127 tokens. The RNN has only 0.94M non-embedding parameters (vs.\ 3.8M/4.4M) and a
+recurrence without gating, so it plausibly cannot retain information over long spans.
+
+\textbf{Learning behaviour.} \obs (Fig.~\ref{fig:p1}) The RNN improves fastest in epoch 1 but plateaus earliest
+(val CE 5.11). Validation loss flattens after $\approx$12 epochs for the LSTM (best epoch 19, then flat) while
+the Transformer is still improving slightly at epoch 20. The gap between validation and training loss grows
+steadily for all models (0.45--0.56 nats at epoch 20) without validation loss turning upward, i.e.\ the models
+memorise the 2M-token corpus but the cosine schedule and dropout keep this from hurting validation within
+20 epochs. \hyp The Transformer's continued improvement suggests it is the most budget-limited model; its
+lower training loss at equal validation loss means it fits the training set more easily.
+
+\textbf{Cost.} \obs In the controlled benchmark the Transformer is the fastest to train (126k tok/s vs.\
+101--105k) and to score text (484k vs.\ 273k tok/s), because all positions are processed in parallel, whereas
+RNN/LSTM steps are sequential. In batch-1 generation without caching the order flips (2.3 vs.\ 1.8 ms/token),
+since the Transformer re-encodes the entire prefix every step. The KN model trains in 7\,s on one CPU thread.
+Sequential training wall-clock gives a misleading picture: the Transformer appears slowest (29 s/epoch) only
+because it was trained third, when the laptop GPU had throttled (epoch times of the \emph{same} model drift from
+21 to 33\,s across the session). I therefore report the round-robin benchmark as the cost comparison.
+
+\textbf{Generated text.} \obs (Table~\ref{tab:gen}; all models use the same prompts, 40 tokens,
+\texttt{<unk>} banned.) Under greedy decoding every model falls into loops; the KN model loops most
+(55\% repeated trigrams, e.g.\ \emph{``the first to be released in the united states , and''} repeated), the RNN
+least (34\%). With top-$k$ sampling, repetition almost vanishes for all models. The n-gram produces locally
+plausible 3--4-word fragments that do not form clauses (\emph{``but i just want to be with them , and the
+first''}); the LSTM and Transformer produce grammatical clauses that stay on the war/military topic of the prompt
+for a full sentence (\emph{``the royal fleet was an apprentice officer on the main naval brigade''}), but
+consistency breaks down after one or two sentences and facts are invented. All neural models learned WikiText
+layout (\texttt{= = heading = =}, \texttt{<eos>}). \hyp Lower PPL clearly buys local fluency, but none of the
+models has enough data or capacity for discourse-level coherence; greedy loops are a decoding artefact shared by
+all model families.
+
+\begin{table}[h]
+\centering\footnotesize
+\input{generated/gen_table.tex}
+\caption{Matched continuations (more in \texttt{results/generations.md}).}
+\label{tab:gen}
+\end{table}
+
+\section{Part II: input-embedding ablation (LSTM)}
+\textbf{Design.} I ablate the LSTM because it is the best recurrent model and its embedding is a clean, separable
+input. The Part~I LSTM is setting~1 (identical configuration). Setting~2: my own Skip-gram vectors (gensim,
+300-d, window 5, 5 negatives, 10 epochs) trained on the WikiText-2 \emph{training split only} (cost:
+\wvTime\,s on one CPU thread, not counted in LM training time); they cover 100\% of the vocabulary. Setting~3:
+GloVe 6B 300d (Wikipedia 2014 + Gigaword~5, 6B tokens). After mapping WikiText markers to GloVe tokens
+(\texttt{@-@}$\to$\texttt{-}, \texttt{@,@}$\to$\texttt{,}, \texttt{'t}$\to$\texttt{n't}), GloVe covers
+\gloveCov{} of types and \gloveTokCov{} of training tokens; the \gloveMissing{} missing types (mostly
+\texttt{<unk>}, \texttt{<eos>}, rare names) get $\mathcal N(0,\sigma^2)$ vectors with $\sigma$ the std of the
+GloVe table (seed 42); \texttt{<pad>} is zero. In settings 2--3 the \emph{entire} table, including these random
+rows, is frozen; everything else is retrained from scratch with the Part~I procedure. Runs were repeated with
+seeds 1 and 2.
+
+\begin{table}[h]
+\centering\small\setlength{\tabcolsep}{3.5pt}
+\input{generated/part2_table.tex}
+\caption{Part II. \emph{Cover.}: vocabulary types with a pretrained vector. \emph{3 seeds}: mean $\pm$ std over
+seeds 42, 1, 2. \emph{Ep.\ to best+.05}: first epoch whose val loss is within 0.05 nats of the run's best.
+\emph{Gap}: val $-$ train loss at epoch 20. \emph{Step-loss std}: mean within-epoch std of mini-batch loss.}
+\label{tab:p2}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.84\linewidth]{../results/figures/part2_loss.png}
+\caption{Part II learning curves (all LSTM, identical except the input-embedding table).}
+\label{fig:p2}
+\end{figure}
+
+\textbf{Results.} \obs (Table~\ref{tab:p2}, Fig.~\ref{fig:p2}) \textbf{PART2-RESULTS-PLACEHOLDER}
+
+\textbf{Why does ``trainable'' not win? Embedding drift.} \obs Measuring the cosine between each word's initial
+and final vector shows that the default-initialised trainable embeddings barely move: mean cosine \driftlstm{}
+(\drifttoplstm{} for the 1,000 most frequent words) for the LSTM, and the same for the RNN (\driftrnn) and
+Transformer (\drifttransformer). Their nearest neighbours are essentially random (\emph{france} $\to$
+outreach, blazers, \ldots; Appendix Table~\ref{tab:nn}), whereas Skip-gram and GloVe give clear semantic
+neighbours. \hyp With $\mathcal N(0,1)$ initialisation, vectors have norm $\approx$17, so AdamW updates of size
+$\approx10^{-3}$ over 10k steps (and only when a word occurs) leave them near their random start; the
+``trainable'' setting therefore behaves like a \emph{frozen random} table, and the LSTM's input weights do the
+adaptation. \textbf{SUPPL-PLACEHOLDER}
+
+\textbf{Interpretation.} Two factors are confounded in the public-embedding setting: trainability (both
+pretrained settings are frozen) and extra data (GloVe saw $\sim$3,000$\times$ more text, including newswire).
+Comparing settings 2 and 3 holds trainability fixed and isolates the data/domain effect: for \emph{predicting
+WikiText-2}, in-domain vectors trained on the same 2M tokens are at least as good as GloVe, so the extra data does
+not help this LM objective. The extra data does matter downstream (Part~III).
+
+\section{Part III: frozen LM representations for AG News}
+\textbf{Task and data.} AG News 4-way topic classification (World/Sports/Business/Sci-Tech): a stratified 20k
+subset of the official training split (5k per class) and the full official test split (7,600). AG News is
+tokenised with a rule-based tokenizer reproducing WikiText conventions (e.g.\ \texttt{didn 't},
+\texttt{3 @.@ 5}). OOV w.r.t.\ the WikiText-2 vocabulary is \agOOV{} of test tokens, about the same as SST-2
+(\sstOOV), so coverage does not favour either dataset; I chose AG News because its encyclopaedic/news register
+is close to Wikipedia and its large labelled test set gives tight comparisons (SST-2's test labels are not public).
+
+\textbf{Representations.} Inputs are truncated to 128 tokens, right-padded, and passed through each frozen LM.
+\emph{Last}: top-layer state at the last real token. \emph{Mean}: average of top-layer states over real tokens
+(padding masked). \emph{Emb}: average of the LM's \emph{input} embeddings over real tokens (no context; a
+reference showing what the contextual layers add). Classifier: standardisation + multinomial logistic
+regression, $C$ chosen from $\{10^{-3},\dots,1\}$ by macro-F1 on a 10\% validation split of the training
+subset, then refit on all 20k. Identical for every representation; the LMs are never fine-tuned.
+
+\begin{table}[h]
+\centering\small
+\input{generated/part3_table.tex}
+\caption{Part III test accuracy / macro-F1 on 7,600 AG News test articles. With $n$=7,600 the standard error of
+an accuracy near 0.8 is $\approx$0.005; exact McNemar tests are in \texttt{results/downstream/error\_stats.json}.}
+\label{tab:p3}
+\end{table}
+
+\textbf{Which representation works better?} \obs (Table~\ref{tab:p3}) (1) Pooling: \emph{mean} $>$ \emph{last}
+for every LM (e.g.\ LSTM 0.701 vs.\ 0.638, $p<10^{-28}$). (2) Among the Part~I models (same random
+embeddings), the Transformer is clearly best (0.767 vs.\ 0.701 for the LSTM, McNemar $p<10^{-37}$), while the
+LSTM and RNN are indistinguishable ($p$=\mcLstmRnnP) despite a 18-point PPL difference.
+(3) The frozen pretrained-embedding LSTMs give by far the best features (GloVe 0.846, Skip-gram 0.803).
+(4) Surprisingly, the context-free \emph{emb} average matches or beats the contextual \emph{mean} for every
+model (Transformer 0.770 vs.\ 0.767, $p$=\mcTrEmbP; GloVe-LSTM 0.878 vs.\ 0.846). \hyp Topic is largely a
+bag-of-words property; next-token training makes the top layer encode what is needed to predict the
+\emph{next} word (syntax, local continuation), which discards some lexical identity, and the last state is
+dominated by the final tokens (often punctuation). The pretrained vectors already place topical words close
+together; GloVe additionally saw Gigaword newswire, AG News's own domain.
+
+\textbf{Does PPL rank agree with downstream rank?} \obs Only weakly. Across the five LMs the Spearman correlation
+between test PPL and accuracy is $\rho$=\rhoMean{} for mean pooling ($p$=\rhoMeanP, $n$=5) and \rhoLast{} for
+last-state pooling. The best LM by PPL is the Skip-gram LSTM, but the best downstream is the GloVe LSTM with a
+\emph{worse} PPL; the LSTM beats the RNN by 18 PPL points but not downstream. The downstream ranking follows the
+quality of the \emph{input embeddings} (GloVe $>$ Skip-gram $>$ barely-trained random) far more than PPL.
+
+\textbf{Error analysis.} The dominant confusion for all models is Business$\leftrightarrow$Sci/Tech
+(\bizSci{} of the GloVe-LSTM's \gloveErrors{} errors), e.g.\ \emph{``Dell exits low-end China consumer PC market''} (gold
+Sci/Tech) or \emph{``IBM posts broad Q3 revenue growth''} (gold Sci/Tech), which are about technology companies'
+finances---arguably ambiguous labels. \allWrong{} test articles are misclassified by all five LMs; many are of
+this kind or have debatable gold labels (\emph{``Stocks climb on strong economic data''} labelled World).
+Where GloVe succeeds and the random-embedding LSTM fails, the decisive words are usually proper nouns rare in
+WikiText-2 but frequent in news (\emph{Isinbayeva, DaimlerChrysler, Linux, Dalai Lama}). Accuracy rises with
+article length (GloVe-LSTM 0.82 on the shortest quartile vs.\ 0.85--0.86 otherwise), but is \emph{not} lower
+for articles with more \texttt{<unk>} tokens (Appendix Table~\ref{tab:oov}), suggesting that missing words are compensated by the
+remaining context. Per-class recall is lowest for Business for every model.
+
+\section{Connecting the parts, limitations, and lessons}
+\textbf{Answer to the question.} Within one embedding setting, a better LM (Transformer vs.\ RNN/LSTM) did
+produce better features, but PPL is a poor predictor overall: the three LSTMs of Part~II differ by $\le$5 PPL
+yet span 14 accuracy points, because what matters for topic classification is lexical semantics stored in the
+input embeddings, which next-token training on 2M tokens barely shaped (Part~II drift analysis).
+
+\textbf{Limitations.} (1) One corpus of 2M tokens and a fixed 20-epoch budget; the Transformer was still
+improving, so its PPL is likely under-estimated. (2) The default $\mathcal N(0,1)$ embedding initialisation made
+``trainable'' embeddings nearly static; this affects every Part~I model equally but changes the meaning of the
+trainable-vs-frozen comparison (addressed by the supplementary run). (3) Only three seeds and only for the
+Part~II LSTMs; Transformer vs.\ LSTM PPL is within seed noise. (4) Timing on a laptop GPU is affected by
+thermal throttling; the round-robin benchmark mitigates but does not remove this. (5) Part~III uses a linear
+probe on frozen features; fine-tuning could change the ranking. (6) GloVe's newswire data overlaps AG News's
+domain, so its downstream advantage mixes data quantity and domain match.
+
+\textbf{Lessons.} Report cost with a controlled benchmark, not sequential wall-clock; check what ``trainable''
+parameters actually learn; and evaluate representations directly rather than assuming PPL transfers.
+
+\textbf{Tools and sources.} WikiText-2 (Merity et al., 2017), GloVe (Pennington et al., 2014), AG News (Zhang et
+al., 2015), SST-2 (Socher et al., 2013) via HuggingFace \texttt{datasets} / \texttt{gensim}; PyTorch, gensim,
+scikit-learn. Kneser--Ney follows Chen \& Goodman (1999). Code structure adapted from the DSA4213 course
+notebooks. \textbf{AI assistance:} I used Claude Code (Anthropic) as a coding assistant for scaffolding,
+debugging and running experiments; all numbers come from the submitted code, and I verified and wrote the
+analysis myself.
+
+\appendix
+\section*{Appendix}
+\begin{table}[h]
+\centering\footnotesize
+\input{generated/neighbours_table.tex}
+\caption{Cosine nearest neighbours in the three 300-d input-embedding tables (LSTM column: Part~I LSTM after
+training).}
+\label{tab:nn}
+\end{table}
+
+\begin{table}[h]
+\centering\footnotesize
+\input{generated/oov_table.tex}
+\caption{AG News test accuracy by the share of \texttt{<unk>} tokens in an article (mean pooling).}
+\label{tab:oov}
+\end{table}
+
+\textbf{Reproduction.} \texttt{scripts/run\_all.sh} regenerates every number, table and figure; all tables in this
+report are produced by \texttt{src/latex\_tables.py} from \texttt{results/}.
+
+\textbf{References.}
+Chen \& Goodman (1999), An empirical study of smoothing techniques for language modeling, \emph{CSL}.
+Merity et al.\ (2017), Pointer sentinel mixture models, \emph{ICLR}.
+Pennington et al.\ (2014), GloVe, \emph{EMNLP}.
+Socher et al.\ (2013), Recursive deep models for semantic compositionality, \emph{EMNLP}.
+Zhang et al.\ (2015), Character-level convolutional networks for text classification, \emph{NeurIPS}.
+\end{document}

@@ -15,7 +15,7 @@ import torch.nn.functional as F
 
 from src.data import load_corpus, make_windows
 from src.models import build_model, count_params
-from src.utils import ROOT, get_device, hardware_info, load_config, save_json, set_seed
+from src.utils import ROOT, get_device, hardware_info, limit_gpu_memory, load_config, save_json, set_seed
 
 
 def sync(device):
@@ -104,6 +104,7 @@ def main():
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
     device = get_device()
+    limit_gpu_memory()
 
     vocab, ids = load_corpus(cfg["data_config"])
     win = {s: make_windows(ids[s], cfg["seq_len"], vocab.pad_id) for s in ids}

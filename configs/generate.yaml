@@ -1,6 +1,6 @@
 data_config: configs/data.yaml
 seed: 42
-models: [ngram, rnn, lstm, transformer, lstm_w2v, lstm_glove]
+models: [ngram, rnn, lstm, transformer, lstm_w2v, lstm_glove, lstm_smallinit]
 prompts:                     # WikiText-style tokenization (spaces around punctuation)
   - "the game was released in"
   - "during the second world war ,"

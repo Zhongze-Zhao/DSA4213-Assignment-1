@@ -4,7 +4,7 @@ dataset: fancyzhx/ag_news       # 4-class news topic classification
 train_size: 20000               # stratified subset of the 120k official train split
 val_frac: 0.1                   # carved from the train subset, only used to pick C
 max_len: 128                    # truncate inputs to the LMs' context length
-models: [rnn, lstm, transformer, lstm_w2v, lstm_glove]   # all frozen
+models: [rnn, lstm, transformer, lstm_w2v, lstm_glove, lstm_smallinit]   # all frozen
 poolings: [last, mean, emb]
 C_grid: [0.001, 0.003, 0.01, 0.03, 0.1, 1.0]
 max_iter: 2000

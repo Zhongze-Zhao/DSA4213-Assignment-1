@@ -1,0 +1,132 @@
+{
+  "mcnemar": {
+    "transformer/mean vs lstm/mean": {
+      "acc_a": 0.766578947368421,
+      "acc_b": 0.7011842105263157,
+      "a_only_correct": 1006,
+      "b_only_correct": 509,
+      "p_value": 7.4758564629806e-38
+    },
+    "lstm/mean vs rnn/mean": {
+      "acc_a": 0.7011842105263157,
+      "acc_b": 0.7053947368421053,
+      "a_only_correct": 789,
+      "b_only_correct": 821,
+      "p_value": 0.4397749728693217
+    },
+    "lstm_w2v/mean vs lstm/mean": {
+      "acc_a": 0.8034210526315789,
+      "acc_b": 0.7011842105263157,
+      "a_only_correct": 1204,
+      "b_only_correct": 427,
+      "p_value": 1.2812606873502109e-85
+    },
+    "lstm_glove/mean vs lstm/mean": {
+      "acc_a": 0.8460526315789474,
+      "acc_b": 0.7011842105263157,
+      "a_only_correct": 1388,
+      "b_only_correct": 287,
+      "p_value": 5.820516066278094e-173
+    },
+    "lstm_glove/mean vs lstm_w2v/mean": {
+      "acc_a": 0.8460526315789474,
+      "acc_b": 0.8034210526315789,
+      "a_only_correct": 653,
+      "b_only_correct": 329,
+      "p_value": 2.3976793383791697e-25
+    },
+    "lstm/emb vs lstm/mean": {
+      "acc_a": 0.733421052631579,
+      "acc_b": 0.7011842105263157,
+      "a_only_correct": 1028,
+      "b_only_correct": 783,
+      "p_value": 9.35053677043568e-09
+    },
+    "lstm/mean vs lstm/last": {
+      "acc_a": 0.7011842105263157,
+      "acc_b": 0.6377631578947368,
+      "a_only_correct": 1174,
+      "b_only_correct": 692,
+      "p_value": 4.1871221729553464e-29
+    },
+    "transformer/emb vs transformer/mean": {
+      "acc_a": 0.77,
+      "acc_b": 0.766578947368421,
+      "a_only_correct": 545,
+      "b_only_correct": 519,
+      "p_value": 0.4434387334746584
+    }
+  },
+  "accuracy_by_length_quartile": {
+    "lstm/mean": {
+      "(11.999, 36.0]": 0.6585,
+      "(36.0, 43.0]": 0.7032,
+      "(43.0, 50.0]": 0.7208,
+      "(50.0, 171.0]": 0.7291
+    },
+    "transformer/mean": {
+      "(11.999, 36.0]": 0.7389,
+      "(36.0, 43.0]": 0.7737,
+      "(43.0, 50.0]": 0.7751,
+      "(50.0, 171.0]": 0.7823
+    },
+    "lstm_glove/mean": {
+      "(11.999, 36.0]": 0.8172,
+      "(36.0, 43.0]": 0.8565,
+      "(43.0, 50.0]": 0.8607,
+      "(50.0, 171.0]": 0.8523
+    }
+  },
+  "per_class_recall": {
+    "rnn/mean": {
+      "World": 0.73,
+      "Sports": 0.8321052631578948,
+      "Business": 0.5915789473684211,
+      "Sci/Tech": 0.6678947368421052
+    },
+    "lstm/mean": {
+      "World": 0.7210526315789474,
+      "Sports": 0.83,
+      "Business": 0.5968421052631578,
+      "Sci/Tech": 0.6568421052631579
+    },
+    "transformer/mean": {
+      "World": 0.7805263157894737,
+      "Sports": 0.8894736842105263,
+      "Business": 0.6778947368421052,
+      "Sci/Tech": 0.718421052631579
+    },
+    "lstm_w2v/mean": {
+      "World": 0.8163157894736842,
+      "Sports": 0.91,
+      "Business": 0.7289473684210527,
+      "Sci/Tech": 0.758421052631579
+    },
+    "lstm_glove/mean": {
+      "World": 0.8605263157894737,
+      "Sports": 0.9368421052631579,
+      "Business": 0.7805263157894737,
+      "Sci/Tech": 0.8063157894736842
+    }
+  },
+  "top_confusions": {
+    "lstm/mean": {
+      "Business -> Sci/Tech": 382,
+      "Sci/Tech -> Business": 345,
+      "Business -> World": 246,
+      "World -> Sci/Tech": 194
+    },
+    "transformer/mean": {
+      "Business -> Sci/Tech": 331,
+      "Sci/Tech -> Business": 291,
+      "Business -> World": 207,
+      "World -> Business": 188
+    },
+    "lstm_glove/mean": {
+      "Business -> Sci/Tech": 272,
+      "Sci/Tech -> Business": 243,
+      "World -> Business": 120,
+      "Business -> World": 116
+    }
+  }
+}

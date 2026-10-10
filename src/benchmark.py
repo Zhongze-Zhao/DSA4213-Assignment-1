@@ -14,7 +14,7 @@ import torch.nn.functional as F
 from src.data import load_corpus, make_windows
 from src.models import build_model, count_params
 from src.train_lm import load_emb_weights, sync
-from src.utils import get_device, hardware_info, load_config, save_json, set_seed
+from src.utils import get_device, hardware_info, limit_gpu_memory, load_config, save_json, set_seed
 
 
 def time_steps(model, batches, pad_id, train, opt=None):
@@ -44,6 +44,7 @@ def main():
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
     device = get_device()
+    limit_gpu_memory()
     vocab, ids = load_corpus()
     models = {}
     for name in bcfg["models"]:

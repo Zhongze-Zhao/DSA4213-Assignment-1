@@ -1,0 +1,9 @@
+base: configs/lm_base.yaml
+name: lstm_smallinit    # supplementary Part II run: random trainable embeddings, init N(0, 0.1^2)
+model:
+  type: lstm
+  emb_dim: 300
+  hidden_dim: 512
+  num_layers: 2
+  dropout: 0.3
+  emb_init_std: 0.1     # default nn.Embedding init is N(0, 1): embeddings barely move (cos 0.98)

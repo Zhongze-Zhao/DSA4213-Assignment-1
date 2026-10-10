@@ -15,7 +15,7 @@ import torch
 
 from src.data import load_corpus, tokenize_text
 from src.models import build_model
-from src.utils import ROOT, get_device, load_config, save_json, set_seed
+from src.utils import ROOT, get_device, limit_gpu_memory, load_config, save_json, set_seed
 
 
 def load_neural(name, vocab_size, pad_id, device):
@@ -72,6 +72,7 @@ def main():
     cfg = load_config(args.config)
     set_seed(cfg["seed"])
     device = get_device()
+    limit_gpu_memory()
     vocab, _ = load_corpus(cfg["data_config"])
     banned = [vocab.pad_id, vocab.unk_id]  # never emit <pad>/<unk> (same for all models)
     prompts = [tokenize_text(p) for p in cfg["prompts"]]

@@ -1,0 +1,10 @@
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Input embedding & Cover. & Train. & Test PPL & Test PPL & Val PPL & Val PPL & Ep. to & Gap & Step-loss \\
+ & & (M) & seed 42 & 3 seeds & ep 1 & ep 3 & best+.05 & ep 20 & std \\
+\midrule
+Random $\mathcal{N}(0,1)$, trainable & -- & 27.3 & 135.0 & -- & 412 & 224 & 10 & 0.45 & 0.127 \\
+Own Skip-gram, frozen & 100.0\% & 18.6 & 130.4 & -- & 559 & 239 & 11 & 0.40 & 0.123 \\
+GloVe 6B, frozen & 96.2\% & 18.6 & 133.9 & -- & 564 & 237 & 11 & 0.33 & 0.122 \\
+\bottomrule
+\end{tabular}
