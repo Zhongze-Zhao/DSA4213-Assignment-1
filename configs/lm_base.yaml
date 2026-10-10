@@ -1,0 +1,13 @@
+# Training procedure shared by ALL neural LMs (Parts I and II)
+data_config: configs/data.yaml
+seed: 42
+seq_len: 128            # context window: each target sees at most 128 preceding tokens (state reset per window)
+batch_size: 32
+epochs: 20              # fixed training budget for every model
+optimizer: adamw
+lr: 0.001
+weight_decay: 0.01
+warmup_steps: 300       # linear warmup, then cosine decay to 10% of lr
+min_lr_ratio: 0.1
+grad_clip: 1.0
+eval_batch_size: 32

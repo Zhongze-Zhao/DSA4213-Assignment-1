@@ -1,0 +1,4 @@
+models: [rnn, lstm, transformer, lstm_w2v, lstm_glove]
+steps: 60        # batches (32 x 128 tokens) per timed segment
+warmup: 10
+rounds: 5        # round-robin rounds, order alternates; median reported

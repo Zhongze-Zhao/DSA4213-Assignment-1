@@ -21,8 +21,14 @@ def set_seed(seed: int = 42) -> None:
 
 
 def load_config(path) -> dict:
+    """Load a yaml config; a `base:` key is loaded first and overridden by this file."""
     with open(ROOT / path if not Path(path).is_absolute() else path) as f:
-        return yaml.safe_load(f)
+        cfg = yaml.safe_load(f)
+    if "base" in cfg:
+        merged = load_config(cfg.pop("base"))
+        merged.update(cfg)
+        cfg = merged
+    return cfg
 
 
 def get_device() -> torch.device:

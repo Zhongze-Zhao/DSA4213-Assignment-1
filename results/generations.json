@@ -1,0 +1,521 @@
+{
+  "settings": {
+    "length": 40,
+    "top_k": 40,
+    "temperature": 0.8,
+    "samples_per_prompt": 10
+  },
+  "prompts": [
+    "the game was released in",
+    "during the second world war ,",
+    "the album received positive reviews from",
+    "the river flows through",
+    "he was born in"
+  ],
+  "models": {
+    "ngram": {
+      "greedy": [
+        "the united states , and the first to be released in the united states , and the first to be released in the united states , and the first to be released in the united states , and the first",
+        "and the first to be released in the united states , and the first to be released in the united states , and the first to be released in the united states , and the first to be released in",
+        "critics . <eos> = = = <eos> the first recorded in the inventory of the game . <eos> = = = <eos> the first recorded in the inventory of the game . <eos> = = = <eos> the first recorded",
+        "the interior of the nucleus is the largest city in the final . <eos> = = = <eos> the first recorded in the inventory of the game . <eos> = = = <eos> the first recorded in the inventory of",
+        "the wild and those bred in a single volume , and the first to be released in the united states , and the first to be released in the united states , and the first to be released in the"
+      ],
+      "sample": [
+        [
+          "late summer 260 and the right @-@ hand corner of the american league goals in a season . however , and the legs of the semi @-@ finals . they have not been used since the time of the disaster",
+          "north america , and he has been a number of the episode was watched by 5 @.@ 5 m ) and a draft of 12 feet ( 3 @.@ 2 km ) southeast of the north sea , a second",
+          "japan on 31 december , the fleet in the area . the remnants of the series , and the general aviation in the north . <eos> = = = = <eos> the following table shows the stroke order and direction",
+          "october 2010 , the film 's soundtrack , and was the third in a 2 \u2013 2 draw on the billboard hot latin songs chart . <eos> = = = = = <eos> = = = <eos> in his work",
+          "the west . <eos> = = = = <eos> by the time of construction . <eos> = = reception = = <eos> = = = <eos> the first to be with the three major international film festivals , and received",
+          "late 1217 . the jin . <eos> = = = <eos> = = = <eos> in the early middle ages , which further as a regular season , but the game . however , \" she was sold for scrap",
+          "2014 in the area , a few days after the war . <eos> = = = = <eos> the song was recorded at the second battle of ypres in july 1915 . <eos> the ship was used as the final",
+          "the united states , the album was \" not only in the south , where a chapter on a trip to the united states by the british government and the papacy came to be known as the \" , were",
+          "1982 , and has since become extremely rare . <eos> = = = = <eos> = = = <eos> although the two @-@ day supply . his father was a critical and commercial success . the second series . \"",
+          "dvd and blu @-@ ray . in this way of a large , and the other end of the world . it has been described by erlewine the first day of the year award , and then the 1st australian"
+        ],
+        [
+          "and , unlike the most controversial of all the millennium stadium , but i just want to be with them , and the first three productions met at the base is a popular , and the other a smaller and",
+          "but he refused to the northeast as a \" was written by band members beyonc\u00e9 , told in the late 18th century until the early twentieth century . <eos> = = = <eos> the episode was the final contest of",
+          "the divines became much more concerned with the new zealand and the united states that he was the first of these new world record , while he felt that the song , and the new zealand mounted rifles brigade at",
+          "but the game in the series in october 2002 , and was released as a single in the united kingdom was a man was in the semifinals of the 2011 season , and , in the early morning . the",
+          "and the german navy , which are often associated with the release of guitar hero ii : the world warrior . the film was met with mixed reviews from critics , and has a population of 7 @,@ 649 homes",
+          "the second game , degrom to the all blacks , and in 1942 <eos> = = = <eos> the first episode of saturday night , and take the opportunity to transform reality . \" in the chains of olympus ,",
+          "wales ' first home . she was powered by parsons geared steam turbines , with the former county . <eos> = = = <eos> the game also wrote a song that carey @-@ day and night after night . \"",
+          "and the first time . the song of the year . the film was featured in a 1 \u2013 0 victory over the new york times on february 10 , it has a distinct bird based on the medieval custom",
+          "the song was neither a great deal of the series , and the \" . he was a part of the united kingdom , and the new zealand division had lost his place in the southern hemisphere nations of the",
+          "with the exception of gabrielle 's home , the film was screened at the paley center for media in new york in the same season . a report found that the group had been a recurring theme in many parts"
+        ],
+        [
+          "music critics ; many of the first season , his first season premiere of the american mystery television series veronica mars , and the american civil war . it was written by the government to replace it would be \"",
+          "critics , and has been recorded in a single national rugby union team that the two and three @-@ time in a more urban area to trade routes , the system was used as the change strip was red cross",
+          "critics . on september 2 , 1994 , with a number of the other female artist to have been used for a variety of both melodic and mechanical engineering , persuaded . when . from 1960 , the two other",
+          "critics , and the other , and by the time of the first series , and at the 2011 world cup in south africa , the south fork in the road \" , and this . it is also the",
+          "critics . <eos> = = = = <eos> = = = <eos> the cathedral has a similar to that of fellow musicians who have also made use of the state of veracruz , and later became part of that year",
+          "critics . <eos> = = = = <eos> in the same year , it was announced that they were the only time magazine , \" ' keep it going to have the site as a whole . <eos> = =",
+          "critics . it is a grade ii listed building , a designation given to \" buildings of special interest , which warrant every effort being planned to publish a full day of the same period , \" . in the",
+          "critics , which may originate in the country . the game also includes a new york times that it was \" a great actor . it was a departure from the panthers , although such as the primary antagonist ,",
+          "music critics ; many of the works of trollope might i , and over 15 @,@ 000 copies . the album is widely accepted , and he has been widely sampled the title of the year . <eos> = =",
+          "critics . according to the contemporary descriptions of a new album . <eos> in the middle of the 19th century . the church 's original broadcast , to the north and south , howe attacked the long jump , triple"
+        ],
+        [
+          "the air . the construction of the new york times in 2007 . the game 's graphics and found that it was impossible for the two years later . <eos> = = = <eos> the first of the fallen ,",
+          "or past many national historic landmark . the only unequivocally known as the \" . a study conducted by two @-@ shaft arrangement ( as in the us . <eos> when the new zealand mounted rifles brigade 's colors were",
+          "the use of a tried out for the next year , the album 's lead single , \" you can 't get the project in this country \" . according to be released in the united states , it also",
+          "the city 's founding . on july 10 , 2012 , a \" brilliant dead man 's attempts to be more . the game for its confusing level , the first short @-@ lived \" shielded \" , while the",
+          "the pennsylvania border . the song was released as a single wall . a music video , who were responsible for the administration also wrote that the episode for treknation in their own right and wrong . as the show",
+          "the interior ray wilbur came to rely on condoms for his services were the most expensive . <eos> during world war ii . <eos> = = = <eos> \" my happiness \" , and \" ; the other man unlocks",
+          "the interior of the spore @-@ bearing cells , the church of scotland in their first season in la liga , 2002 . it was first published in a single species , the inflorescences are too small size , and",
+          "the interior . the new york . the only the second leg of the tour was also nominated for the academy in the second part of the north sea , and the main , she was named to the ap",
+          "the area had a reputation for the game . <eos> = = = <eos> the main facade . <eos> = = = <eos> the main battery guns were replaced with a more modern one as \" ... i remember a",
+          "much of his childhood . he was the first of the fallen , the first of a pair was a bit of a cult that could be the result of the film as a category 4 hurricane with maximum sustained"
+        ],
+        [
+          "june 1859 ) . the following month . the 54th engineer battalion ( combat in the north of its core , they did not . he also noted that the game had been damaged roofs and the band 's set",
+          "new york city , new york , briggs failed to make the final score a last @-@ minute goal against the forces of the episode is based on the basis of a number of species was moved to the university",
+          "london in september , the order of the garter in its atmosphere , but in the end of august , which ended in a 2 @.@ 5 million club option for the united states . in the final to have",
+          "the wild , untold story of ozploitation ! \" , with the majority of the series was created by executive producer john shiban , the writer of the episode . it was directed by mark kirkland , who worked for",
+          "the wild and those bred in late november . two days later , after the end of the season , the film was released on june 1 , 2 and 3 @.@ 5 @-@ mile ( 4 @.@ 8 km",
+          "lock haven in 1859 , the first time since the first world war . he had no interest in a manner that does not , the song \" to be \" so that the game 's story . the ship",
+          "the united states government , a knee @-@ high three assists per game on a piano player on the team in order of the crown ; these were to be a \" ; her a list of the \" and",
+          "a 3 \u2013 1 win against the church by protestant reformers . afterward , the germans and ottomans , supported by the american civil war . <eos> = = reception = = <eos> = = = <eos> in late 1980",
+          "a nazi germany , and the new version was released on march 23 , 2002 . <eos> = = = <eos> = = = = = <eos> according to literary and military officers called \" at the time . the",
+          "lock haven , in the united states army air forces ( 0 @.@ 91 m ) above average . <eos> on may 6 , a game in the region . <eos> the game 's \" in the \" a \""
+        ]
+      ],
+      "metrics": {
+        "greedy": {
+          "distinct1": 0.31500000000000006,
+          "distinct2": 0.41538461538461535,
+          "repeated_trigram_rate": 0.5526315789473685
+        },
+        "sample": {
+          "distinct1": 0.7254999999999999,
+          "distinct2": 0.9348717948717947,
+          "repeated_trigram_rate": 0.024210526315789474
+        }
+      },
+      "ms_per_token_greedy": 1.4248627950019
+    },
+    "rnn": {
+      "greedy": [
+        "the united states . the song was released on the billboard hot 100 chart . the song was released on the billboard hot 100 chart . the song was released on the billboard hot 100 chart . the song was",
+        "the first time in the united states . <eos> = = = = = <eos> = = = = chapel = = = <eos> the first of the first two years of the year , the first time of the",
+        "critics . <eos> = = = = = <eos> = = = = = <eos> = = = = chapel = = = <eos> the first of the goat is a popular tourist attraction , which is a parody of",
+        "the eastern pacific ocean . the highway continues to the northeast of the lesser antilles . the storm was upgraded to the northeast of the lesser antilles , and the storm dissipated on september 25 . the storm was upgraded",
+        "the first half of the season . <eos> = = = = = <eos> = = = = = = = = = <eos> the first of the first two years of the year , the first time in the"
+      ],
+      "sample": [
+        [
+          "1995 . he is a film and songwriter mariah carey , an english @-@ language version of the show . he also chose with \" the best \" , the most basic title in the series . the song is",
+          "a live rendition of a 100 @-@ year record . <eos> = = plot = = <eos> = = = awards = = = <eos> = = = = critical response = = = = <eos> the first single \"",
+          "august 2010 , and the first six games in the united states , and the last number of the vertigo had ever been the biggest grossing and most valuable series of the game . <eos> in a late 1960s ,",
+          "july 2004 . the song was released on the hot r & b / hip @-@ hop songs chart . <eos> = = reception = = <eos> after the release of 2013 , it was a critical reception to \"",
+          "the 1970s . <eos> = = production = = <eos> = = = box = = = <eos> according to her life , she performed her \" loverboy \" , she was released by the recording industry association of america",
+          "1995 after the release of the album , and it is \" a highly anticipated , \" , he said that the album might be changed to \" in the episode \" ( which includes \" a record of the",
+          "2003 , and a single set for the album . it received positive reviews from critics in the united states . \" the song ' \" is a \" b @-@ \" , which had been certified gold on november",
+          "the united states . <eos> = = = awards = = = <eos> the original design had previously appeared in a single of a \" visual excellence \" . <eos> = = = critical reception = = = <eos> while",
+          "2015 . <eos> = = plot = = <eos> the game was conceived on the first episode . <eos> after the 2007 , she is given on the series of the song 's accompanying songs , as the \" the",
+          "1982 . <eos> = = = release = = = <eos> the album was released on vhs on july 9 , 2002 , and the following week were released at the top ten times . <eos> the album received mixed"
+        ],
+        [
+          "and did not have two different types of the solar family . <eos> in the late 20th century , many archaeologists were not only used by the end of the decade of the roman empire . <eos> = = =",
+          "while the remaining of the croatian economy of the army , particularly from the 9th division as a reserve battalion , and took part of the united states navy , which was the first of the two battalions to the",
+          "but was appointed by the austro @-@ hungarian navy in october 1911 . <eos> the next day of the raid in january 2015 , the 4th marine brigade were sent to withdraw , and the german cruiser sms breslau (",
+          "he was appointed for the first three military hockey . he returned to england , where he was unable to maintain a \" in the first world war in the 1970s . <eos> \" the stolen eagle \" , was",
+          "the city has a high school for the united states . it was one of the three @-@ grade of the national forest and began a wide range of the highway , and was a popular tourist destination ( from",
+          "but had an effort at the beginning of the war , in february 1920 . he returned to the united states and were buried around the jin . in this aftermath , the german fleet sortied that they would remain",
+          "which would be the last known as a regular rhodesian soldier to the south wales . on july 28 , the depression was transferred to the city force in the early 19th . in august 1919 , the battalion had",
+          "the city 's main city , and new jersey . the construction of the port were constructed on the island . the highway had been estimated that there were a further number of dams to the west . <eos> during",
+          "but the team became a major league baseball for the first time since the season , and the phillies was a second for the game 's first game against his career . <eos> = = = = 2014 \u2013 54",
+          "in the early 1990s and the united states . <eos> = = = tropical storm norbert = = = <eos> the romanian ships , or the ships were a substantial assault on the battlefield . <eos> = = = post"
+        ],
+        [
+          "critics . she performed the song 's \" b girl \" , according to the lack of \" trees \" , which was a very popular character . a reviewer that \" the secret is a simple music \" ,",
+          "critics and music critics . on february 22 , 1999 , the single album was released as an alternative version in the series , and were composed by yasunori mitsuda and the video \" \" christmas \" . the album",
+          "critics , a second @-@ based electropop @-@ up song , based on the \" one of the best songs \" . <eos> = = plot = = <eos> the music video = for it also featured a single version",
+          "critics as an \" electro @-@ \" game , but it was not able to make more than four years . this was a commercial success . on april 11 , 2013 , the original versions of the album is",
+          "critics . <eos> = = reception = = <eos> the film was released at the 2005 e3 film festival . one of the album 's musical album was released as the \" episode \" with a \" b . \"",
+          "critics . <eos> = = = box office = = = <eos> = = = = early history = = = <eos> several years of the same name was a very negative review from the folk series , but the",
+          "critics , which included the new york times \" . in the united states , it had been a major tour of the album , featuring the second single in canada , and later it was certified platinum by the",
+          "critics 's success for songs to become the best best selling single of the game . <eos> the video was released on a few weeks later , the cd version of the album features more than the highest ratings on",
+          "critics . \" <eos> = = = synopsis = = <eos> = = = media = = = <eos> \" mothers of heaven \" , \" we want to hear the poem \" . <eos> = = = ratings =",
+          "critics , \" the most best most iconic feature of the country . \" <eos> the song was written by an american singer , songwriter creator of pop , and a song at times to the film . <eos> the"
+        ],
+        [
+          "the lake in south africa . <eos> = = = the civil war = = = <eos> in march 2015 , the system had been moved to the island , and was the only of the british isles , and",
+          "the atlantic ocean . the storm turned into tropical depression on september 25 . the ship 's tropical storm strengthened into the atlantic hurricane . on september 31 , the second tropical cyclone formed on september 19 , where she",
+          "the gulf of mexico to september , and was replaced by the remnants of the cyclone . <eos> the first of the freeway was widened between 60th and the missouri river river and bald eagle creek , and it had",
+          "the west of south carolina 's southern peninsula . the city 's center also gradually organized the highway was upgraded to a tropical depression between july . the hurricane weakened westward through the azores before the storm moved westward to",
+          "the river of the dam . the highway continues to the northern portion of highway . <eos> in august 2013 , the depression on 17 august 1915 , an area between 1 @,@ 000 units , was wounded and a",
+          "the eastern cape and the river where the new river river from its main routing is located on september 9 . <eos> = = = hurricane = = = <eos> although the storm was a popular tropical cyclone after imbudo",
+          "the eastern pacific ocean . <eos> on august 6 , 2009 , an unusually tropical cyclone was the easternmost hurricane at the time of the day . the ship was commissioned by the u.s. navy in the 2nd century .",
+          "the eastern edge of the river is located , with the capacity of two highways and an estimated 3 @.@ 3 @,@ 000 . it was announced that the name was a member of a \" quasi of \" ,",
+          "the lake border in southern mexico . <eos> = = = hurricane iselle = = = <eos> on march 7 , the hurricane was completed by the hurdat , and the route was extended to a subtropical storm on the",
+          "sea and , at least three days later , but it was also destroyed from the us 1 from its base . the highway passes off the east coast of mexico . its route in the west of ny 38"
+        ],
+        [
+          "paris , a first @-@ class version of the second season of the year @-@ winning a 2 , and the fourth division was not considered the first time of the season , while miami won the atp league for",
+          "march 2008 . he was elected to a third division in the 2009 \u2013 33 season . on 14 may , fowler announced that helms did not win the race . in july , she has played the following season",
+          "march 2002 , and was nominated for the new york yankees for the new york yankees . the book of an incident in the film would be a second @-@ in @-@ @-@ of @-@ out of the second @-@",
+          "the united states , but the latter did not want . <eos> the following month , torres was promoted to the team 's premier league football club , with a first down for his first season . following this 's",
+          "the second half of the season was a member of the year @-@ second . he played a three @-@ year @-@ old @-@ plate match , the fourth quarter . the team also finished the season with the record",
+          "a long @-@ term program in the city . <eos> = = = = 2012 = = = = <eos> according to the ioc , the city was introduced to the cathedral 's first @-@ class battleships . in march",
+          "the fifpro of which he played the following year after the arrival of his military counterpart . <eos> = = = old united kingdom = = = <eos> in 1924 , he attended two and seven years later . the",
+          "the following year , and the second season at the time . he was a member of the first @-@ team debut at the 2006 . the game had made a total in the game . he returned to win",
+          "the early 1990s . <eos> = = = = hurricane and the treaty of ireland = = = <eos> the ship was built in may 1999 , including the name to the omaha fleet from both directions and berkovi\u0107i ,",
+          "a collision in the west of a third @-@ year @-@ old family . the following year the new york post was opened in february 1920 , the school of the house of commons . he was elected for the"
+        ]
+      ],
+      "metrics": {
+        "greedy": {
+          "distinct1": 0.395,
+          "distinct2": 0.5487179487179488,
+          "repeated_trigram_rate": 0.3368421052631579
+        },
+        "sample": {
+          "distinct1": 0.6955,
+          "distinct2": 0.9246153846153845,
+          "repeated_trigram_rate": 0.02684210526315789
+        }
+      },
+      "ms_per_token_greedy": 1.900364369998897
+    },
+    "lstm": {
+      "greedy": [
+        "the united states . <eos> = = = = = = = = = = = = = <eos> the episode was released on november 7 , 2012 , and was released on november 1 , 2013 . <eos> =",
+        "the first of the british army was the first of the british navy . <eos> = = = = = = = = = = = = = <eos> the 130th engineer brigade was the first of the british navy",
+        "critics . <eos> = = = = = = = = = = = = <eos> the episode was released on november 7 , 2012 , and was released on november 1 , 2013 . <eos> = = = =",
+        "the city . the missouri river is the largest and the largest @-@ largest area of the missouri river . the missouri river is the largest and the largest @-@ largest area of the missouri river . the missouri river",
+        "the united states , and was the first time in the first time in the first time . <eos> = = = = = = = = = = = = = <eos> in the early 1990s , the first"
+      ],
+      "sample": [
+        [
+          "august 2008 , in the 1990s that would be the first installment in the game . the game is not one of all games of the year . <eos> = = synopsis = = <eos> = = = = awards",
+          "japan in january 2007 , as well as a \" big \" of the american @-@ lites release . <eos> = = plot = = <eos> the episode was the first of a series of the song and a similar",
+          "december 2008 , and was released on october 28 , 2012 . the song was also nominated for the title version of the united kingdom and the first single from the album . the song is set from the band",
+          "may 2015 . the album was released on november 11 , 1995 . the album was viewed by rca in japan . at the end of the 2011 , the game won the chart in its first game . it",
+          "the episode . <eos> = = critical reception = = <eos> the episode debuted in the united kingdom for a game by the riaa 's soundtrack , and received a share of the music video for best selling album .",
+          "august 1993 . <eos> = = = accolades = = = <eos> the series of music video was an \" electro @-@ like of the guitar hero \" . <eos> = = awards = = <eos> the music video was",
+          "1995 , and it was directed by the united states in new york . <eos> the original version of the album , the song featured a \" b \" , and \" the forge \" . <eos> = = music",
+          "the united states . the song was released in the first half , and received number 20 for a decade , and it was watched by the first time in the second week of the week . it was produced",
+          "2009 . <eos> = = reception = = <eos> = = = background and reception = = = <eos> although the characters , it is believed to be the first verse of the song . the player begins to create",
+          "2006 . <eos> = = = reviews = = = <eos> the album was released on nbc 's first chart on 27 january 2011 . its \" biggest @-@ gonna song \" is \" the best rock game \" ."
+        ],
+        [
+          "the royal fleet was an apprentice officer on the main naval brigade . he was appointed adjutant 's flagship by the british navy , with two companies . the next five battalion had no longer than the other british cruisers",
+          "where the following year , the ndh army was able to become a major exporter of jurchen soldiers in the north . he was sent to the ministry of the austro @-@ hungarian navy , which was ordered to take",
+          "and the rest of the city 's first advisory in the capital of the first @-@ class campaign . <eos> the two known transportation was laid down at the end of the war , and the british navy was forced",
+          "where the ship had been sent on patrol in the east sea . <eos> = = = = = aftermath ( raaf : uprising ) = = = = <eos> the war of jutland was the first to arrive in",
+          "the new york union and the nation 's most valuable . this was one of the british settlements on the strand and the jin itself , and the jin was designed to the rank of the german navy until the",
+          "when she also ordered two military honours . he was not until december that year . in june , he took a six @-@ level in a new zealand division by a new zealand , and in january 1936 in",
+          "after its first @-@ scale run , the fleet was tasked by the german troops . this was also known as a \" the british of the everglades \" . <eos> the entire battleship and the australian forces were to",
+          "the british government and the city of parliament were held in early 1941 . by the 19th century , the british government was replaced by the ministry of the new union of zanzibar ( including the church of pennsylvania \"",
+          "when the ship served as the flagship of the austro @-@ hungarian navy , and then the 1st light horse brigade . it was to be a large base for the 1st battalion and was a strong threat to the",
+          "which was the first airline to be the first ship to have been on the second side of the eastern pacific peninsula . the north korean , austrian infantry division , was commissioned by the royal navy , commanded by"
+        ],
+        [
+          "critics . this was the first @-@ selling episode the song 's strongest charting album for a second season . <eos> = = background and reception = = <eos> = = = ratings = = = <eos> simone 's original",
+          "critics , including the album for the series . beyonc\u00e9 was also one of the best in their career in the country 's previous year and had not been released . <eos> fey 's lyrics include the song and a",
+          "critics . critics and the episode 's lyrics were recorded by both the \" all one \" , and that it was \" one \" . the song was written by his favourite r and synthpop , and was \"",
+          "critics , but also the first episode was written . <eos> = = production = = <eos> = = = critical reception = = = <eos> \" kir 'shara \" was released on november 24 , 2008 . <eos> =",
+          "critics . <eos> = = reception and reception = = <eos> = = certifications = = <eos> the song was later produced by the band . <eos> = = = release and track = = = <eos> the producers 's",
+          "critics . <eos> = = = charts = = = <eos> = = background = = <eos> on the release of the previous year , a short @-@ story video , \" cater 101 \" is a single song ,",
+          "critics , with \" the trouble \" of \" crazy on the heartbreak \" , the sixth episode of the music ds . the song would be used to be more enthusiastic and sung by the producers , including the",
+          "critics ; but dylan began her and later became the first film in the uk . <eos> in his review of the new york times , the song said that the episode was more , with the rest of \"",
+          "critics . he also appeared on the show in 1995 city . <eos> the producers 's accompanying track , and the production is recorded by the united kingdom . he was also nominated for the album 's first album on",
+          "critics , although the song \" [ ... ] the show and the first one @-@ star album , and that the song was a bad song from the top @-@ out \" to which the album 's album ,"
+        ],
+        [
+          "the eastern shore , and the town 's population are considered \" a great area of the world , and the first world of the island , which warrant the missouri river , was the most important source of the",
+          "a number of the population of the missouri , then the missouri river basin . in addition , the british government of the first two horse brigades found a new castle in the west of the city . a total",
+          "the missouri river and northern europe . the river river was designated as the road 's largest area of the city 's population of its flow , but the number of m @-@ 47 was opened . the northern suburb",
+          "the east of the village river . <eos> = = history = = <eos> oldham 's population was to be a second @-@ level railroad and a number of the major public institutions in mogadishu . <eos> = = =",
+          "the town . the fort is located in the southern area for the mouth and the northern plains of the mississippi river , missouri ; the east of the missouri basin in the north side of the island , and",
+          "the city as a whole . during the 1860s , a state @-@ pressure area had been completed during world war ii . the area was built in 1928 , at the time of the royal navy . however ,",
+          "the city . the road is to be constructed in the eastern , it is a \" very rare \" that has been built on the site . <eos> = = = = early = = = = <eos> the",
+          "the city , and a number of water buoys in the uk , as well as ny 38 . <eos> the united states , where the first route to the north of the freeway in the united states , was",
+          "the eastern region , where the city is located in the city . <eos> = = history = = <eos> in the united states , the missouri 's population was built in the west of the pacific ocean . this",
+          "mexico . a group of the city 's first link is located on the island of a variety that became increasingly the most important areas to the united states . the city operates the village in the united states ,"
+        ],
+        [
+          "may 2008 , the first time when he was not to play . he scored a 2 \u2013 19 victory over the start of the month , and was also promoted for a two months after the signing of the",
+          "an attempt to the united states , including their intention to be a member of the british police , and the team in the summer @-@ east of the league . the new york yankees ended at the national club",
+          "an english manner in the early 19th century , and had worked in a similar @-@ style to its current death from the beginning of april . the title was originally released . according to a friend of the family",
+          "the first minute in the united states for the second minute of the season in july 1999 . he returned to the united nations on 27 november 2007 , but lost to notts on november 5 , 1964 , although",
+          "the united states , and was buried in the state of toronto , before being awarded by the national navy . in january 2014 , nixon was transferred to the western division of the pacific coast , and the 3rd",
+          "a few years of his father , but was not to be published in march 2012 , when he had since the new york times , and he died in october 1919 . <eos> = = = death of meyerbeer",
+          "the new york school , the second half of the year of the new zealand yankees . he was also inducted against italy in a career later , in october 2008 . despite working at the end of the year",
+          "the mid @-@ 1970s , and was replaced by the university of london . he was not the first of the first party in the world , and is able to be called a \" clerk \" and was invited",
+          "the early 19th century , and the family was given the last crusade and in the middle of the 19th century . the following year of the english election he would be given at home ; the first president of",
+          "a separate liaison , the first and four years . he told that the \" great party ' was not entirely a result of the entire party in late the world \" . <eos> = = = = cns ="
+        ]
+      ],
+      "metrics": {
+        "greedy": {
+          "distinct1": 0.355,
+          "distinct2": 0.5025641025641026,
+          "repeated_trigram_rate": 0.42631578947368426
+        },
+        "sample": {
+          "distinct1": 0.685,
+          "distinct2": 0.9194871794871795,
+          "repeated_trigram_rate": 0.0268421052631579
+        }
+      },
+      "ms_per_token_greedy": 1.783473660002528
+    },
+    "transformer": {
+      "greedy": [
+        "the united kingdom , and was released on july 1 , 2012 . the game was released on july 1 , 2012 . the game was released on july 1 , 2012 , and was released on july 1 ,",
+        "the first world war ii was the first world war ii . the war was the first world war ii in the war , and the war was renamed the war . the war was the first world war ii",
+        "critics . <eos> = = = critical reception = = <eos> = = = critical reception = = <eos> = = = = = <eos> the album was released on the billboard hot 100 , 2003 . the album was",
+        "the missouri river . the missouri river was the first hydroelectric river , and the missouri river was the first steamboat of the missouri river . the missouri river was the first steamboat of the missouri river , and the",
+        "the first time in the second half of the season . he was named as a member of the season , and was named the first pitcher of the season . he was named the nl rookie of the season"
+      ],
+      "sample": [
+        [
+          "february 2003 , where the season had an additional 1 victory at the 2009 summer paralympics , and had played for the 2000 australian season . the game was selected by american players in the 2010 fifa world cup in",
+          "november 2014 , the nintendo ds in the playstation 2 . the playstation 3 version was released on the playstation 3 , 2007 , in 2012 . the game was released in april 2011 , and was released on august",
+          "march 2011 , and was released in the united kingdom on october 5 , 2012 . the game was downloaded on july 4 . it was released on july 17 , 2011 , which was announced by a playstation 3",
+          "a second game of the game . the game was released at the end of the third game on july 21 , 1986 . <eos> = = = gameplay = = = <eos> = = = = = = gameplay",
+          "the year , and the game received its first number of units in 2013 . <eos> = = reception = = <eos> = = = critical reception = = <eos> after the release of the series , mitsuda was released",
+          "february 1989 , and was released on april 2 , 2003 . the album debuted on the billboard christian songs chart , in october 2011 on the uk . the album was originally released by american music music video for",
+          "2003 by the game . he played a series of \" more than a few episodes . \" <eos> = = reception = = = <eos> = = = = = = = awards = = <eos> = = =",
+          "the nintendo ds . <eos> = = = plot = = <eos> ace attorney ( video = = <eos> \" boy \" ) is the first episode of the series , which is a fictional character who was a friend",
+          "2009 , and the wii won a silver medal in 2008 . the following year , the second game included the 2010 international league games and one of the year 's best player , the most @-@ watched game of",
+          "2008 , and was released in august 2015 . a special edition was released in the us and a new zealand issue titled the nintendo ds on january 7 , 2010 . <eos> = = = chart performance = ="
+        ],
+        [
+          "the company took place off their first position in australia , where they suffered a new zealand brigade , they had been unable to return to the northeast . on november 3 , when the brigade was ambushed in a",
+          "following the outbreak of the war with the war . the two companies of the war between the mysore and february 1944 in the first time the communist party of the war . <eos> = = = the uprising =",
+          "and the british empire were defeated by the german empire fleet , in the baltic and ottoman forces . <eos> the ottoman 31st force of the german attack on the moro . the german and ottoman force , austrian ,",
+          "as well as the first time she felt she was to be the last of the first world war in 1936 . following another war , she was replaced by the british navy destroyers , and she was named as",
+          "the british royal navy were made for the war . the next year of france , on 9 february , the fleet was the following day , and the fleet arrived in the french fleet . she was only the",
+          "he joined on his death as \" a way to his home media ( \" his most important role \" ) , writing for both the series and his second in a series of the series , the character \"",
+          "when it was a number of endgames for the war . he also had made a third @-@ day contract with two @-@ year @-@ old england play @-@ old english cup first against scotland in spain , and he",
+          "the war was also part of the last six nations war : the war that had been launched on 25 april . the two french ships was held in the third @-@ six in june , with the second convoy",
+          "he was appointed by the british army corps , which was appointed commander of the 766th regiment . the 3rd battalion was unable to gain the position of the first division of the 6th division . <eos> at the time",
+          "they were defeated by both the british and british commandos . <eos> the austro @-@ hungarian navy was armed with the command of the ottoman empire in the sinai . the battle of the british empire was the most powerful"
+        ],
+        [
+          "critics . according to the album , the album returned to the beginning of the united kingdom , with the album , and in 2008 , and the band 's final single of the album , while also the first",
+          "critics in the united states and the album 's canadian recording industry , on the billboard hot 200 chart . it reached number seven on billboard , on the billboard hot 100 @-@ week sales of the week ending december",
+          "critics , describing it as \" a \" strong emotional response in the united states \" . <eos> = = = = critical reception = = <eos> = = = credits and critical acclaim = = <eos> = = =",
+          "critics to promote the album . <eos> the album 's first album was nominated for the new zealand tour , and has been certified gold by american rock album . it was released on its opening week in june 2007",
+          "critics , and praised her voice at the same time . <eos> = = = reception = = <eos> \" ode to a nightingale \" received generally positive reviews . \" however , \" joyful , and \" blessed redeemer",
+          "critics , and praised the album in the uk 's accompanying music critics from the album , in which it debuted on 10 may 2005 . according to the album , carey embarked on the album 's album , \"",
+          "critics , critics wrote that \" the poem has been described as \" a \" lukewarm or \" the first recorded version of the song at number 1 on the oricon singles chart at number 1 on the billboard hot",
+          "critics as critics in 2003 , as well as the album 's most popular songs , and praised its first album . it has been featured on the albums of the album , though only one of the most greatest",
+          "critics . he also wrote that \" a new tagline style \" was inspired as a \" big boy \" . in 2003 , he was awarded a music game in its first game , and was released on february",
+          "critics , writing that \" dylan had \" begun to write , \" dylan 's little more than a few hours of the year \" , \" like a christmas \" , it said the album 's last day of"
+        ],
+        [
+          "the city , but the missouri basin is a tributary of recreational trees . the yellowstone river has a large amount of significant water , especially at least 80 @,@ 000 , and has been reported . <eos> = =",
+          "the missouri river . the missouri basin is to a sparsely populated area , and to a river in part of the missouri flows into a sparsely stream . <eos> from the missouri river , the missouri river river flows",
+          "the river . <eos> during this period , the river river river watershed , the missouri river was extended to the city , and there had been minimal , at least ten dams . the usace had been made on",
+          "the river , missouri river to the mississippi river . it was originally present through the missouri river valley , and in the area by the 1860s , and the mississippi 's yellowstone basin did not have been able to",
+          "the missouri . the missouri river was the first hydroelectric river that had become insignificant , with no lower missouri river , but , although the river 's drainage basin dominated a large amount of sediment , about 40 @,@",
+          "the missouri valley . the missouri also includes its reservoir . from the canning river watershed , the headwaters has been built on the missouri river , and there are large towns of the missouri as well as in all",
+          "the missouri river . the missouri flowed on the missouri river flows the pongola river , and the west branch of the missouri river river to the missouri river . with the missouri river , the missouri . the missouri",
+          "the missouri . the yellowstone river continued to accelerate and the mississippi river valley and south africa to the mississippi river near the missouri . <eos> the missouri river river was a fur company named the missouri basin , and",
+          "the river in montana . the missouri river was built in the area and the yellowstone and south of the kansas river . the missouri river was in the missouri river and the missouri river valley for the watershed as",
+          "one hundred people at the time of the river . the river river were also constructed on the left of the missouri river . <eos> there were the first river , and two dams from the missouri river were not"
+        ],
+        [
+          "his first major league career in 1984 . he was a one @-@ year career in the phillies ( mlb ) , scoring a 1 \u2013 0 win over a record at the league top of the 2001 \u2013 4",
+          "the first year in the united states in 2001 , and was a member of the american baseball league . he had signed a 2 \u2013 3 win over ireland , which he was not included as a reliever for",
+          "the summer of the year . <eos> = = = background = = <eos> on september 25 , 1965 , federer and his mother were raised in the 2002 wimbledon final . she appeared in a grand slam quarterfinal final",
+          "a second place of the year . his father was invited to attend the middle colonies for the new zealand division . he left to london with his first wife of the irish cup final in the next week to",
+          "the early 1990s . he was offered to be traded to his baseball appearance , but was appointed manager for the 2006 fifa world cup season . <eos> on may 10 , 2011 , federer was announced that he had",
+          "the last year after a time in the final game . <eos> in the 1998 \u2013 2000 season , hamels led his first nba team to a career career , which enabled him to the phillies ' record at the",
+          "a three @-@ five @-@ year @-@ old , in which he was inducted back towards the club 's top @-@ point games in the 1998 fifa world cup in the second part as england was named in the third",
+          "the north atlantic and the national league . in july 2013 , he was named the manager of the year of the first time of the season , the tigers won the 2005 season . he played a football season",
+          "the united states . he was named to the university of texas \u2013 12 in the united states , and was the first professional boxer and was one of his top scorer for five consecutive days , and also was",
+          "the late 1830s , where he died on 11 february . it was also named as a general in the northern pacific region of oldham town . in 1952 , he became a member of his first son . <eos>"
+        ]
+      ],
+      "metrics": {
+        "greedy": {
+          "distinct1": 0.355,
+          "distinct2": 0.4923076923076922,
+          "repeated_trigram_rate": 0.41052631578947363
+        },
+        "sample": {
+          "distinct1": 0.672,
+          "distinct2": 0.9030769230769231,
+          "repeated_trigram_rate": 0.03210526315789474
+        }
+      },
+      "ms_per_token_greedy": 2.34330659999614
+    },
+    "lstm_w2v": {
+      "greedy": [
+        "the united states . the game was released in the united states , and the game was released in the united states . the game was released in the united states , and the game was released in the united",
+        "the first time of the war , the first time of the war , the war of the war , and the british army , the british army , the army of the united states , and the united states",
+        "critics . <eos> = = = critical reception = = = <eos> = = = critical reception = = = <eos> the album was released in the united states , and the album was released on the billboard hot 100",
+        "the missouri river . the missouri river is a small area of the missouri river , and the missouri river is a tributary of the missouri . the missouri is a large area of the missouri river , and the",
+        "the early 20th century . <eos> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
+      ],
+      "sample": [
+        [
+          "2007 . in a game against the time , the game were used as a player 's game with a team . one , with the player 's basketball games in 2002 , the game was the first game for",
+          "the late 2000s . in june 2012 , the game was released by the wii and dota portable game , a \" guitar hero \" . <eos> = = = gameplay = = = <eos> the game is also developed",
+          "october 2008 , and the game had sold a share of \u00a3 5 million . the game was released . on december 10 , 2007 , the game was \" the most important world \" for a year , which",
+          "september 2003 . <eos> = = = = = awards = = = <eos> the game features a limited @-@ gpu @-@ star guitar , and the game 's guitar hero console . <eos> = = = track listing =",
+          "the third season . the game is generally the tallest most popular and developed in the world during its final phase of the game , the game 's \" a few @-@ time track \" , which became a game",
+          "2007 ; it was announced that the number of the two tracks were first to make the game with the nintendo ds game : the album 's game of the game . activision released his own release with the playstation",
+          "2005 , and was the largest international of the world war of the year . in june 2015 , the first dumont was released . <eos> = = = = = = = international and the world war ( 1999",
+          "the united states . <eos> = = = filming = = = <eos> the album , featuring an artist video with the \" rachel dress \" , and \" the best of the \" best song \" was released to",
+          "2003 . <eos> = = plot = = <eos> the video was composed of the \" best man \" from the main scene . it is originally used to be \" a bit of \" , a more negative character",
+          "2002 . <eos> = = = accolades = = = <eos> the first game was released from the playstation vita in europe and japan . both on dvd , \" galentine \" , which was released by the series ,"
+        ],
+        [
+          "the storm quickly weakened northeast across the united states over the west coast , and the storm eventually moved across the atlantic ocean . in january , tropical storm christine in september on the yucat\u00e1n , the depression , moved",
+          "before the third world war in 2006 , the soviet government to prevent the military forces under the operation . the 130th moved to the country and infrastructure , including the british government , and the u.s. union government .",
+          "and the united states , the city was moved to the eastern border of northern africa . in the 1930s , there became the city 's first new jersey city . this was a large area of its tributaries with",
+          "during the war of the war ; bradstreet began to have the only four @-@ year @-@ old @-@ home record of a private service in the united states . the first year that the war was made for the",
+          "the second part of the series ' first season in the 2005 \u2013 12 season , against the boston calder\u00f3n in the final of his second season . <eos> = = = = hurricane = = = <eos> woodhouse returned",
+          "with two four @-@ man who saw the only four years after three furlongs . he played a second @-@ round in 2013 , despite the league 's final draft since 2002 . he was named a new record award",
+          "a third @-@ year , two @-@ year @-@ old @-@ era contract , had been announced that the company was renamed to the new orleans to launch the company . the decision of the ministry would be a series",
+          "the second of the two nations nations reached the eastern hemisphere to the west \u2013 east , the following year . <eos> = = = early nations = = = = <eos> during this period , the storm were subsequently",
+          "with the first goal of the season , but he was unable to play the league . <eos> = = = = managerial = = = <eos> in september 2003 , he was a successful pitcher for three consecutive .",
+          "but the first time ended in the first time in the world war ii . during the war of july , aretusa , the city of a company 's army was deployed in the united states . the next month"
+        ],
+        [
+          "critics . this episode was written by the new television series of 2013 . <eos> in 2004 , dylan 's first film was also awarded for the album by the new york times in january 2008 , directed by michael",
+          "\" my boo \" , in which she was on the album \" come to you \" ( 2003 ) , a recording for the same @-@ ray album . in the 2003 , \" a number of stars ,",
+          "critics , a review of the album 's \" good @-@ oh \" . it received a positive review , calling it \" the trouble of the song \" . in 2003 , his songwriting 's performance was a positive",
+          "critics critics , including the album 's lyrical of a \" love \" of music . its album had been certified at the billboard hot 100 . \" freakum \" debuted on the billboard bubbling top ten in the united",
+          "critics . <eos> = = reception and reception = = <eos> = = track listing = = <eos> the album became generally available on the united states , and at number 81 in the week , in the last week",
+          "critics , and the film 's third album is the highest song in their album . it also received mixed reviews for us reviews from critics ; it is also known as \" fantasy \" . <eos> = = =",
+          "critics and the first album . <eos> = = = credits = = = <eos> \" forbidden \" is an innovative for the song , written by john swartzwelder , but he wrote about his first solo album in the",
+          "critics for an emotional to \" music music \" . <eos> = = = reception = = = <eos> = = = track listings = = = <eos> rihanna 's vocals was recorded and made the song \" a rolling",
+          "critics . allmusic reviewer of allmusic wrote that the producers decided to be an recording of the song , saying that it had to be \" like it \" as \" something \" . \" the song \" was nominated",
+          "critics and fans . <eos> in january 2015 , the album has been written by david nava , and the singer was released in the uk , during the 1960s . <eos> in canada , dylan performed a number of"
+        ],
+        [
+          "the city , but the missouri flows through the river , a new city of the river river , and the river basin is a low @-@ arid sediments . the dam is estimated to be the most important source",
+          "a junction , and the south @-@ west road line . the highway passes through a few lakes , two miles ( 4 @,@ 200 mi ) over the south line , and the highway intersects through the southeast of",
+          "the south , but as ny 38 is the only @-@ @-@ route road to the north of ny 117 . <eos> the route between banning to ceresville , delaware and new york , the westernmost creek was opened from",
+          "the village of western bay and the southern end of the south , from this falls . <eos> in the early 1890s , the ojibwe sioux of the south of the western portion of the missouri was now considered to",
+          "the south branch susquehanna , where the missouri river watershed is well known to grow the forest in the watershed . <eos> = = climate = = <eos> as the name was the first name of the rocky , the",
+          "the missouri where the missouri river through the south side . by a lower portion of the mississippi 's central side , the river is the largest of the watershed for the missouri river . since the first years from",
+          "the missouri river . the main headwaters is located in the eastern bay region of the north and northwestern , in the area of mexico , where the road is designated as the national highway system . between the eastern",
+          "the missouri . the first steamboat line , is located in a narrow peninsula of the mountains river . <eos> the plunketts creek is about 2 @,@ 000 acres ( 1 @,@ 300 sq mi ) , mostly of the",
+          "the east end of the river . <eos> = = = = construction = = = <eos> = = = ely = = = <eos> the main land of the missouri river is the largest state to the northeast to",
+          "sea and in northern america . the missouri was originally built by the hudson river , with its local plant from the west . <eos> it was located in the north of pennsylvania , including the missouri river river ,"
+        ],
+        [
+          "england , which became a barrister teacher . <eos> = = = the new kingdom = = = = <eos> the roseberys , the royal baron and the son of the hawaiian kingdom of northumberland , the duchy of king",
+          "may 1940 , and was buried in a major site in the early 19th century . the archaeological survey of the parish , the fort has an population of 500 @,@ 000 copies . in 1877 , the u.s. state",
+          "november 2007 , and was the first part of the royal . <eos> in february 2009 , wheeler said the case should be an affair member of the government . in the 1880s of the second , he had never",
+          "the age of his first wife , daughter , and at the time of age in early 1235 . she was a member of the most prominent cast of the english family who moved to london , becoming one of",
+          "the united states . <eos> = = = = world war ii = = = <eos> = = = = = life = = = = <eos> on 26 june 2013 , the family served as the royal and captain",
+          "a family , in a row of the royal family . the mother was built in a local area . they had also been joined by the new england in the 13th century . <eos> = = = life of",
+          "the town of wales . the couple also attended in the theatre , with her cousin , and the daughter of elizabeth barker . he spent one of the most famous actresses was popular as an english and professional and",
+          "the south @-@ south @-@ east of the jin , and after the war of the battle of the jin war , when the song had been the son of the jin war . <eos> = = = aftermath and",
+          "the late 1990s . <eos> = = = = early life = = = <eos> = = = = = = = = = death and death = = = = <eos> walpole did not do so , although she",
+          "a few years . she was an assistant in the university for a private school , which gave birth to a large of the new missionary , but when he was forced to the city , where he would not"
+        ]
+      ],
+      "metrics": {
+        "greedy": {
+          "distinct1": 0.3,
+          "distinct2": 0.41025641025641024,
+          "repeated_trigram_rate": 0.4894736842105263
+        },
+        "sample": {
+          "distinct1": 0.6625,
+          "distinct2": 0.9082051282051282,
+          "repeated_trigram_rate": 0.03631578947368421
+        }
+      },
+      "ms_per_token_greedy": 2.5018342149996897
+    },
+    "lstm_glove": {
+      "greedy": [
+        "the united states . <eos> = = = = = = = = = = = = = = = = = = = <eos> the first game was the first game in the game , and the first time",
+        "the first @-@ year @-@ old @-@ old @-@ class @-@ class @-@ class battleships , and the 3rd battalion , the 1st battalion , and the 3rd battalion , the 1st battalion , and the 4th battalion , the",
+        "critics . <eos> = = = = = = = = = = = = = = = = = <eos> the album was released on the billboard hot 100 chart , and peaked on the billboard hot 100 chart",
+        "the missouri river . the missouri river was the first of the most important of the most important of the missouri river . the missouri river was the first of the most important of the most important of the missouri",
+        "the united states . <eos> = = = = = = = = = = = = = = = = = = = <eos> the first season of the season , the first time , was the first time"
+      ],
+      "sample": [
+        [
+          "april 2003 , which was watched on september 7 , 2013 , in 2004 , and a nielsen , titled 3 @.@ 12 @.@ 8 million viewers . <eos> = = personnel = = <eos> = = = = 2014",
+          "the final \" . in an interview that \" the album was recorded at number 4 , the album was a number of of songs and recorded by the recording industry association ( bpi ) . the band 's best",
+          "january 2010 , and the album peaked on the billboard hot 100 . <eos> = = = = = video awards = = = = <eos> the song was composed by the recording video , as a series of \"",
+          "june 2003 . the album was released on the album , was released on july 7 . the recording was certified gold gold by the recording industry association . <eos> the single was certified gold platinum , in addition on",
+          "the netherlands . <eos> = = release = = <eos> = = = plot = = = <eos> during the 2011 tour , the show had a \" @-@ up line \" , while the band 's vocals was \"",
+          "february 2000 . <eos> = = = track listing = = = <eos> in 2009 , the album released the song in the 2007 mtv @-@ selling video game , and was later certified a commercial album on the billboard",
+          "2003 , and it was sold on the top @-@ highest success of the week ending of the week , and later announced the end of the week . <eos> = = = accolades = = = <eos> during the",
+          "the united states . the game was released in the us open with the \" very white \" in the episode . the episode is \" the greatest \" , \" a \" version of the game . <eos> on",
+          "an interview on the song 's most \" standout \" and \" love @-@ \" and \" monster \" by the latter 's third \" star and \" , and the song 's album , and in addition the song",
+          "its first week of the season , the song featured for the song . <eos> = = = music and release = = = <eos> track 's fourth single has been certified gold at the same day , the song"
+        ],
+        [
+          "the largest had been estimated and was considered a high @-@ time @-@ known @-@ scale @-@ time @-@ long area . the first prototype in the mid @-@ 1970s region in the world , the first two weeks ,",
+          "where the government was not available when the war of the 21st century , the british prerogative was responsible . the song did not survive until the invasion of the war . the song was the first two of the",
+          "and the french army had been able to have been established to a small part of the state . the general court also ordered the u.s. government on the british army on the eastern pacific , and they were overwhelmed",
+          "where he was given a member , or he was in a large part of the country . <eos> in this time , \" the forge \" was in the area of the great of the british subcontinent , and",
+          "the song of the film 's production was a member of the episode \" all the songs \" in the world . <eos> = = reception = = <eos> = = = critical reception = = = <eos> prior to",
+          "and with its assistance @-@ level support of the country 's history at haiti . in response , the government , which offered a more substantial position in the south america of the country . <eos> the company had taken",
+          "with his wife , was known as the primary caregiver . during the war of the 1920s , he was also invited to the british league at manchester , and was elected promoted the following year as the first time",
+          "the new zealand , which was announced with a group of new york . she was replaced by the new york yankees , including the national register . the following six seasons and finished on the club , wales received",
+          "and was the best of the first time . the following year , the first part of the year , the first few years of the year , which took place in the area . <eos> = = = =",
+          "in the early 1990s and the war of the british government were in an attempt to do the communist rouge . at the end , the ship was expected to be used to be the first of the new zealanders"
+        ],
+        [
+          "critics . on november 25 , 2014 , the grammy was released digitally in the first part of the album , the album peaked . <eos> = = music = = <eos> = = charts = = <eos> = =",
+          "critics and the song 's vocals , with the original song . on february 10 , 2015 , the song peaked in a new album from music in the united states , becoming a member of the song , which",
+          "critics , a number of reviews and critics . in the 2009 , the episode also aired on the billboard hot 100 chart . after the album , the album received an score \" 5 greatest \" , and that",
+          "critics that \" i 'm really like [ , it was the first most player . a song on the album and \" it is a reference that has been \" the most memorable track on the heartbreak \" .",
+          "critics . <eos> = = reception and reception = = <eos> = = credits = = <eos> the album was made a week in the 2010 season , and released the band and the release of the album boy .",
+          "critics . <eos> = = = singles = = = <eos> the album and the song \" also \" is not known until the united states for the first time . \" i have a few days of the year",
+          "critics , which is a \" stunning @-@ and @-@ star \" . <eos> = = legacy = = <eos> for the release of the songs , dylan 's album 's release was first announced in june 2008 , and",
+          "critics critics : \" to get you get a more @-@ down @-@ time , it 's my ' \" . <eos> the album was announced to the official list of the week as dylan 's \" hasta que digo",
+          "critics . critics , \" it is an instant advantage \u2014 a lot of emotion and \" , and a single in which was the most famous artist of a \" candy \" . the song was released in 2007",
+          "critics , although it was considered of the same album . in the 1950s , he appeared on the album of the album , and her third female album . the song has two \" crazy \" . <eos> the"
+        ],
+        [
+          "the gulf , which was the only important source of the southern river . the island of the north of the mississippi mountains was the site of the main city of the missouri river . the river 's population of",
+          "the river . the highway was rerouted to its highways , and the state highway state to connect a u.s. highway to the u.s. highway state highway 347 . <eos> during the end of the state , the first part",
+          "the south side of the hamlet . the route of the pdr creek was a short @-@ lane , the highway continues north of sr 6 , a tributary in the u.s. state highway . it is a magnet trunkline",
+          "the east of the south wall . <eos> = = = early history of its death = = = <eos> the entire was originally replaced by the city of the cathedral in the united kingdom . the new building was",
+          "the area . the main road is the largest highway of turnpikes and badlands lakes . <eos> in the mid @-@ century , proctor did not see the southern terminus with sr 509 , while the road begins from the",
+          "the missouri bay , and the gulf of hispaniola in eastern nicaragua , there were several lifeguard sites of both to the city . <eos> = = = waterways = = = <eos> the missouri ( erie ) west susquehanna",
+          "the missouri river . the city , a former of the fort to lock haven park , and west of the lake , and a total of the first @-@ class @-@ scale highway system was completed later , with",
+          "the missouri river . <eos> = = = tourism = = = <eos> in the 1950s of the late 1950s , mogadishu were built , the north african coast and the missouri river in castanea . the remnants of the",
+          "the gulf and western . the area is a major tributary of the eastern terminus of the east end of the north end of the eastern hemisphere , and the river 's north @-@ east and central south of north",
+          "corpus christi road on the island of the south side of the mississippi and the missouri river basin 's path from the river . <eos> there are two species of the missouri mountains of africa and the north west of"
+        ],
+        [
+          "late 1212 , after the end of the time of the season , but after the first time later , he was assigned to the 2nd army . <eos> = = = british troops forces = = = <eos> =",
+          "june . <eos> = = = = marriage and politics = = = = <eos> in the last years , he returned to the king , his father , died , and that he died before a month to his",
+          "june 2002 , and was appointed in the royal league club on the two nations , and became chairman @-@ class by the city of their own and then became part of their major league championship . he won a",
+          "the early 16th century . <eos> = = = = late life = = = = <eos> the cathedral was built in the new part of the 19th century . <eos> = = history = = <eos> with its description",
+          "the united states . <eos> = = = = two @-@ age of life = = = = <eos> in the 1980s , the film also featured a piano of which he was named of the royal opera of fame",
+          "a first @-@ term of the first time in the united states in the town of st denys , in honor . the city 's first new school opened the school as a \" clerk \" , which had previously",
+          "the middle of jerusalem . he was buried in a house 's , at his uncle , and he was named it named of the choir by the architect 's brother , thomas shakespeare 's cousin , and his father",
+          "the final round . <eos> = = = other of the 20th = = = <eos> in the early 1980s , the university of zagreb was established in 1964 with the university 's office . <eos> the british civil election",
+          "the first round of the year . in the same time , in february 2009 , he scored a hat @-@ trick for the year year . they were traded up to a former and and other players from the",
+          "a local club . in the 2006 election , the team held in the united states in 1992 . <eos> in 1999 , the phillies faced the new hockey league , with the club 's football league in their final"
+        ]
+      ],
+      "metrics": {
+        "greedy": {
+          "distinct1": 0.31500000000000006,
+          "distinct2": 0.4564102564102564,
+          "repeated_trigram_rate": 0.47368421052631576
+        },
+        "sample": {
+          "distinct1": 0.6465000000000001,
+          "distinct2": 0.8969230769230769,
+          "repeated_trigram_rate": 0.032105263157894734
+        }
+      },
+      "ms_per_token_greedy": 2.012556059999042
+    }
+  }
+}

@@ -4,6 +4,9 @@ Usage:
     python -m src.data --config configs/data.yaml   # builds cache and prints statistics
 """
 import argparse
+import html
+import math
+import re
 from collections import Counter
 
 import torch
@@ -48,8 +51,50 @@ def tokenize_lines(lines, cfg):
 
 
 def tokenize_text(text: str, lowercase: bool = True):
-    """Tokenize free text (prompts, downstream data) consistently with the LM corpus."""
+    """Tokenize already WikiText-style text (e.g. prompts written with spaces around punctuation)."""
     return (text.lower() if lowercase else text).split()
+
+
+def wiki_tokenize(text: str):
+    """Tokenize raw English text (e.g. AG News) to mimic WikiText-2 conventions:
+    lowercase, punctuation split off, "didn't" -> "didn 't", "3.5" -> "3 @.@ 5",
+    "1,000" -> "1 @,@ 000", "well-known" -> "well @-@ known"."""
+    t = html.unescape(text).replace("\\", " ").lower()
+    t = re.sub(r"&?#39;", "'", t)
+    t = re.sub(r"&?#36;", "$", t)
+    t = re.sub(r"&?#15[01];", " — ", t)  # cp1252 dashes used by AG News
+    t = re.sub(r"&?quot;", '"', t)
+    t = re.sub(r"&?(amp|lt|gt);", " ", t)
+    t = re.sub(r"<[^>]+>", " ", t)  # stray html tags
+    t = re.sub(r"(?<=\w)'(s|t|re|ve|ll|d|m)\b", r" '\1", t)
+    t = re.sub(r"(?<=\d)\.(?=\d)", " @.@ ", t)
+    t = re.sub(r"(?<=\d),(?=\d)", " @,@ ", t)
+    t = re.sub(r"(?<=\w)-(?=\w)", " @-@ ", t)
+    out = []
+    for tok in t.split():
+        if ABBREV.fullmatch(tok):  # keep "u.s.", "mr." etc. as single tokens like WikiText
+            out.append(tok)
+        else:  # split remaining punctuation, but keep the @x@ markers intact
+            tok = re.sub(r"(?<!@)([.,!?;:()\"$%/&\[\]])(?!@)", r" \1 ", tok)
+            tok = re.sub(r"(^|\s)'(?!(s|t|re|ve|ll|d|m)(\s|$))", r"\1' ", tok)  # opening quote
+            tok = re.sub(r"(?<=\S)'(\s|$)", r" '\1", tok)  # closing quote
+            out.extend(tok.split())
+    return out
+
+
+ABBREV = re.compile(r"(?:[a-z]\.){2,}|(?:mr|mrs|ms|dr|st|co|inc|corp|ltd|jr|sr|vs|no)\.")
+
+
+def make_windows(ids: torch.Tensor, seq_len: int, pad_id: int) -> torch.Tensor:
+    """Cut a token stream into rows of seq_len+1 tokens overlapping by one token, so that
+    x = row[:-1], y = row[1:] and every token after the first is a target exactly once.
+    The last row is right-padded with pad_id (padded targets are ignored in the loss)."""
+    n_rows = math.ceil((len(ids) - 1) / seq_len)
+    out = torch.full((n_rows, seq_len + 1), pad_id, dtype=torch.long)
+    for r in range(n_rows):
+        chunk = ids[r * seq_len: r * seq_len + seq_len + 1]
+        out[r, : len(chunk)] = chunk
+    return out
 
 
 def build(cfg):

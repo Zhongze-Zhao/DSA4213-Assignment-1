@@ -1,0 +1,9 @@
+base: configs/lm_base.yaml
+name: transformer
+model:
+  type: transformer     # decoder-only, pre-LN, learned positions, causal mask
+  emb_dim: 300
+  num_heads: 6          # 50 dims per head
+  num_layers: 4
+  ff_dim: 1200
+  dropout: 0.3

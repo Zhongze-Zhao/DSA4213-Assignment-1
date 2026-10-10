@@ -1,0 +1,12 @@
+data_config: configs/data.yaml
+seed: 42
+dim: 300                 # = GloVe 6B 300d
+word2vec:                # own embeddings, trained on WikiText-2 train split only
+  window: 5
+  negative: 5
+  sample: 0.001
+  epochs: 10
+  workers: 1             # single thread => deterministic given the seed
+glove:
+  name: glove-wiki-gigaword-300   # via gensim-data; = GloVe 6B 300d
+probe_words: [king, war, music, football, river, 1995, good, france, album, game]

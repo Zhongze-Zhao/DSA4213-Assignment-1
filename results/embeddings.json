@@ -1,0 +1,270 @@
+{
+  "word2vec": {
+    "method": "Skip-gram (gensim), negative sampling",
+    "window": 5,
+    "negative": 5,
+    "sample": 0.001,
+    "epochs": 10,
+    "workers": 1,
+    "train_sentences": 23767,
+    "train_tokens": 2075677,
+    "train_time_s": 82.34897405299989,
+    "vector_std": 0.13754980266094208,
+    "type_coverage": 1.0,
+    "token_coverage_train": 1.0,
+    "missing_types": 0,
+    "hardware": "CPU, 1 worker thread(s)"
+  },
+  "glove": {
+    "name": "glove-wiki-gigaword-300",
+    "source": "GloVe 6B (Wikipedia 2014 + Gigaword 5), uncased",
+    "glove_vocab": 400000,
+    "aliases": {
+      "@-@": "-",
+      "@,@": ",",
+      "@.@": ".",
+      "'t": "n't",
+      "\u2212": "-"
+    },
+    "load_time_s": 50.88339235500007,
+    "vector_std": 0.38177022337913513,
+    "type_coverage": 0.9620226895406752,
+    "token_coverage_train": 0.9587069664499823,
+    "missing_types": 1098,
+    "most_frequent_missing": [
+      [
+        "<unk>",
+        54625
+      ],
+      [
+        "<eos>",
+        23767
+      ],
+      [
+        "\u00b0",
+        258
+      ],
+      [
+        "'brien",
+        76
+      ],
+      [
+        "\u00d7",
+        75
+      ],
+      [
+        "'malley",
+        54
+      ],
+      [
+        "magadheera",
+        53
+      ],
+      [
+        "sorraia",
+        48
+      ],
+      [
+        "degrom",
+        47
+      ],
+      [
+        "\u20b9",
+        45
+      ],
+      [
+        "isesi",
+        44
+      ],
+      [
+        "tonin\u00e1",
+        44
+      ],
+      [
+        "coldrum",
+        40
+      ],
+      [
+        "mkhedruli",
+        36
+      ],
+      [
+        "vandernoot",
+        36
+      ],
+      [
+        "\ufeff",
+        36
+      ],
+      [
+        "berhtwald",
+        35
+      ],
+      [
+        "qedar",
+        35
+      ],
+      [
+        "qedarites",
+        35
+      ],
+      [
+        "\u2192",
+        34
+      ],
+      [
+        "'in",
+        33
+      ],
+      [
+        "k\u014dsaku",
+        33
+      ],
+      [
+        "xook",
+        33
+      ],
+      [
+        "ganganelli",
+        32
+      ],
+      [
+        "hygrometricus",
+        32
+      ]
+    ],
+    "missing_init": "N(0, sigma^2) with sigma = std of GloVe entries, seed 42; <pad> = 0"
+  },
+  "neighbours": {
+    "word2vec": {
+      "king": [
+        "veera",
+        "\u00e6thelred",
+        "leinster",
+        "ballala",
+        "lordship"
+      ],
+      "war": [
+        "outbreak",
+        "civil",
+        "liberties",
+        "airbase",
+        "conflict"
+      ],
+      "music": [
+        "recordings",
+        "jazz",
+        "videos",
+        "symphonic",
+        "nava"
+      ],
+      "football": [
+        "athletic",
+        "f.c.",
+        "premier",
+        "varsity",
+        "wolverines"
+      ],
+      "river": [
+        "missouri",
+        "mississippi",
+        "downstream",
+        "tributaries",
+        "pongola"
+      ],
+      "good": [
+        "sublime",
+        "shocking",
+        "exciting",
+        "naive",
+        "frustrating"
+      ],
+      "france": [
+        "italy",
+        "germany",
+        "sweden",
+        "russia",
+        "austria"
+      ],
+      "album": [
+        "slayer",
+        "albums",
+        "yankovic",
+        "furtado",
+        "daydream"
+      ],
+      "game": [
+        "games",
+        "console",
+        "multiplayer",
+        "playstation",
+        "crush"
+      ]
+    },
+    "glove": {
+      "king": [
+        "queen",
+        "prince",
+        "monarch",
+        "kingdom",
+        "throne"
+      ],
+      "war": [
+        "wars",
+        "conflict",
+        "battle",
+        "civil",
+        "occupation"
+      ],
+      "music": [
+        "musical",
+        "songs",
+        "dance",
+        "pop",
+        "recording"
+      ],
+      "football": [
+        "soccer",
+        "basketball",
+        "league",
+        "baseball",
+        "rugby"
+      ],
+      "river": [
+        "rivers",
+        "tributary",
+        "creek",
+        "valley",
+        "confluence"
+      ],
+      "good": [
+        "better",
+        "really",
+        "always",
+        "you",
+        "well"
+      ],
+      "france": [
+        "french",
+        "paris",
+        "belgium",
+        "spain",
+        "italy"
+      ],
+      "album": [
+        "albums",
+        "song",
+        "ep",
+        "band",
+        "songs"
+      ],
+      "game": [
+        "games",
+        "play",
+        "players",
+        "player",
+        "match"
+      ]
+    }
+  }
+}

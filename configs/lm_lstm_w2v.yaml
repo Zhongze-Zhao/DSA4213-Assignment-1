@@ -1,0 +1,11 @@
+base: configs/lm_base.yaml
+name: lstm_w2v          # Part II setting 2: own Skip-gram vectors, frozen
+embedding:
+  path: data/emb/w2v_300.pt
+  freeze: true
+model:
+  type: lstm
+  emb_dim: 300
+  hidden_dim: 512
+  num_layers: 2
+  dropout: 0.3

@@ -1,0 +1,29 @@
+{
+  "name": "transformer",
+  "best_epoch": 20,
+  "val_loss": 4.944392316012314,
+  "val_ppl": 140.38551489592,
+  "test_loss": 4.875551513512849,
+  "test_ppl": 131.04640714882845,
+  "test_targets": 244101,
+  "params": {
+    "total": 21751313,
+    "trainable": 21751313,
+    "input_embedding": 8673900,
+    "output_layer": 8702813,
+    "non_embedding": 4374600
+  },
+  "train_time_s": 583.5782633529998,
+  "sec_per_epoch": 29.178913167649988,
+  "epochs": 20,
+  "train_tokens_per_s": 71136.16563009124,
+  "inference_test_s": 1.2117119139998067,
+  "inference_tokens_per_s": 201451.34926851842,
+  "peak_gpu_mem_MB": 2571.0625,
+  "hardware": {
+    "torch": "2.11.0+cu128",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+    "cpu_threads": 24
+  }
+}

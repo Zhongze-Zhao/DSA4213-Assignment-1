@@ -1,0 +1,8 @@
+base: configs/lm_base.yaml
+name: rnn
+model:
+  type: rnn             # Elman RNN, tanh
+  emb_dim: 300
+  hidden_dim: 512
+  num_layers: 2
+  dropout: 0.3

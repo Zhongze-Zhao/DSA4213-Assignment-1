@@ -1,0 +1,29 @@
+{
+  "name": "lstm_glove",
+  "best_epoch": 19,
+  "val_loss": 4.9579331256413335,
+  "val_ppl": 142.2993768049931,
+  "test_loss": 4.8972315762737555,
+  "test_ppl": 133.91852280795158,
+  "test_targets": 244101,
+  "params": {
+    "total": 27274589,
+    "trainable": 18600689,
+    "input_embedding": 8673900,
+    "output_layer": 14832369,
+    "non_embedding": 3768320
+  },
+  "train_time_s": 624.4051792560003,
+  "sec_per_epoch": 31.220258962800017,
+  "epochs": 20,
+  "train_tokens_per_s": 66484.90656253805,
+  "inference_test_s": 1.66410086399992,
+  "inference_tokens_per_s": 146686.42104617748,
+  "peak_gpu_mem_MB": 2184.4619140625,
+  "hardware": {
+    "torch": "2.11.0+cu128",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+    "cpu_threads": 24
+  }
+}

@@ -1,0 +1,3 @@
+data_config: configs/data.yaml
+seq_len: 128          # same evaluation windows as the neural LMs
+orders: [2, 3, 4]     # n selected on validation perplexity

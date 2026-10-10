@@ -1,0 +1,8 @@
+base: configs/lm_base.yaml
+name: lstm              # also Part II setting 1 (random, trainable embeddings)
+model:
+  type: lstm
+  emb_dim: 300          # matches GloVe 6B 300d for Part II
+  hidden_dim: 512
+  num_layers: 2
+  dropout: 0.3

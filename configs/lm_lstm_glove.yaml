@@ -1,0 +1,11 @@
+base: configs/lm_base.yaml
+name: lstm_glove        # Part II setting 3: public GloVe 6B 300d, frozen
+embedding:
+  path: data/emb/glove_300.pt
+  freeze: true
+model:
+  type: lstm
+  emb_dim: 300
+  hidden_dim: 512
+  num_layers: 2
+  dropout: 0.3

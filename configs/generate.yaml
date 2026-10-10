@@ -1,0 +1,13 @@
+data_config: configs/data.yaml
+seed: 42
+models: [ngram, rnn, lstm, transformer, lstm_w2v, lstm_glove]
+prompts:                     # WikiText-style tokenization (spaces around punctuation)
+  - "the game was released in"
+  - "during the second world war ,"
+  - "the album received positive reviews from"
+  - "the river flows through"
+  - "he was born in"
+length: 40                   # generated tokens per continuation
+top_k: 40                    # sampling: top-k with temperature
+temperature: 0.8
+samples_per_prompt: 10       # repetition metrics averaged over 5 x 10 samples
