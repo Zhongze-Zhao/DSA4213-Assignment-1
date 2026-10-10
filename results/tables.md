@@ -48,6 +48,8 @@ Own Skip-gram training cost (separate from LM training): 82.3s on CPU (CPU, 1 wo
 | lstm_glove | 3 | 132.7 | 1.1 | 133.9, 131.9, 132.3 |
 | lstm | 3 | 135.0 | 0.7 | 135.0, 135.8, 134.4 |
 | lstm_w2v | 3 | 130.2 | 1.9 | 130.4, 132.0, 128.3 |
+| rnn | 3 | 153.2 | 0.2 | 153.4, 153.0, 153.3 |
+| transformer | 3 | 131.8 | 0.6 | 131.0, 132.2, 132.0 |
 
 ## Part III: AG News (frozen LM features + logistic regression)
 

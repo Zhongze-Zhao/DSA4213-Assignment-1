@@ -51,9 +51,9 @@ checkpoint. Hardware: one RTX~5070~Ti Laptop GPU (12\,GB) under WSL2, PyTorch 2.
 \begin{table}[h]
 \centering\small\setlength{\tabcolsep}{3.6pt}
 \input{generated/part1_table.tex}
-\caption{Part I. \emph{Train s}: wall-clock of the training passes (median s/epoch). \emph{Train/Infer k tok/s}:
+\caption{Part I. \emph{3 seeds}: mean $\pm$ std of test PPL over seeds 42, 1, 2. \emph{Train s}: wall-clock of the training passes (median s/epoch). \emph{Train/Infer k tok/s}:
 controlled benchmark (all models timed round-robin, 5 rounds, median; batch 32$\times$128). \emph{Gen}: greedy
-generation latency at batch 1 without caching. \emph{Rep-3}: share of repeated trigrams in 40-token greedy
+generation latency at batch 1 without caching (noisy, see text). \emph{Rep-3}: share of repeated trigrams in 40-token greedy
 continuations; \emph{Dist-2}: distinct bigrams in top-$k$ samples (5 prompts $\times$10).
 $^\dagger$stored $n$-gram count entries, not trainable parameters.}
 \label{tab:p1}
@@ -68,9 +68,9 @@ validation--training gap.}
 \end{figure}
 
 \textbf{Prediction quality.} \obs All three neural LMs beat the KN 4-gram by a large margin (test PPL 216.5
-$\to$ 131--153). Transformer (131.0) $<$ LSTM (135.0) $<$ RNN (153.4). The Transformer--LSTM gap (4 PPL) is
-about $6\times$ the seed-to-seed std I measured for the LSTM (\sdlstm{} PPL over 3 seeds, Part~II), so it is
-probably real but small; the RNN gap is far larger. \hyp The n-gram can only use 3 tokens of
+$\to$ 131--153). Over three seeds, Transformer (\meantransformer{} $\pm$ \sdtransformer) $<$ LSTM (\meanlstm{} $\pm$ \sdlstm)
+$<$ RNN (\meanrnn{} $\pm$ \sdrnn). Seed variation is small (std $<$1 PPL), so the ranking is stable; the
+Transformer--LSTM gap is small but consistent (Welch $t$-test $p$=\pTrLstm), the RNN gap is large. \hyp The n-gram can only use 3 tokens of
 context and backs off on the many unseen 4-grams, whereas the neural models share statistical strength through
 embeddings and use up to 127 tokens. The RNN has only 0.94M non-embedding parameters (vs.\ 3.8M/4.4M) and a
 recurrence without gating, so it plausibly cannot retain information over long spans.
@@ -85,8 +85,9 @@ lower training loss at equal validation loss means it fits the training set more
 
 \textbf{Cost.} \obs In the controlled benchmark the Transformer is the fastest to train (126k tok/s vs.\
 101--105k) and to score text (484k vs.\ 273k tok/s), because all positions are processed in parallel, whereas
-RNN/LSTM steps are sequential. In batch-1 generation without caching the order flips (2.3 vs.\ 1.8 ms/token),
-since the Transformer re-encodes the entire prefix every step. The KN model trains in 7\,s on one CPU thread.
+RNN/LSTM steps are sequential. Batch-1 greedy generation (no state/KV caching) costs 1.4--1.9 ms/token for all neural models; this
+measurement is dominated by per-step kernel-launch overhead and was not stable between two reruns (the
+Transformer measured 2.3 and then 1.4 ms/token), so I draw no ranking from it. The KN model trains in 7\,s on one CPU thread.
 Sequential training wall-clock gives a misleading picture: the Transformer appears slowest (29 s/epoch) only
 because it was trained third, when the laptop GPU had throttled (epoch times of the \emph{same} model drift from
 21 to 33\,s across the session). I therefore report the round-robin benchmark as the cost comparison.
@@ -240,8 +241,7 @@ WikiText PPL---pays off on news classification.
 \textbf{Limitations.} (1) One corpus of 2M tokens and a fixed 20-epoch budget; the Transformer was still
 improving, so its PPL is likely under-estimated. (2) The default $\mathcal N(0,1)$ embedding initialisation made
 ``trainable'' embeddings nearly static; this affects every Part~I model equally but changes the meaning of the
-trainable-vs-frozen comparison (probed by the supplementary run). (3) Only three seeds and only for the
-Part~II LSTMs (other models and all Part~III results are single runs; the supplementary run used one seed). (4) Timing on a laptop GPU is affected by
+trainable-vs-frozen comparison (probed by the supplementary run). (3) Only three seeds for the neural LMs; Part~III results and the supplementary run are single runs. (4) Timing on a laptop GPU is affected by
 thermal throttling; the round-robin benchmark mitigates but does not remove this. (5) Part~III uses a linear
 probe on frozen features; fine-tuning could change the ranking. (6) GloVe's newswire data overlaps AG News's
 domain, so its downstream advantage mixes data quantity and domain match.

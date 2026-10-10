@@ -37,7 +37,7 @@ def main():
     ng = J("lm/ngram/metrics.json")
     rows = []
     g = gen["ngram"]
-    rows.append(f"KN {ng['order']}-gram & {ng['test_ppl']:.1f} & {ng['val_ppl']:.1f} & "
+    rows.append(f"KN {ng['order']}-gram & {ng['test_ppl']:.1f} & (deterministic) & "
                 f"{ng['stored_counts'] / 1e6:.1f}$^\\dagger$ & -- & {ng['train_time_s']:.0f} (CPU) & -- & "
                 f"{ng['inference_tokens_per_s'] / 1e3:.0f} (CPU) & {g['ms_per_token_greedy']:.1f} & "
                 f"{g['metrics']['greedy']['repeated_trigram_rate']:.2f} & {g['metrics']['sample']['distinct2']:.2f} \\\\")
@@ -45,7 +45,7 @@ def main():
         m, g = J(f"lm/{n}/metrics.json"), gen[n]
         h = pd.read_csv(R / f"lm/{n}/history.csv")
         b = bench.get(n, {})
-        rows.append(f"{lab} & {m['test_ppl']:.1f} & {m['val_ppl']:.1f} & {m['params']['total'] / 1e6:.1f} & "
+        rows.append(f"{lab} & {m['test_ppl']:.1f} & {pm(seed_stats(n))} & {m['params']['total'] / 1e6:.1f} & "
                     f"{m['params']['non_embedding'] / 1e6:.2f} & {m['train_time_s']:.0f} "
                     f"({h.epoch_time_s[1:].median():.0f}/ep) & "
                     f"{b.get('train_tokens_per_s', float('nan')) / 1e3:.0f} & "
@@ -53,8 +53,8 @@ def main():
                     f"{g['metrics']['greedy']['repeated_trigram_rate']:.2f} & {g['metrics']['sample']['distinct2']:.2f} \\\\")
     (OUT / "part1_table.tex").write_text(
         "\\begin{tabular}{lrrrrrrrrrr}\n\\toprule\n"
-        "Model & Test & Val & Params & Non-emb & Train s & Train & Infer & Gen & Rep-3 & Dist-2 \\\\\n"
-        " & PPL & PPL & (M) & (M) & (s/epoch) & k tok/s & k tok/s & ms/tok & greedy & top-$k$ \\\\\n\\midrule\n"
+        "Model & Test PPL & Test PPL & Params & Non-emb & Train s & Train & Infer & Gen & Rep-3 & Dist-2 \\\\\n"
+        " & seed 42 & 3 seeds & (M) & (M) & (s/epoch) & k tok/s & k tok/s & ms/tok & greedy & top-$k$ \\\\\n\\midrule\n"
         + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
     # ---------------- Part II ----------------
@@ -192,10 +192,16 @@ def main():
         ("allWrong", str(all_wrong)),
         ("gloveErrors", f"{glove_errors:,}"),
     ]
+    from scipy.stats import ttest_ind
+    t_res = ttest_ind(seed_stats("transformer"), seed_stats("lstm"), equal_var=False)
+    macros += [("pTrLstm", f"{t_res.pvalue:.3f}"),
+               ("meanrnn", f"{np.mean(seed_stats('rnn')):.1f}"),
+               ("meanlstm", f"{np.mean(seed_stats('lstm')):.1f}"),
+               ("meantransformer", f"{np.mean(seed_stats('transformer')):.1f}")]
     for n, d in drift.items():
         key = n.replace("_", "").replace("smallinit", "small")
         macros += [(f"drift{key}", f"{d['all']:.2f}"), (f"drifttop{key}", f"{d['top1000']:.2f}")]
-    for n in ["lstm", "lstm_w2v", "lstm_glove"]:
+    for n in ["rnn", "lstm", "transformer", "lstm_w2v", "lstm_glove"]:
         v = seed_stats(n)
         macros.append((f"sd{n.replace('_', '').replace('2', 'two')}",
                        f"{np.std(v, ddof=1):.1f}" if len(v) > 1 else "(pending)"))

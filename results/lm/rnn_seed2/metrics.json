@@ -1,0 +1,29 @@
+{
+  "name": "rnn_seed2",
+  "best_epoch": 20,
+  "val_loss": 5.107570743161418,
+  "val_ppl": 165.26838746991174,
+  "test_loss": 5.032510108520653,
+  "test_ppl": 153.31737334553236,
+  "test_targets": 244101,
+  "params": {
+    "total": 24448349,
+    "trainable": 24448349,
+    "input_embedding": 8673900,
+    "output_layer": 14832369,
+    "non_embedding": 942080
+  },
+  "train_time_s": 387.620657606999,
+  "sec_per_epoch": 19.38103288034995,
+  "epochs": 20,
+  "train_tokens_per_s": 107098.31683452163,
+  "inference_test_s": 1.039716213000247,
+  "inference_tokens_per_s": 234776.56397759952,
+  "peak_gpu_mem_MB": 2155.8232421875,
+  "hardware": {
+    "torch": "2.11.0+cu128",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+    "cpu_threads": 24
+  }
+}

@@ -8,4 +8,4 @@ scripts/run_part1.sh
 scripts/run_part2.sh
 python -u -m src.train_lm --config configs/lm_lstm_smallinit.yaml   # supplementary run
 scripts/run_part3.sh
-scripts/run_seeds.sh && python -m src.summarize && python -m src.latex_tables
+scripts/run_seeds.sh && scripts/run_seeds_part1.sh && python -m src.summarize && python -m src.latex_tables
