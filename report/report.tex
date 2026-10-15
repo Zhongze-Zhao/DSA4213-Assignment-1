@@ -201,8 +201,8 @@ samples per model, I treat this as a tentative pattern rather than a reliable ra
 initial-to-final cosine was \driftlstm{} for all three neural models, and \drifttoplstm{} for the LSTM's 1,000 most
 frequent words. Their nearest neighbours remained largely unrelated in meaning, unlike those from Skip-gram or GloVe
 (Appendix Table~\ref{tab:nn}). \hyp The initial vectors had large norms, about 17, which may have made the learned
-changes small relative to the starting vectors. However, the learning rate alone does not determine the accumulated
-AdamW update, and cosine similarity measures direction rather than total change. The evidence therefore supports
+changes small relative to the starting vectors. However, the update size relative to a norm of 17 depends on the accumulated AdamW updates, not on the
+learning rate alone, and cosine similarity measures direction rather than total change. The evidence therefore supports
 limited semantic reorganisation, not the claim that the embeddings were effectively unchanged. Adaptation may also
 occur in later layers. Part~III further shows that even these small directional changes can improve topic features.
 \par\emph{Supplementary test.} With a smaller initialisation, $\mathcal N(0,0.1^2)$, the embeddings changed more in
