@@ -1,0 +1,189 @@
+{
+  "scores": {
+    "ngram": {
+      "fluency": {
+        "mean": 1.2,
+        "ci95": [
+          1.0,
+          1.5
+        ],
+        "n": 10,
+        "counts": {
+          "1": 8,
+          "2": 2,
+          "3": 0
+        }
+      },
+      "consistency": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 10,
+        "counts": {
+          "1": 10,
+          "2": 0,
+          "3": 0
+        }
+      }
+    },
+    "rnn": {
+      "fluency": {
+        "mean": 1.3,
+        "ci95": [
+          1.0,
+          1.6
+        ],
+        "n": 10,
+        "counts": {
+          "1": 7,
+          "2": 3,
+          "3": 0
+        }
+      },
+      "consistency": {
+        "mean": 1.3,
+        "ci95": [
+          1.1,
+          1.6
+        ],
+        "n": 10,
+        "counts": {
+          "1": 7,
+          "2": 3,
+          "3": 0
+        }
+      }
+    },
+    "lstm": {
+      "fluency": {
+        "mean": 1.3,
+        "ci95": [
+          1.0,
+          1.6
+        ],
+        "n": 10,
+        "counts": {
+          "1": 7,
+          "2": 3,
+          "3": 0
+        }
+      },
+      "consistency": {
+        "mean": 1.2,
+        "ci95": [
+          1.0,
+          1.5
+        ],
+        "n": 10,
+        "counts": {
+          "1": 8,
+          "2": 2,
+          "3": 0
+        }
+      }
+    },
+    "transformer": {
+      "fluency": {
+        "mean": 1.5,
+        "ci95": [
+          1.2,
+          1.8
+        ],
+        "n": 10,
+        "counts": {
+          "1": 5,
+          "2": 5,
+          "3": 0
+        }
+      },
+      "consistency": {
+        "mean": 1.7,
+        "ci95": [
+          1.3,
+          2.1
+        ],
+        "n": 10,
+        "counts": {
+          "1": 4,
+          "2": 5,
+          "3": 1
+        }
+      }
+    },
+    "lstm_w2v": {
+      "fluency": {
+        "mean": 1.6,
+        "ci95": [
+          1.3,
+          1.9
+        ],
+        "n": 10,
+        "counts": {
+          "1": 4,
+          "2": 6,
+          "3": 0
+        }
+      },
+      "consistency": {
+        "mean": 1.7,
+        "ci95": [
+          1.3,
+          2.1
+        ],
+        "n": 10,
+        "counts": {
+          "1": 4,
+          "2": 5,
+          "3": 1
+        }
+      }
+    },
+    "lstm_glove": {
+      "fluency": {
+        "mean": 1.3,
+        "ci95": [
+          1.0,
+          1.6
+        ],
+        "n": 10,
+        "counts": {
+          "1": 7,
+          "2": 3,
+          "3": 0
+        }
+      },
+      "consistency": {
+        "mean": 1.2,
+        "ci95": [
+          1.0,
+          1.5
+        ],
+        "n": 10,
+        "counts": {
+          "1": 8,
+          "2": 2,
+          "3": 0
+        }
+      }
+    }
+  },
+  "mann_whitney_p": {
+    "transformer vs ngram / fluency": 0.18513247335593686,
+    "transformer vs ngram / consistency": 0.005414390225261893,
+    "transformer vs lstm / fluency": 0.3979608354357064,
+    "transformer vs lstm / consistency": 0.07218193003752027,
+    "transformer vs rnn / fluency": 0.3979608354357064,
+    "transformer vs rnn / consistency": 0.16849346784241026,
+    "lstm_w2v vs lstm / fluency": 0.20392477458611868,
+    "lstm_w2v vs lstm / consistency": 0.07218193003752027,
+    "lstm_w2v vs lstm_glove / fluency": 0.20392477458611868,
+    "lstm_w2v vs lstm_glove / consistency": 0.07218193003752027,
+    "lstm_glove vs lstm / fluency": 1.0,
+    "lstm_glove vs lstm / consistency": 1.0
+  },
+  "n_problems": 0,
+  "scale": "1-3",
+  "items_per_model": 10
+}

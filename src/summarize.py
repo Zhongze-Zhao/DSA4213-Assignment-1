@@ -42,7 +42,7 @@ def loss_figure(names, labels, path, title):
     axes[0].set(xlabel="epoch", ylabel="cross-entropy (nats)", title=f"{title}: train (--) / val (—)",
                 ylim=(4.0, 7.0))
     axes[1].axhline(0, color="grey", lw=0.6)
-    axes[1].set(xlabel="epoch", ylabel="val − train loss", title="generalisation gap")
+    axes[1].set(xlabel="epoch", ylabel="val − logged train loss", title="gap vs. logged train loss (dropout on)")
     axes[0].legend(fontsize=8)
     for a in axes:
         a.grid(alpha=0.3)
@@ -57,6 +57,39 @@ def md_table(df):
     for _, r in df.iterrows():
         out.append("| " + " | ".join(str(r[c]) for c in cols) + " |")
     return "\n".join(out)
+
+
+LABEL3 = {"rnn": "RNN", "lstm": "LSTM", "transformer": "Transformer", "lstm_smallinit": "LSTM small-init",
+          "lstm_w2v": "LSTM + Skip-gram", "lstm_glove": "LSTM + GloVe"}
+MARK3 = {"rnn": "o", "lstm": "s", "transformer": "D", "lstm_smallinit": "v", "lstm_w2v": "^", "lstm_glove": "P"}
+
+
+def part3_scatter(sd):
+    """LM test PPL vs AG News accuracy, one point per trained checkpoint (3 seeds per family)."""
+    fig, axes = plt.subplots(1, 2, figsize=(8.2, 3.0), sharey=True)
+    for ax, pool, title in zip(axes, ["mean", "last"], ["Mean pooling (top-layer states)", "Last-state pooling"]):
+        sub = sd[sd.pooling == pool]
+        for fam in LABEL3:
+            g = sub[sub.family == fam]
+            if g.empty:
+                continue
+            ax.scatter(g.lm_test_ppl, g.test_accuracy, marker=MARK3[fam], s=42, color=COLORS[fam],
+                       edgecolor="white", linewidth=0.8, label=LABEL3[fam], zorder=3)
+            if pool == "mean":  # direct labels once, on the left panel
+                ax.annotate(LABEL3[fam], (g.lm_test_ppl.max(), g.test_accuracy.mean()), fontsize=7,
+                            xytext=(5, -2), textcoords="offset points", color="#333333")
+        ax.set_title(title, fontsize=9)
+        ax.set_xlabel("LM test perplexity (lower = better LM)", fontsize=8)
+        ax.grid(alpha=0.25, linewidth=0.5)
+        ax.tick_params(labelsize=7)
+        for sp in ("top", "right"):
+            ax.spines[sp].set_visible(False)
+    axes[0].set_ylabel("AG News test accuracy", fontsize=8)
+    axes[0].set_xlim(right=axes[0].get_xlim()[1] + 9)  # room for the direct labels
+    axes[1].legend(fontsize=7, frameon=False, loc="lower right")
+    fig.tight_layout()
+    fig.savefig(FIG / "part3_ppl_vs_acc.png", dpi=200)
+    plt.close(fig)
 
 
 def main():
@@ -114,7 +147,7 @@ def main():
                      "val PPL @ep1": f"{np.exp(h.val_loss[1]):.0f}",
                      "val PPL @ep5": f"{np.exp(h.val_loss[5]):.0f}",
                      "epochs to within 0.05 of best": ep_close,
-                     "final gap (val−train)": f"{h.val_loss.iloc[-1] - h.train_loss.iloc[-1]:.2f}",
+                     "final gap (val − logged train)": f"{h.val_loss.iloc[-1] - h.train_loss.iloc[-1]:.2f}",
                      "step-loss std": f"{h.step_loss_std[1:].mean():.3f}",
                      "grad-norm mean/max": f"{h.grad_norm_mean[1:].mean():.2f}/{h.grad_norm_max[1:].max():.2f}",
                      "trainable (M)": f"{m['params']['trainable'] / 1e6:.2f}",
@@ -159,22 +192,19 @@ def main():
            f"OOV: {json.dumps(ds['data'], indent=None)}\n",
            f"Accuracy by per-example OOV-rate bucket: {json.dumps(ds['accuracy_by_oov_bucket'])}\n"]
 
-    fig, ax = plt.subplots(figsize=(4.6, 3.4))
-    for pool, mk in (("last", "o"), ("mean", "s")):
-        sub = df[df.pooling == pool]
-        for _, r in sub.iterrows():
-            ax.scatter(r.lm_test_ppl, r.test_accuracy, marker=mk, color=COLORS[r.model], s=45)
-        ax.plot([], [], mk, color="grey", label=f"{pool} pooling")
-    for mname in ppl.index:
-        ax.annotate(mname, (ppl[mname], df[(df.model == mname) & (df.pooling == "mean")].test_accuracy.item()),
-                    fontsize=7, xytext=(4, 3), textcoords="offset points")
-    ax.set(xlabel="LM test perplexity (lower = better)", ylabel="AG News test accuracy",
-           title="Does better LM => better features?")
-    ax.legend(fontsize=8)
-    ax.grid(alpha=0.3)
-    fig.tight_layout()
-    fig.savefig(FIG / "part3_ppl_vs_acc.png", dpi=200)
-    plt.close(fig)
+    seeds_csv = R / "downstream/seeds.csv"
+    if seeds_csv.exists():  # all LM seeds + controls (src/downstream_seeds.py)
+        sd = pd.read_csv(seeds_csv)
+        ss = json.load(open(R / "downstream/seeds_summary.json"))
+        agg = (sd.groupby(["family", "pooling"]).test_accuracy.agg(["mean", "std", "count"])
+               .unstack("pooling"))
+        agg.columns = [f"{pool} {stat}" for stat, pool in agg.columns]
+        md += ["### Part III over LM seeds (mean / std of accuracy over checkpoints)",
+               md_table(agg.round(4).reset_index()),
+               f"Spearman(PPL, acc) over all trained checkpoints: {ss['spearman_all_trained']}\n",
+               f"Spearman within Part I families: {ss['spearman_part1_only']}\n",
+               f"TF-IDF bag-of-words reference: {ss['bow_tfidf']}\n"]
+        part3_scatter(sd[~sd.family.str.startswith("untrained")])
 
     (R / "tables.md").write_text("\n\n".join(md) + "\n")
     print("\n\n".join(md))

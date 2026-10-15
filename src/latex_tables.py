@@ -23,6 +23,16 @@ def seed_stats(name):
     return vals
 
 
+def pfmt(p):
+    """p-value for use inside math mode."""
+    if p >= 0.01:
+        return f"{p:.2f}"
+    if p >= 0.001:
+        return f"{p:.3f}"
+    m, e = f"{p:.0e}".split("e")
+    return f"{m}\\times10^{{{int(e)}}}"
+
+
 def pm(vals):
     return f"{np.mean(vals):.1f} $\\pm$ {np.std(vals, ddof=1):.1f}" if len(vals) > 1 else "--"
 
@@ -34,28 +44,69 @@ def main():
     macros = []
 
     # ---------------- Part I ----------------
+    # (a) prediction quality and fit; train CE re-scored in eval mode at the selected checkpoint
+    fit = J("lm/clean_fit.json")
     ng = J("lm/ngram/metrics.json")
+    names = [("ngram", f"KN {ng['order']}-gram"), ("rnn", "RNN"), ("lstm", "LSTM"), ("transformer", "Transformer")]
+    rows = []
+    for n, lab in names:
+        m, f = (ng if n == "ngram" else J(f"lm/{n}/metrics.json")), fit[n]
+        seeds = "(deterministic)" if n == "ngram" else pm(seed_stats(n))
+        rows.append(f"{lab} & {m['test_loss']:.3f} & {m['test_ppl']:.1f} & {seeds} & {f['train_ce']:.2f} & "
+                    f"{f['val_ce']:.2f} & {f['gap_val_minus_train']:.2f} \\\\")
+    qual = ("\\begin{tabular}{lrrrrrr}\n\\toprule\n"
+            "Model & Test CE & Test PPL & Test PPL & Train CE & Val CE & Gap \\\\\n"
+            " & (nats) & seed 42 & 3 seeds & (eval mode) & & val$-$train \\\\\n\\midrule\n"
+            + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
+    # (b) cost and generation. Training time: lockstep re-run (src/lockstep_train.py) if available, so that
+    # all three models share the same thermal history; generation: src/gen_benchmark.py (batch 1, 120 tokens)
+    lock = J("lockstep_timing.json")["models"] if (R / "lockstep_timing.json").exists() else None
+    gb = J("gen_benchmark.json")["ms_per_token"] if (R / "gen_benchmark.json").exists() else None
     rows = []
     g = gen["ngram"]
-    rows.append(f"KN {ng['order']}-gram & {ng['test_ppl']:.1f} & (deterministic) & "
-                f"{ng['stored_counts'] / 1e6:.1f}$^\\dagger$ & -- & {ng['train_time_s']:.0f} (CPU) & -- & "
-                f"{ng['inference_tokens_per_s'] / 1e3:.0f} (CPU) & {g['ms_per_token_greedy']:.1f} & "
+    ng_gen = f"{gb['ngram']['120']['median']:.2f} (CPU)" if gb else f"{g['ms_per_token_greedy']:.1f}"
+    rows.append(f"KN {ng['order']}-gram & {ng['stored_counts'] / 1e6:.1f}$^\\dagger$ & -- & {ng['train_time_s']:.0f} (CPU) & -- & "
+                f"{ng['inference_tokens_per_s'] / 1e3:.0f} (CPU) & -- & {ng_gen} & "
                 f"{g['metrics']['greedy']['repeated_trigram_rate']:.2f} & {g['metrics']['sample']['distinct2']:.2f} \\\\")
-    for n, lab in [("rnn", "RNN"), ("lstm", "LSTM"), ("transformer", "Transformer")]:
+    for n, lab in names[1:]:
         m, g = J(f"lm/{n}/metrics.json"), gen[n]
-        h = pd.read_csv(R / f"lm/{n}/history.csv")
         b = bench.get(n, {})
-        rows.append(f"{lab} & {m['test_ppl']:.1f} & {pm(seed_stats(n))} & {m['params']['total'] / 1e6:.1f} & "
-                    f"{m['params']['non_embedding'] / 1e6:.2f} & {m['train_time_s']:.0f} "
-                    f"({h.epoch_time_s[1:].median():.0f}/ep) & "
+        if lock:
+            tt = f"{lock[n]['train_time_s']:.0f} ({lock[n]['median_epoch_s']:.0f}/ep)"
+        else:
+            h = pd.read_csv(R / f"lm/{n}/history.csv")
+            tt = f"{m['train_time_s']:.0f} ({h.epoch_time_s[1:].median():.0f}/ep)"
+        gen_cells = (f"{gb[n]['recompute']['120']['median']:.2f} & {gb[n]['incremental']['120']['median']:.2f}"
+                     if gb else f"{g['ms_per_token_greedy']:.1f} & --")
+        rows.append(f"{lab} & {m['params']['total'] / 1e6:.1f} & {m['params']['non_embedding'] / 1e6:.2f} & {tt} & "
                     f"{b.get('train_tokens_per_s', float('nan')) / 1e3:.0f} & "
-                    f"{b.get('infer_tokens_per_s', float('nan')) / 1e3:.0f} & {g['ms_per_token_greedy']:.1f} & "
+                    f"{b.get('infer_tokens_per_s', float('nan')) / 1e3:.0f} & {gen_cells} & "
                     f"{g['metrics']['greedy']['repeated_trigram_rate']:.2f} & {g['metrics']['sample']['distinct2']:.2f} \\\\")
-    (OUT / "part1_table.tex").write_text(
-        "\\begin{tabular}{lrrrrrrrrrr}\n\\toprule\n"
-        "Model & Test PPL & Test PPL & Params & Non-emb & Train s & Train & Infer & Gen & Rep-3 & Dist-2 \\\\\n"
-        " & seed 42 & 3 seeds & (M) & (M) & (s/epoch) & k tok/s & k tok/s & ms/tok & greedy & top-$k$ \\\\\n\\midrule\n"
-        + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
+    cost = ("\\begin{tabular}{lrrrrrrrrr}\n\\toprule\n"
+            "Model & Params & Non-emb & Train time & Train & Infer & \\multicolumn{2}{c}{Gen ms/token} & Rep-3 & Dist-2 \\\\\n"
+            " & (M) & (M) & s (s/epoch) & k tok/s & k tok/s & recomp. & increm. & greedy & top-$k$ \\\\\n\\midrule\n"
+            + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
+    short = {"rnn": "Rnn", "lstm": "Lstm", "transformer": "Tr"}
+    for n, k in short.items():
+        macros += [(f"bTrain{k}", f"{bench[n]['train_tokens_per_s'] / 1e3:.0f}"),
+                   (f"bInfer{k}", f"{bench[n]['infer_tokens_per_s'] / 1e3:.0f}")]
+        if lock:
+            macros += [(f"lockTime{k}", f"{lock[n]['train_time_s']:.0f}"),
+                       (f"lockEp{k}", f"{lock[n]['median_epoch_s']:.1f}"),
+                       (f"lockVal{k}", f"{lock[n]['best_val_loss']:.2f}")]
+        if gb:
+            for mode, mk in (("recompute", "Rec"), ("incremental", "Inc")):
+                for L, lk in (("40", "Short"), ("120", "Long")):
+                    macros.append((f"gen{k}{mk}{lk}", f"{gb[n][mode][L]['median']:.2f}"))
+    if gb:
+        macros.append(("genNgram", f"{gb['ngram']['120']['median']:.2f}"))
+    macros.append(("ngFitTime", f"{ng['train_time_s']:.0f}"))
+    (OUT / "part1_table.tex").write_text(qual + "\n")
+    (OUT / "part1_cost_table.tex").write_text(cost + "\n")
+    macros += [(f"gap{n.replace('transformer', 'tr')}", f"{fit[n]['gap_val_minus_train']:.2f}")
+               for n in ["ngram", "rnn", "lstm", "transformer"]]
+    macros += [(f"trainppl{n.replace('transformer', 'tr')}", f"{fit[n]['train_ppl']:.1f}")
+               for n in ["ngram", "rnn", "lstm", "transformer"]]
 
     # ---------------- Part II ----------------
     emb = J("embeddings.json")
@@ -72,12 +123,12 @@ def main():
                "lstm_glove": f"{emb['glove']['type_coverage']:.1%}"}[n].replace("%", "\\%")
         rows.append(f"{lab} & {cov} & {m['params']['trainable'] / 1e6:.1f} & {m['test_ppl']:.1f} & "
                     f"{pm(seed_stats(n))} & {np.exp(h.val_loss[1]):.0f} & {np.exp(h.val_loss[3]):.0f} & "
-                    f"{ep_close} & {h.val_loss.iloc[-1] - h.train_loss.iloc[-1]:.2f} & "
+                    f"{ep_close} & {fit[n]['gap_val_minus_train']:.2f} & "
                     f"{h.step_loss_std[1:].mean():.3f} \\\\")
     (OUT / "part2_table.tex").write_text(
         "\\begin{tabular}{lrrrrrrrrr}\n\\toprule\n"
         "Input embedding & Cover. & Train. & Test PPL & Test PPL & Val PPL & Val PPL & Ep. to & Gap & Step-loss \\\\\n"
-        " & & (M) & seed 42 & 3 seeds & ep 1 & ep 3 & best+.05 & ep 20 & std \\\\\n\\midrule\n"
+        " & & (M) & seed 42 & 3 seeds & ep 1 & ep 3 & best+.05 & val$-$train & std \\\\\n\\midrule\n"
         + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
     # ---------------- Part III ----------------
@@ -100,6 +151,78 @@ def main():
         " & & acc / macro-F1 & acc / macro-F1 & acc / macro-F1 \\\\\n\\midrule\n"
         + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
+    # ---------------- Part III over LM seeds + controls (src/downstream_seeds.py) ----------------
+    FAM = {"rnn": "Rnn", "lstm": "Lstm", "transformer": "Tr", "lstm_w2v": "Sg", "lstm_glove": "Glove",
+           "lstm_smallinit": "Small", "untrained_lstm": "UnLstm", "untrained_transformer": "UnTr"}
+    if (R / "downstream/seeds.csv").exists():
+        sd = pd.read_csv(R / "downstream/seeds.csv")
+        ss = J("downstream/seeds_summary.json")
+        agg = sd.groupby(["family", "pooling"]).agg(acc=("test_accuracy", "mean"), sd=("test_accuracy", "std"),
+                                                     f1=("test_macro_f1", "mean"), n=("seed", "count"),
+                                                     ppl=("lm_test_ppl", "mean"))
+
+        def cell(fam, pool):
+            a = agg.loc[(fam, pool)]
+            if a.n > 1 and a.sd == 0:  # frozen input table: identical features for every LM seed
+                return f"{a.acc:.3f}$^\\ddagger$"
+            return f"{a.acc:.3f}" + (f"\\,{{\\scriptsize$\\pm${a.sd:.3f}}}" if a.n > 1 else "")
+
+        def row(fam, lab, seeds_lab):
+            ppl = agg.loc[(fam, "mean")].ppl
+            ppl_s = f"{ppl:,.0f}" if ppl > 1000 else f"{ppl:.1f}"
+            return f"{lab} & {seeds_lab} & {ppl_s} & " + " & ".join(cell(fam, p) for p in ["last", "mean", "emb"]) + " \\\\"
+
+        rows = [row(f, l, "3") for f, l in [("rnn", "RNN"), ("lstm", "LSTM"), ("transformer", "Transformer"),
+                                             ("lstm_w2v", "LSTM + Skip-gram (frozen)"),
+                                             ("lstm_glove", "LSTM + GloVe (frozen)")]]
+        rows += ["\\midrule", row("lstm_smallinit", "\\textit{Suppl.:} LSTM, $\\mathcal{N}(0,0.1^2)$ init", "1"),
+                 row("untrained_lstm", "\\textit{Control:} untrained LSTM", "--"),
+                 row("untrained_transformer", "\\textit{Control:} untrained Transformer", "--"),
+                 "\\midrule",
+                 f"\\textit{{Reference:}} TF-IDF bag of words, no LM & -- & -- & "
+                 f"\\multicolumn{{3}}{{c}}{{{ss['bow_tfidf']['test_accuracy']:.3f}}} \\\\"]
+        (OUT / "part3_table.tex").write_text(
+            "\\begin{tabular}{lcrccc}\n\\toprule\n"
+            "Frozen LM & Seeds & LM test & Last state & Mean of states & Mean of input emb. \\\\\n"
+            " & & PPL & \\multicolumn{3}{c}{test accuracy (mean $\\pm$ std over LM seeds)} \\\\\n\\midrule\n"
+            + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
+        for (fam, pool), a in agg.iterrows():
+            macros.append((f"acc{FAM[fam]}{pool.capitalize()}", f"{a.acc:.3f}"))
+            if a.n > 1:
+                macros.append((f"sd{FAM[fam]}{pool.capitalize()}", f"{a.sd:.3f}"))
+        for fam in ["untrained_lstm", "untrained_transformer"]:
+            macros.append((f"ppl{FAM[fam]}", f"{agg.loc[(fam, 'mean')].ppl:,.0f}"))
+        for pool in ["last", "mean", "emb"]:
+            r = ss["spearman_all_trained"][pool]
+            macros += [(f"rhoAll{pool.capitalize()}", f"{r['rho']:.2f}"),
+                       (f"rhoAll{pool.capitalize()}P", pfmt(r["p_value"]))]
+            r1 = ss["spearman_part1_only"][pool]
+            macros += [(f"rhoPI{pool.capitalize()}", f"{r1['rho']:.2f}"),
+                       (f"rhoPI{pool.capitalize()}P", pfmt(r1["p_value"]))]
+        macros += [("nAll", str(ss["spearman_all_trained"]["mean"]["n"])),
+                   ("bowAcc", f"{ss['bow_tfidf']['test_accuracy']:.3f}"),
+                   ("maxFdiff", f"{(sd.test_accuracy - sd.test_macro_f1).abs().max():.3f}")]
+
+    # ---------------- blind human rating of generations (src/human_eval.py) ----------------
+    if (R / "human_eval.json").exists():
+        he = J("human_eval.json")
+        rows = []
+        for n, lab in [("ngram", "KN 4-gram"), ("rnn", "RNN"), ("lstm", "LSTM"), ("transformer", "Transformer"),
+                       ("lstm_w2v", "LSTM + Skip-gram"), ("lstm_glove", "LSTM + GloVe")]:
+            sc = he["scores"][n]
+            ppl = J(f"lm/{n}/metrics.json")["test_ppl"]
+            cells = [f"{sc[d]['mean']:.2f} [{sc[d]['ci95'][0]:.1f}, {sc[d]['ci95'][1]:.1f}]"
+                     for d in ("fluency", "consistency")]
+            rows.append(f"{lab} & {ppl:.1f} & " + " & ".join(cells) + " \\\\")
+        (OUT / "human_table.tex").write_text(
+            "\\begin{tabular}{lrcc}\n\\toprule\nModel & Test PPL & Fluency & Consistency \\\\\n\\midrule\n"
+            + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
+        p = he["mann_whitney_p"]
+        macros += [("heTrNgCon", f"{p['transformer vs ngram / consistency']:.3f}"),
+                   ("heTrLstmCon", f"{p['transformer vs lstm / consistency']:.2f}"),
+                   ("heSgGloveCon", f"{p['lstm_w2v vs lstm_glove / consistency']:.2f}"),
+                   ("heItems", str(he["items_per_model"]))]
+
     # ---------------- generation excerpts ----------------
     def esc(s):
         s = " ".join(t if all(ord(c) < 0x250 for c in t) else "[non-Latin]" for t in s.split(" "))
@@ -112,7 +235,7 @@ def main():
     pi, n_tok = 1, 24
     rows = []
     for n, lab in [("ngram", "KN 4-gram"), ("rnn", "RNN"), ("lstm", "LSTM"), ("transformer", "Transformer"),
-                   ("lstm_glove", "LSTM+GloVe")]:
+                   ("lstm_w2v", "LSTM+Skip-gram"), ("lstm_glove", "LSTM+GloVe")]:
         rows.append(f"{lab} & {esc(' '.join(gj['models'][n]['sample'][pi][0].split()[:n_tok]))} \\ldots \\\\")
     for n, lab in [("ngram", "KN 4-gram"), ("transformer", "Transformer")]:
         rows.append(f"{lab} (greedy) & {esc(' '.join(gj['models'][n]['greedy'][pi].split()[:n_tok]))} \\ldots \\\\")
@@ -198,6 +321,10 @@ def main():
                ("meanrnn", f"{np.mean(seed_stats('rnn')):.1f}"),
                ("meanlstm", f"{np.mean(seed_stats('lstm')):.1f}"),
                ("meantransformer", f"{np.mean(seed_stats('transformer')):.1f}")]
+    # seed-1/2 runs alternated RNN and Transformer, so their epoch times are not biased by run order
+    def seed_ep(n):
+        return np.mean([pd.read_csv(R / f"lm/{n}_seed{s}/history.csv").epoch_time_s[1:].median() for s in (1, 2)])
+    macros += [("transSeedEp", f"{seed_ep('transformer'):.1f}"), ("rnnSeedEp", f"{seed_ep('rnn'):.1f}")]
     for n, d in drift.items():
         key = n.replace("_", "").replace("smallinit", "small")
         macros += [(f"drift{key}", f"{d['all']:.2f}"), (f"drifttop{key}", f"{d['top1000']:.2f}")]

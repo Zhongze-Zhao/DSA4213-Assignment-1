@@ -31,7 +31,7 @@
 
 ## Part II: LSTM embedding ablation
 
-| embedding | test PPL | val PPL | best epoch | val PPL @ep1 | val PPL @ep5 | epochs to within 0.05 of best | final gap (val−train) | step-loss std | grad-norm mean/max | trainable (M) | LM train time (s) | median s/epoch |
+| embedding | test PPL | val PPL | best epoch | val PPL @ep1 | val PPL @ep5 | epochs to within 0.05 of best | final gap (val − logged train) | step-loss std | grad-norm mean/max | trainable (M) | LM train time (s) | median s/epoch |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | random N(0,1) (trainable) | 135.0 | 143.9 | 19 | 412 | 182 | 10 | 0.45 | 0.127 | 0.25/1.79 | 27.27 | 487 | 23.2 |
 | random N(0,0.1²) (trainable) | 140.3 | 149.4 | 20 | 706 | 211 | 11 | 0.51 | 0.123 | 0.26/2.02 | 27.27 | 427 | 21.5 |
@@ -69,4 +69,26 @@ OOV: {"agnews_train_subset": {"tokens": 875685, "token_oov_rate": 0.070269560401
 
 
 Accuracy by per-example OOV-rate bucket: {"rnn/last": {"0": 0.5728, "(0,5%]": 0.6287, "(5,10%]": 0.6173, ">10%": 0.6233}, "rnn/mean": {"0": 0.685, "(0,5%]": 0.7238, "(5,10%]": 0.6992, ">10%": 0.7027}, "rnn/emb": {"0": 0.7327, "(0,5%]": 0.7582, "(5,10%]": 0.7543, ">10%": 0.7615}, "lstm/last": {"0": 0.6014, "(0,5%]": 0.6499, "(5,10%]": 0.6418, ">10%": 0.6346}, "lstm/mean": {"0": 0.6599, "(0,5%]": 0.7125, "(5,10%]": 0.6958, ">10%": 0.7139}, "lstm/emb": {"0": 0.7136, "(0,5%]": 0.7441, "(5,10%]": 0.726, ">10%": 0.7405}, "transformer/last": {"0": 0.679, "(0,5%]": 0.7191, "(5,10%]": 0.7167, ">10%": 0.7385}, "transformer/mean": {"0": 0.7411, "(0,5%]": 0.7743, "(5,10%]": 0.7591, ">10%": 0.7794}, "transformer/emb": {"0": 0.7399, "(0,5%]": 0.7823, "(5,10%]": 0.7591, ">10%": 0.7845}, "lstm_w2v/last": {"0": 0.7518, "(0,5%]": 0.7795, "(5,10%]": 0.7762, ">10%": 0.782}, "lstm_w2v/mean": {"0": 0.7876, "(0,5%]": 0.8167, "(5,10%]": 0.8004, ">10%": 0.7999}, "lstm_w2v/emb": {"0": 0.7995, "(0,5%]": 0.8346, "(5,10%]": 0.8235, ">10%": 0.8224}, "lstm_glove/last": {"0": 0.7697, "(0,5%]": 0.7974, "(5,10%]": 0.7975, ">10%": 0.7815}, "lstm_glove/mean": {"0": 0.8282, "(0,5%]": 0.8497, "(5,10%]": 0.8462, ">10%": 0.8495}, "lstm_glove/emb": {"0": 0.8723, "(0,5%]": 0.8864, "(5,10%]": 0.8764, ">10%": 0.8746}, "lstm_smallinit/last": {"0": 0.611, "(0,5%]": 0.6517, "(5,10%]": 0.6485, ">10%": 0.6443}, "lstm_smallinit/mean": {"0": 0.6897, "(0,5%]": 0.7479, "(5,10%]": 0.7323, ">10%": 0.7298}, "lstm_smallinit/emb": {"0": 0.753, "(0,5%]": 0.7804, "(5,10%]": 0.7606, ">10%": 0.7605}, "count": {"0": 838, "(0,5%]": 2122, "(5,10%]": 2686, ">10%": 1954}}
+
+
+### Part III over LM seeds (mean / std of accuracy over checkpoints)
+
+| family | emb mean | last mean | mean mean | emb std | last std | mean std | emb count | last count | mean count |
+|---|---|---|---|---|---|---|---|---|---|
+| lstm | 0.7403 | 0.6497 | 0.7098 | 0.0064 | 0.0104 | 0.0076 | 3 | 3 | 3 |
+| lstm_glove | 0.8783 | 0.7943 | 0.8436 | 0.0 | 0.0039 | 0.0022 | 3 | 3 | 3 |
+| lstm_smallinit | 0.7653 | 0.6442 | 0.7313 | nan | nan | nan | 1 | 1 | 1 |
+| lstm_w2v | 0.8237 | 0.7666 | 0.802 | 0.0 | 0.0088 | 0.0035 | 3 | 3 | 3 |
+| rnn | 0.7594 | 0.6164 | 0.7125 | 0.0041 | 0.0007 | 0.0063 | 3 | 3 | 3 |
+| transformer | 0.7717 | 0.7302 | 0.7717 | 0.0037 | 0.0105 | 0.0069 | 3 | 3 | 3 |
+| untrained_lstm | 0.6832 | 0.4747 | 0.7183 | nan | nan | nan | 1 | 1 | 1 |
+| untrained_transformer | 0.6832 | 0.4964 | 0.65 | nan | nan | nan | 1 | 1 | 1 |
+
+Spearman(PPL, acc) over all trained checkpoints: {'emb': {'rho': -0.636105810569984, 'p_value': 0.00807549689683057, 'n': 16}, 'last': {'rho': -0.7588235294117647, 'p_value': 0.0006540302361647908, 'n': 16}, 'mean': {'rho': -0.6588235294117648, 'p_value': 0.005511422336343683, 'n': 16}}
+
+
+Spearman within Part I families: {'emb': {'rho': -0.45, 'p_value': 0.22421610749233675, 'n': 9}, 'last': {'rho': -0.8166666666666667, 'p_value': 0.0072247852463587885, 'n': 9}, 'mean': {'rho': -0.5666666666666667, 'p_value': 0.1116329876114912, 'n': 9}}
+
+
+TF-IDF bag-of-words reference: {'C': 1.0, 'test_accuracy': 0.8852631578947369, 'test_macro_f1': 0.8849570556443742}
 

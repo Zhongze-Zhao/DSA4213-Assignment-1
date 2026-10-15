@@ -1,0 +1,11 @@
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Model & Params & Non-emb & Train time & Train & Infer & \multicolumn{2}{c}{Gen ms/token} & Rep-3 & Dist-2 \\
+ & (M) & (M) & s (s/epoch) & k tok/s & k tok/s & recomp. & increm. & greedy & top-$k$ \\
+\midrule
+KN 4-gram & 5.8$^\dagger$ & -- & 7 (CPU) & -- & 450 (CPU) & -- & 0.45 (CPU) & 0.55 & 0.93 \\
+RNN & 24.4 & 0.94 & 433 (22/ep) & 105 & 274 & 2.82 & 0.43 & 0.34 & 0.92 \\
+LSTM & 27.3 & 3.77 & 449 (22/ep) & 101 & 273 & 2.98 & 0.49 & 0.43 & 0.92 \\
+Transformer & 21.8 & 4.37 & 384 (19/ep) & 126 & 484 & 1.36 & 1.51 & 0.41 & 0.90 \\
+\bottomrule
+\end{tabular}

@@ -1,13 +1,18 @@
-\begin{tabular}{lrccc}
+\begin{tabular}{lcrccc}
 \toprule
-Frozen LM & LM test PPL & Last state & Mean of states & Mean of input emb. \\
- & & acc / macro-F1 & acc / macro-F1 & acc / macro-F1 \\
+Frozen LM & Seeds & LM test & Last state & Mean of states & Mean of input emb. \\
+ & & PPL & \multicolumn{3}{c}{test accuracy (mean $\pm$ std over LM seeds)} \\
 \midrule
-RNN & 153.4 & 0.617 / 0.616 & 0.705 / 0.705 & 0.755 / 0.754 \\
-LSTM & 135.0 & 0.638 / 0.635 & 0.701 / 0.700 & 0.733 / 0.733 \\
-Transformer & 131.0 & 0.719 / 0.718 & 0.767 / 0.766 & 0.770 / 0.769 \\
-LSTM + Skip-gram (frozen) & 130.4 & 0.776 / 0.776 & 0.803 / 0.803 & 0.824 / 0.823 \\
-LSTM + GloVe (frozen) & 133.9 & 0.790 / 0.790 & 0.846 / 0.846 & 0.878 / 0.878 \\
-\textit{Suppl.:} LSTM, $\mathcal{N}(0,0.1^2)$ init & 140.3 & 0.644 / 0.642 & 0.731 / 0.730 & 0.765 / 0.765 \\
+RNN & 3 & 153.2 & 0.616\,{\scriptsize$\pm$0.001} & 0.713\,{\scriptsize$\pm$0.006} & 0.759\,{\scriptsize$\pm$0.004} \\
+LSTM & 3 & 135.0 & 0.650\,{\scriptsize$\pm$0.010} & 0.710\,{\scriptsize$\pm$0.008} & 0.740\,{\scriptsize$\pm$0.006} \\
+Transformer & 3 & 131.8 & 0.730\,{\scriptsize$\pm$0.010} & 0.772\,{\scriptsize$\pm$0.007} & 0.772\,{\scriptsize$\pm$0.004} \\
+LSTM + Skip-gram (frozen) & 3 & 130.2 & 0.767\,{\scriptsize$\pm$0.009} & 0.802\,{\scriptsize$\pm$0.003} & 0.824$^\ddagger$ \\
+LSTM + GloVe (frozen) & 3 & 132.7 & 0.794\,{\scriptsize$\pm$0.004} & 0.844\,{\scriptsize$\pm$0.002} & 0.878$^\ddagger$ \\
+\midrule
+\textit{Suppl.:} LSTM, $\mathcal{N}(0,0.1^2)$ init & 1 & 140.3 & 0.644 & 0.731 & 0.765 \\
+\textit{Control:} untrained LSTM & -- & 28,975 & 0.475 & 0.718 & 0.683 \\
+\textit{Control:} untrained Transformer & -- & 32,833 & 0.496 & 0.650 & 0.683 \\
+\midrule
+\textit{Reference:} TF-IDF bag of words, no LM & -- & -- & \multicolumn{3}{c}{0.885} \\
 \bottomrule
 \end{tabular}

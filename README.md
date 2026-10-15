@@ -43,14 +43,16 @@ Caches go to `data/` (git-ignored).
 ## Reproducing everything
 
 ```bash
-scripts/run_all.sh            # ≈3 h on the GPU above; or run the parts separately:
+scripts/run_all.sh            # ≈4.5 h on the GPU above; or run the parts separately, in this order:
 python -m src.data            # corpus statistics -> results/data_stats.json
 python -m src.models          # causality unit check for RNN/LSTM/Transformer
-scripts/run_part1.sh          # KN n-gram + 3 neural LMs
-scripts/run_part2.sh          # Skip-gram + GloVe tables, 2 frozen-embedding LSTMs
-scripts/run_part3.sh          # generations, AG News downstream, error analysis, benchmark, tables & figures
-scripts/run_seeds.sh          # seeds 1, 2 for the three Part II LSTMs
+scripts/run_part1.sh          # KN n-gram + 3 neural LMs (seed 42)
+scripts/run_part2.sh          # Skip-gram + GloVe tables, 2 frozen-embedding LSTMs (seed 42)
 python -m src.train_lm --config configs/lm_lstm_smallinit.yaml   # supplementary Part II run
+scripts/run_seeds.sh          # seeds 1, 2 for the three Part II LSTMs (lstm, lstm_w2v, lstm_glove)
+scripts/run_seeds_part1.sh    # seeds 1, 2 for the Part I RNN and Transformer
+scripts/run_part3.sh          # generations, AG News downstream (seed 42, then all seeds + controls),
+                              # error analysis, benchmark, tables & figures
 cd report && pdflatex report.tex && pdflatex report.tex            # build the PDF report
 ```
 
@@ -63,7 +65,7 @@ Smoke test (≈1 min): `python -m src.train_lm --config configs/lm_lstm.yaml --q
 `python -m src.ngram --quick` (outputs go to `results/quick/`).
 
 **Seeds**: 42 everywhere (Python, NumPy, PyTorch via `src/utils.set_seed`; gensim `seed=42, workers=1`;
-sklearn `random_state=42`). Extra seeds 1 and 2 only in `run_seeds.sh`. cuDNN kernels are not forced to be
+sklearn `random_state=42`). Extra seeds 1 and 2 (all neural LMs) come from `run_seeds.sh` and `run_seeds_part1.sh`. cuDNN kernels are not forced to be
 deterministic, so GPU reruns can differ in the last decimals.
 
 ## Configurations (`configs/`)
@@ -92,7 +94,12 @@ deterministic, so GPU reruns can differ in the last decimals.
 | `embeddings.py` | Skip-gram training (timed), GloVe alignment, coverage, neighbours |
 | `generate.py` | matched decoding for all LMs, repetition metrics, generation latency |
 | `downstream.py` | frozen feature extraction (last / mean / input-embedding mean), logistic regression, error analysis |
+| `downstream_seeds.py` | the same probe for every LM seed checkpoint, untrained-LM controls, TF-IDF bag-of-words reference, PPL-vs-accuracy Spearman over all checkpoints |
 | `error_analysis.py` | McNemar tests, confusions, per-class / length / OOV accuracy, example errors |
+| `clean_fit.py` | re-scores train/val/test in eval mode (no dropout) at the selected checkpoints -> clean val−train gap (`results/lm/clean_fit.json`) |
+| `human_eval.py` | blind human rating of generated text: `make` builds the shuffled sheet, `analyze --sheet <rated csv>` scores it |
+| `gen_benchmark.py` | batch-1 greedy generation latency, full-context recompute vs. incremental (recurrent state / own KV cache, checked against the full forward pass) |
+| `lockstep_train.py` | re-trains RNN/LSTM/Transformer in lockstep (alternating order per epoch) to time the full 20-epoch budget under shared conditions; timings only |
 | `benchmark.py` | interleaved training/inference throughput benchmark |
 | `summarize.py` | builds `results/tables.md` and `results/figures/*.png` from saved results |
 | `latex_tables.py` | builds `report/generated/*.tex` (all report tables and inline numbers) and embedding-drift stats |
@@ -100,23 +107,54 @@ deterministic, so GPU reruns can differ in the last decimals.
 ## Outputs (`results/`)
 
 `data_stats.json`, `lm/<model>/{metrics.json,history.csv,config.json}`, `embeddings.json`,
-`generations.{json,md}`, `downstream/{summary.json,results.csv,test_predictions.csv,error_stats.json,errors.md}`,
-`benchmark.json`, `embedding_drift.json`, `tables.md`, `figures/`.
+`generations.{json,md}`, `downstream/{summary.json,results.csv,test_predictions.csv,error_stats.json,errors.md,seeds.csv,seeds_summary.json}`,
+`lm/clean_fit.json`, `benchmark.json`, `embedding_drift.json`, `tables.md`, `figures/`.
+
+## Blind human evaluation of generated text
+
+`python -m src.human_eval make` writes `eval/human_eval_sheet.csv`: 60 top-k continuations (6 LMs × 5 prompts × 2,
+drawn with seed 2026 from samples 1–9, i.e. never the sample shown in the report), shuffled, with no model names;
+the item → model key is kept in `eval/human_eval_key.json` and was not opened before rating was finished.
+One rater (the author) scored each item on a 1–3 scale:
+
+- **Fluency** (grammar only, factual truth ignored): 1 = mostly word salad; 2 = locally fluent fragments but clear
+  sentence-level errors; 3 = essentially grammatical sentences.
+- **Consistency** (relation to the prompt and within the text): 1 = unrelated to the prompt or repeated topic
+  jumps / contradictions; 2 = continues the prompt but drifts or contradicts itself later; 3 = stays on one topic
+  without contradiction.
+
+WikiText formatting (lowercase, `@-@`, `<eos>`, `= = heading = =`) is not penalised.
+The rated sheet is `eval/human_eval_sheet_scored.csv`. All scores were given by the author; the `note` column was
+filled afterwards by an AI tool from the two scores (template text, one per score pair) and is not used in any
+analysis. `python -m src.human_eval analyze --sheet eval/human_eval_sheet_scored.csv` reports per-model means with
+bootstrap 95% CIs and two-sided Mann–Whitney tests (`results/human_eval.json`).
 
 ## Timing procedure
 
-Training time = wall-clock of the training passes only (validation excluded), with
-`torch.cuda.synchronize()` around each epoch. Because runs were sequential on a laptop GPU that throttles
-when hot, the cost comparison in the report uses `src/benchmark.py`: all models timed round-robin
-(alternating order, 5 rounds × 60 batches of 32×128 tokens, median). Inference workload (identical for all models) = scoring the
-full test set in 128-token windows with batch size 32; median of 3 timed passes after a warm-up.
-Generation latency = greedy decoding of 40 tokens for 5 prompts at batch size 1, recomputing the full
-context each step (no state/KV caching for any model). The n-gram model runs on 1 CPU thread.
+Laptop GPUs throttle as they heat up, so sequential wall-clock is not comparable across runs (the same model's
+epoch time drifted from 21 to 33 s during Part I). All reported cost numbers therefore come from protocols where
+models share the same conditions; `torch.cuda.synchronize()` brackets every timed region.
+
+- **Training time** (`src/lockstep_train.py`): RNN, LSTM and Transformer re-trained from the seed-42 initialisation
+  with the full Part I procedure (20 epochs), in lockstep: epoch *e* of all three runs before epoch *e+1*, order
+  alternating each epoch. Only training passes are timed (validation excluded). Checkpoints are not saved; the
+  validation losses match the original runs. → `results/lockstep_timing.json`
+- **Training / scoring throughput** (`src/benchmark.py`): 5 round-robin rounds (alternating order) × 60 batches of
+  32×128 tokens, median. Common inference workload = the same batches in eval mode. → `results/benchmark.json`
+- **Generation latency** (`src/gen_benchmark.py`): batch-1 greedy decoding of 40 and 120 new tokens for the 5
+  prompts, model forward + argmax only (no CPU sampling code), two implementations (re-encode the whole context
+  each step; incremental with recurrent state / key-value cache), warm-up then 5 round-robin rounds, median.
+  The incremental implementations are checked against the full forward pass (max |logit diff| ≈ 1e-14 in float64).
+  → `results/gen_benchmark.json`
+- The KN n-gram runs on 1 CPU thread.
 
 ## Attribution and tool use
 
 - Neural LM code written for this assignment in PyTorch, following the structure of the course
   notebooks (DSA4213 Lectures 3–7). Kneser-Ney implemented from the standard formulation
   (Chen & Goodman, 1999). Libraries: PyTorch, HuggingFace `datasets`, gensim, scikit-learn, NumPy, pandas, matplotlib.
-- **AI assistance**: code scaffolding, debugging and the README were produced with the help of
-  Claude Code (Anthropic). All results were generated by running this code; analysis in the report is my own.
+- **AI assistance**: code scaffolding, debugging, running the experiments, the README and a first draft of the
+  report text were produced with the help of Claude Code (Anthropic). I rewrote the analysis in my own words with the
+  help of ChatGPT (OpenAI, astra6) for rewriting and language editing. The `note` column of
+  `eval/human_eval_sheet_scored.csv` was filled by an AI tool from my scores; all ratings are my own. All results
+  were generated by running this code.
