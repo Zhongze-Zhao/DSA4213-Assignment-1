@@ -71,7 +71,7 @@ $^\dagger$stored $n$-gram count entries, not trainable parameters.}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.76\linewidth]{../results/figures/part1_loss.png}
+\includegraphics[width=0.74\linewidth]{../results/figures/part1_loss.png}
 \caption{Part I training (dashed) and validation (solid) cross-entropy per epoch, and their difference. The logged
 training loss is averaged over the epoch while the weights change and with dropout on, so it over-states the true
 training loss: this is why the difference is \emph{negative} early on and why it under-states the final gap
@@ -173,7 +173,7 @@ seeds 42, 1, 2. \emph{Ep.\ to best+.05}: first epoch whose val loss is within 0.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.76\linewidth]{../results/figures/part2_loss.png}
+\includegraphics[width=0.74\linewidth]{../results/figures/part2_loss.png}
 \caption{Part II learning curves (all LSTM, identical except the input-embedding table). As in Fig.~\ref{fig:p1},
 the right panel uses the logged (dropout-on) training loss; clean gaps are in Table~\ref{tab:p2}.}
 \label{fig:p2}
@@ -205,7 +205,7 @@ changes small relative to the starting vectors. However, the learning rate alone
 AdamW update, and cosine similarity measures direction rather than total change. The evidence therefore supports
 limited semantic reorganisation, not the claim that the embeddings were effectively unchanged. Adaptation may also
 occur in later layers. Part~III further shows that even these small directional changes can improve topic features.
-\emph{Supplementary test:} with a smaller initialisation, $\mathcal N(0,0.1^2)$, the embeddings changed more in
+\par\emph{Supplementary test.} With a smaller initialisation, $\mathcal N(0,0.1^2)$, the embeddings changed more in
 direction (mean cosine \driftlstmsmall; \drifttoplstmsmall{} for frequent words) and developed some meaningful
 neighbours, such as \emph{king}--\emph{queen} and \emph{football}--\emph{rugby}. This did not improve language
 modelling within 20 epochs: test PPL increased to 140.3. Training CE was also higher (4.30 versus 4.26), while the
@@ -363,7 +363,7 @@ report are produced by \texttt{src/latex\_tables.py} from \texttt{results/}.
 \section*{References, sources and tool use}
 \textbf{Tools and sources.} WikiText-2 (Merity et al., 2017), GloVe (Pennington et al., 2014), AG News (Zhang et
 al., 2015), SST-2 (Socher et al., 2013) via HuggingFace \texttt{datasets} / \texttt{gensim}; PyTorch, gensim,
-scikit-learn. Kneser--Ney follows Chen \& Goodman (1999). Code structure adapted from the DSA4213 course
+scikit-learn. Kneser--Ney follows Chen \& Goodman (1999); Skip-gram (Mikolov et al., 2013) is trained with gensim (\v{R}eh\r{u}\v{r}ek \& Sojka, 2010). Code structure adapted from the DSA4213 course
 notebooks. \textbf{AI assistance:} I used Claude Code (Anthropic) as a coding assistant for code
 scaffolding, debugging, running experiments and drafting parts of this report, and ChatGPT (OpenAI, astra6) to help
 rewrite and edit the analysis text in my own words; the free-text note column of the rating sheet was filled by an
@@ -373,7 +373,9 @@ by the submitted code; I checked them against the result files and the interpret
 \textbf{References.}
 Chen \& Goodman (1999), An empirical study of smoothing techniques for language modeling, \emph{CSL}.
 Merity et al.\ (2017), Pointer sentinel mixture models, \emph{ICLR}.
-Pennington et al.\ (2014), GloVe, \emph{EMNLP}.
+Mikolov et al.\ (2013), Distributed representations of words and phrases and their compositionality, \emph{NeurIPS}.
+Pennington et al.\ (2014), GloVe: Global vectors for word representation, \emph{EMNLP}.
+\v{R}eh\r{u}\v{r}ek \& Sojka (2010), Software framework for topic modelling with large corpora, \emph{LREC Workshop on New Challenges for NLP Frameworks}.
 Socher et al.\ (2013), Recursive deep models for semantic compositionality, \emph{EMNLP}.
 Zhang et al.\ (2015), Character-level convolutional networks for text classification, \emph{NeurIPS}.
 \end{document}

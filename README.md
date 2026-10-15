@@ -16,7 +16,7 @@ pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cu128   #
 pip install -r requirements.txt
 ```
 
-## Data (downloaded automatically, nothing is redistributed in this repo)
+## Data (downloaded automatically; raw corpora are not included in this repo)
 
 | Use | Source | Access |
 |---|---|---|
@@ -25,7 +25,10 @@ pip install -r requirements.txt
 | Part III task | AG News (`fancyzhx/ag_news`, Zhang et al., 2015) | HuggingFace `datasets` |
 | OOV comparison only | SST-2 validation (`stanfordnlp/sst2`) | HuggingFace `datasets` |
 
-Caches go to `data/` (git-ignored).
+Caches go to `data/` (git-ignored). Note: the Part III error-analysis outputs
+`results/downstream/test_predictions.csv` and `results/downstream/errors.md` contain the AG News test-article
+texts next to each model's prediction, for inspecting errors; AG News is distributed for non-commercial research
+use, so this repository should stay private (shared with the instructor only).
 
 ### Preprocessing (`configs/data.yaml`, `src/data.py`)
 

@@ -227,7 +227,7 @@ def main():
     def esc(s):
         s = " ".join(t if all(ord(c) < 0x250 for c in t) else "[non-Latin]" for t in s.split(" "))
         for a, b in [("\\", ""), ("&", "\\&"), ("%", "\\%"), ("$", "\\$"), ("#", "\\#"), ("_", "\\_"),
-                     ("<eos>", "\\textlangle eos\\textrangle"), ('"', "''"), ("@-@", "@-@")]:
+                     ("<eos>", "\\textlangle eos\\textrangle{}"), ('"', "''"), ("@-@", "@-@")]:
             s = s.replace(a, b)
         return s
 
